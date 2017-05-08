@@ -1,0 +1,415 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Open vSwitch的OpenFlow和QOS | Yunyao Zhang - 张云尧</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="OpenFlow协议是一种网络通信协议，属于数据链路层，可以控制几换几或者路由器的转发平面（forwarding plane)，借此改变网络数据包所走的网络路径。Open vSwitch支持OpenFlow协议，就可以控制数据包的走向，还可以修改源目的地址，支持QOS（Quality of Service）等。本文主要介绍Open vSwitch配置OpenFlow协议以及对QOS的支持。">
+<meta name="keywords" content="openvswitch,openflow">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Open vSwitch的OpenFlow和QOS">
+<meta property="og:url" content="http://aidaiz.com/openvswitch-qos/index.html">
+<meta property="og:site_name" content="Yunyao Zhang - 张云尧">
+<meta property="og:description" content="OpenFlow协议是一种网络通信协议，属于数据链路层，可以控制几换几或者路由器的转发平面（forwarding plane)，借此改变网络数据包所走的网络路径。Open vSwitch支持OpenFlow协议，就可以控制数据包的走向，还可以修改源目的地址，支持QOS（Quality of Service）等。本文主要介绍Open vSwitch配置OpenFlow协议以及对QOS的支持。">
+<meta property="og:image" content="http://7xivk7.com1.z0.glb.clouddn.com/paycode01.jpg">
+<meta property="og:image" content="http://7xivk7.com1.z0.glb.clouddn.com/paycode02.jpg">
+<meta property="og:updated_time" content="2017-05-08T16:40:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Open vSwitch的OpenFlow和QOS">
+<meta name="twitter:description" content="OpenFlow协议是一种网络通信协议，属于数据链路层，可以控制几换几或者路由器的转发平面（forwarding plane)，借此改变网络数据包所走的网络路径。Open vSwitch支持OpenFlow协议，就可以控制数据包的走向，还可以修改源目的地址，支持QOS（Quality of Service）等。本文主要介绍Open vSwitch配置OpenFlow协议以及对QOS的支持。">
+<meta name="twitter:image" content="http://7xivk7.com1.z0.glb.clouddn.com/paycode01.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="Yunyao Zhang - 张云尧" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?5f09ac010983cb94e34e25d4019d9b17";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<meta name="baidu-site-verification" content="DeH9kUFd9Y" />
+</head>
+
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Yunyao Zhang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">会有一天肆无忌惮地桀骜不驯</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+          <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+<!--        <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form"> --->
+<!--          <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="Search"> --->
+<!--          <input type="submit" value="" class="search-form-submit"> --->
+<!--          <input name=tn type=hidden value="bds"> --->
+<!--          <input name=cl type=hidden value="3"> --->
+<!--          <input name=ct type=hidden value="2097152"> --->
+<!--          <input type="hidden" name="si" value="aidaiz.com"> --->
+<!--        </form> --->
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://aidaiz.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+
+    <div class="outer">
+      <section id="main"><article id="post-openvswitch-qos" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/openvswitch-qos/" class="article-date">
+  <time datetime="2016-11-24T06:41:03.000Z" itemprop="datePublished">Nov 24 2016</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/openvswitch/">openvswitch</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Open vSwitch的OpenFlow和QOS
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+	
+        <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#OpenFlow基本应用"><span class="toc-number">1.</span> <span class="toc-text">OpenFlow基本应用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Open-vSwitch的QOS"><span class="toc-number">2.</span> <span class="toc-text">Open vSwitch的QOS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#策略（Policing）"><span class="toc-number">2.1.</span> <span class="toc-text">策略（Policing）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#整形（Shaping）"><span class="toc-number">2.2.</span> <span class="toc-text">整形（Shaping）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实践"><span class="toc-number">2.3.</span> <span class="toc-text">实践</span></a></li></ol></li></ol>
+        </div>
+        
+        <p>OpenFlow协议是一种网络通信协议，属于数据链路层，可以控制几换几或者路由器的转发平面（forwarding plane)，借此改变网络数据包所走的网络路径。<br>Open vSwitch支持OpenFlow协议，就可以控制数据包的走向，还可以修改源目的地址，支持QOS（Quality of Service）等。<br>本文主要介绍Open vSwitch配置OpenFlow协议以及对QOS的支持。</p>
+<a id="more"></a>
+<p><strong>Title: <a href="https://aidaizyy.github.io/openvswitch-qos" target="_blank" rel="external">Open vSwitch的OpenFlow和QOS</a></strong><br><strong>Author: <a href="http://aidaizyy.github.io" target="_blank" rel="external">Yunyao Zhang(张云尧)</a></strong><br><strong>E-mail: <a href="&#109;&#x61;&#105;&#x6c;&#116;&#x6f;&#58;&#x61;&#x69;&#100;&#x61;&#105;&#x7a;&#x79;&#121;&#64;&#x67;&#109;&#x61;&#x69;&#108;&#46;&#99;&#111;&#109;">&#x61;&#x69;&#100;&#x61;&#105;&#x7a;&#x79;&#121;&#64;&#x67;&#109;&#x61;&#x69;&#108;&#46;&#99;&#111;&#109;</a></strong><br><strong>Last Modified: <a href="http://aidaizyy.github.io" target="_blank" rel="external">2016-12-26</a></strong></p>
+<h2 id="OpenFlow基本应用"><a href="#OpenFlow基本应用" class="headerlink" title="OpenFlow基本应用"></a>OpenFlow基本应用</h2><p>这里有两篇参考文章，已经写得非常详细了：</p>
+<ul>
+<li><a href="http://www.ibm.com/developerworks/cn/cloud/library/1401_zhaoyi_openswitch" target="_blank" rel="external">《基于Open vSwitch的OpenFlow实践》</a></li>
+<li><a href="https://github.com/openvswitch/ovs/blob/master/Documentation/tutorials/ovs-advanced.rst" target="_blank" rel="external">Open vSwitch Advanced Features</a></li>
+</ul>
+<p>交换机包括一个或多个流表，流表中的条目主要包括数据包要匹配的信息，匹配成功后要执行的操作和统计信息三部分。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ovs-vsctl add-br br0</div><div class="line">ovs-vsctl add-port br0 p0 -- <span class="built_in">set</span> interface p0 <span class="built_in">type</span>=internal</div><div class="line">ovs-vsctl add-port br0 eth0</div></pre></td></tr></table></figure>
+<p>创建网桥br0，并添加虚拟端口p0和以太网端口eth0。<br>再对br0进行网络配置，使其能上外网，并将p0 up。（参考上一篇博文<a href="http://aidaiz.com/openvswitch-build">《Open vSwitch安装与使用》</a>。）</p>
+<p><code>ovs-ofctl</code>是OpenFlow相关命令，详细参考<code>man ovs-ofctl</code>。<br><code>ovs-ofctl show br0</code>命令是显示交换机br0的端口信息。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">$ ovs-ofctl show br0</div><div class="line">FPT_FEATURES_REPLY (xid=0x2): dpid:00000025909765b0</div><div class="line">n_tables:254, n_buffers:256</div><div class="line">capabilities: FLOW_STATS TABLE_STATS PORT_STATS QUEUE_STATS ARP_MATCH_IP</div><div class="line">actions: output enqueue set_vlan_vid set_vlan_pcp strip_vlan mod_dl_src mod_dl_dst mod_nw_src mod_nw_dst mod_nw_tos mod_tp_src mod_tp_dst</div><div class="line"> 1(eth0): addr:00:25:90:97:65:b0</div><div class="line">     config:     0</div><div class="line">     state:      0</div><div class="line">     current:    1GB-FD COPPER AUTO_NEG</div><div class="line">     advertised: 10MB-HD 10MB-FD 100MB-HD 100MB-FD 1GB-FD COPPER AUTO_NEG AUTO_PAUSE</div><div class="line">     supported:  10MB-HD 10MB-FD 100MB-HD 100MB-FD 1GB-FD COPPER AUTO_NEG</div><div class="line">     speed: 1000 Mbps now, 1000 Mbps max</div><div class="line"> 2(p0): addr:d2:ca:93:d4:d5:0b</div><div class="line">     config:     0</div><div class="line">     state:      0</div><div class="line">     speed: 0 Mbps now, 0 Mbps max</div><div class="line"> LOCAL(br0): addr:00:25:90:97:65:b0</div><div class="line">     config:     0</div><div class="line">     state:      0</div><div class="line">     speed: 0 Mbps now, 0 Mbps max</div><div class="line">OFPT_GET_CONFIG_REPLY (xid=0x4): frags=normal miss_send_len=0</div></pre></td></tr></table></figure></p>
+<p>dpid后面的字符串表示交换机br0的datapath id。<br>eht0前面的0和p0前面的1表示端口eth0和端口p0的OpenFlow端口的id。<br>其他的还有端口名称，端口状态等。</p>
+<p>端口的OpenFlow id也可以修改，用<code>ovs-vsctl set interface p0 ofport_request=id</code>命令。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">$ ovs-vsctl <span class="built_in">set</span> interface eth0 ofport_request=100</div><div class="line">$ ovs-vsctl <span class="built_in">set</span> interface p0 ofport_request=101</div><div class="line">$ ovs-ofctl show br0</div><div class="line">OFPT_FEATURES_REPLY (xid=0x2): dpid:00000025909765b0</div><div class="line">n_tables:254, n_buffers:256</div><div class="line">capabilities: FLOW_STATS TABLE_STATS PORT_STATS QUEUE_STATS ARP_MATCH_IP</div><div class="line">actions: output enqueue set_vlan_vid set_vlan_pcp strip_vlan mod_dl_src mod_dl_dst mod_nw_src mod_nw_dst mod_nw_tos mod_tp_src mod_tp_dst</div><div class="line"> 100(eth0): addr:00:25:90:97:65:b0</div><div class="line">     config:     0</div><div class="line">     state:      0</div><div class="line">     current:    1GB-FD COPPER AUTO_NEG</div><div class="line">     advertised: 10MB-HD 10MB-FD 100MB-HD 100MB-FD 1GB-FD COPPER AUTO_NEG AUTO_PAUSE</div><div class="line">     supported:  10MB-HD 10MB-FD 100MB-HD 100MB-FD 1GB-FD COPPER AUTO_NEG</div><div class="line">     speed: 1000 Mbps now, 1000 Mbps max</div><div class="line"> 101(p0): addr:fe:07:57:d1:46:f7</div><div class="line">     config:     PORT_DOWN</div><div class="line">     state:      LINK_DOWN</div><div class="line">     speed: 0 Mbps now, 0 Mbps max</div><div class="line"> LOCAL(br0): addr:00:25:90:97:65:b0</div><div class="line">     config:     0</div><div class="line">     state:      0</div><div class="line">     speed: 0 Mbps now, 0 Mbps max</div><div class="line">OFPT_GET_CONFIG_REPLY (xid=0x4): frags=normal miss_send_len=0</div></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ovs-ofctl add-flow br0 priority,in_port=101,actions=normal</div></pre></td></tr></table></figure>
+<p>上面命令在br0上添加了一个流表条目，即一个OpenFlow规则，匹配内容是从端口id为101的端口出来的数据包，匹配成功后的操作为normal，即不做特殊处理。<br>prority表示优先级，prority值越高，优先级越高，其取值区间为0-65535，不显示指定的默认值为32768。<br>注意：OpenFlow规则语句中不能加空格；如果一定要加空格，整个规则语句必须要双引号括起来。比如：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ovs-ofctl add-flow br0 <span class="string">"priority=10, in_port=101, actions=normal"</span></div></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ ovs-ofctl add-flow br0 in_port=101,actions=normal</div><div class="line">$ ovs-ofctl dump-flows br0</div><div class="line">NXST_FLOW reply (xid=0x4):</div><div class="line"> cookie=0x0, duration=11.641s, table=0, n_packets=0, n_bytes=0, idle_age=11, priority,in_port=101 actions=NORMAL</div><div class="line"> cookie=0x0, duration=61979.386s, table=0, n_packets=7766539, n_bytes=758342681, idle_age=0, priority=0 actions=NORMAL</div></pre></td></tr></table></figure>
+<p><code>ovs-ofctl dump-flows br0</code>命令是查看交换机br0中所有的流表条目。<br>上图中出现了两条规则，第二条是我们创建br0时自动生成的，没有任何特殊操作，目的是为了统计数据包信息。<br>第一条规则，是我们创建的：</p>
+<ul>
+<li>duration: 该规则存在的时间</li>
+<li>table: 属于第0号流表</li>
+<li>n_packets: 匹配成功的数据包数量</li>
+<li>n_bytes: 匹配成功的数据包总大小</li>
+<li>idle_age: 与该规则相关的规则最近一次修改到现在的时间<br>我们设置的流表条目没有做任何处理，意义仅仅是统计数据包信息。<br>因为p0是虚拟端口，很少流过数据包，所以n_packets的值几乎不变。<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ping -I p0 www.baidu.com</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>指定p0端口去ping外网，一段时间后去执行<code>dump-flows</code>命令，可以看到n_packets的值剧烈增加。</p>
+<p>除了<code>in_port</code>之外还有其他的匹配模式，除了<code>normal</code>之外还有其他的匹配成功的操作，具体可参加上面提到的文章<a href="http://www.ibm.com/developerworks/cn/cloud/library/1401_zhaoyi_openswitch" target="_blank" rel="external">《基于Open vSwitch的OpenFlow实践》</a>，还可以参考数据库<a href="http://openvswitch.org/support/dist-docs/ovs-vswitchd.conf.db.5.html" target="_blank" rel="external">ovs-vswitchd.conf.db(5)</a>。</p>
+<p>其他相关命令还有：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#查看交换机br0中所有的流表</span></div><div class="line">ovs-ofctl dump-tables br0</div><div class="line"></div><div class="line"><span class="comment">#删除端口id为101的端口上所有的的流表条目</span></div><div class="line">ovs-ofctl del-flows br0 in_port=101</div></pre></td></tr></table></figure></p>
+<p>关于OpenFlow的应用不再做更多介绍，可以参考上面列出的两篇文章。</p>
+<h2 id="Open-vSwitch的QOS"><a href="#Open-vSwitch的QOS" class="headerlink" title="Open vSwitch的QOS"></a>Open vSwitch的QOS</h2><p>Open vSwitch关于QOS的官方资料，主要在：</p>
+<ul>
+<li><a href="http://openvswitch.org/support/dist-docs/ovs-vsctl.8.html" target="_blank" rel="external">ovs-vsctl(8)</a></li>
+<li><a href="http://openvswitch.org/support/dist-docs/ovs-vswitchd.conf.db.5.html" target="_blank" rel="external">ovs-vswitchd.conf.db(5)</a></li>
+<li><a href="https://github.com/openvswitch/ovs/blob/master/Documentation/faq/qos.rst" target="_blank" rel="external">Frequently Asked Questions: Quality of Service (QoS)</a></li>
+<li><a href="https://github.com/openvswitch/ovs/blob/master/Documentation/howto/qos.rst" target="_blank" rel="external">《Quality of Service (QoS) Rate Limiting》</a></li>
+</ul>
+<p>Open vSwitch本身并不具备qos功能，是基于linux的”tc”功能实现的，是已经在linux内核中存在的功能。<br>而Open vSwitch所做的是对其部分支持的tc功能进行配置（因为Open vSwitch不是支持所有的tc功能）。<br>如果Open vSwitch不支持你需要的qos功能，那么可以直接使用linux的”tc”。</p>
+<h3 id="策略（Policing）"><a href="#策略（Policing）" class="headerlink" title="策略（Policing）"></a>策略（Policing）</h3><p>在linux的qos中，接收数据包使用的方法叫策略（policing），当速率超过了配置速率，就简单的把数据包丢弃。<br>不通过OpenFlow设置，直接在interface上设置。<br><a href="https://github.com/openvswitch/ovs/blob/master/Documentation/faq/qos.rst" target="_blank" rel="external">Frequently Asked Questions: Quality of Service (QoS)</a> 中有一个例子：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ovs-vsctl <span class="built_in">set</span> interface vif1.0 ingress_policing_rate=10000</div><div class="line">ovs-vsctl <span class="built_in">set</span> interface vif1.0 ingress_policing_burst=8000</div></pre></td></tr></table></figure></p>
+<p>上面两行命令，把虚拟端口vif1.0的最大接收速率设置为10000kbps，桶大小设置为8000kb。<br>策略使用了简单的令牌桶（token bucket）算法。<br>我们以一定的速度不断生成令牌，除非令牌桶装满。<br>每接收一个包，需要消耗一个令牌；如果没有令牌了，就会把新到达的包丢弃。<br>（这里用“到达”和“接收”来区别，到达节点的包和其中被接收转发的包。)<br>如果到达包的速度大于令牌的生成速度，那么令牌很快消耗干净，新到达的包只能丢弃，那么接收包的速度很快就降下来，和令牌的生成速度一致。<br>所以接收包的速度依赖于令牌的生成速度，换句话说，不能大于令牌的生成速度，也就是最大接收速率，即<code>ingree_policing_rate</code>的值，单位是kbps。<br>如果到达包的速度小于令牌的生成速度，那么令牌很快堆满令牌桶，这时到达包的速度突然增大，令牌桶中有足够的令牌。这一瞬间可供消耗的令牌有桶中的令牌，也有不断生成的令牌，导致接收包的速度也会突然增大，大于令牌的生成速度，也就是大于我们设置的最大接收速率，称为突发接收速率。<br>这时虽然突发接收速率大于最大接受速率，但是也是有限制的，最多增加的速率（最大突发接收速率减去最大接收速率）依赖于桶的大小，换句话说，增加的吞吐量不能大于桶的大小，毕竟桶中令牌只有这么多（多余的可供消耗的令牌），即<code>ingress_policing_burst</code>的值，单位是kb。<br>在上面的例子中，如果所有包的大小都是1kb，那么最多增加的速率达到8000kbps，最大突发接收速率达到18000kbps。</p>
+<p>注意：要实现ingress policing，内核必须支持NET_CLS_BASIC，NET_SCH_INGRESS，和NET_ACT_POLICE等模块，而NET_CLS_POLICE不需要，因为已经过时。</p>
+<h3 id="整形（Shaping）"><a href="#整形（Shaping）" class="headerlink" title="整形（Shaping）"></a>整形（Shaping）</h3><p>在linux的qos中，发送数据包使用的方法叫整形（shaping）。<br>与策略的不同之处在于，它使用了队列（queue)，除了丢弃数据包之后，还可以缓存数据包延迟发送，或者调度改变数据包的发送顺序。<br>比策略更加精确和有效。<br><a href="https://github.com/openvswitch/ovs/blob/master/Documentation/faq/qos.rst" target="_blank" rel="external">Frequently Asked Questions: Quality of Service (QoS)</a> 中有一个例子：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">ovs-vsctl -- \</div><div class="line">  add-br br0 -- \</div><div class="line">  add-port br0 eth0 -- \</div><div class="line">  add-port br0 vif1.0 -- <span class="built_in">set</span> interface vif1.0 ofport_request=5 -- \</div><div class="line">  add-port br0 vif2.0 -- <span class="built_in">set</span> interface vif2.0 ofport_request=6 -- \</div><div class="line">  <span class="built_in">set</span> port eth0 qos=@newqos -- \</div><div class="line">  --id=@newqos create qos <span class="built_in">type</span>=linux-htb \</div><div class="line">      other-config:max-rate=1000000000 \</div><div class="line">      queues:123=@vif10queue \</div><div class="line">      queues:234=@vif20queue -- \</div><div class="line">  --id=@vif10queue create queue other-config:max-rate=10000000 -- \</div><div class="line">  --id=@vif20queue create queue other-config:max-rate=20000000</div><div class="line"></div><div class="line">ovs-ofctl add-flow br0 in_port=5,actions=set_queue:123,normal</div><div class="line">ovs-ofctl add-flow br0 in_port=6,acitons=set_queue:234,normal</div></pre></td></tr></table></figure></p>
+<p>上面的命令，分别把虚拟端口vif1.0，vif2.0的最大发送速率设置为10000000bps和20000000bps。<br>第2行，建立了一个网桥br0。<br>这里的<code>--</code>指当前的命令，即<code>ovs-vsctl</code>，是一种省略写法，当然也可以拆开为<code>ovs-vsctl</code>的多条命令。后面接<code>--</code>，实际是接着下一行，使第3行形成一个完整的命令。<br>第3行，把物理网卡端口eth0加入到网桥br0中。<br>第4、5行，将虚拟端口vif1.0和vif2.0加入到网桥br0中，并分别设置OpenFlow端口id为5和6。<br>第6行，设置eth0的qos规则为”newqos”，这里的<code>@</code>可以理解为变量或者指针，”newqos”这时还没有创建，接下来几行是创建它。<br>第7行，用<code>--id=@</code>开头，表示创建这个变量或者指针，赋值给它的值是后面语句的返回值。<br>后面的<code>create qos</code>表示创建了qos规则，将这个qos规则赋值给”newqos”，相当于把这个qos规则命名为”newqos”。<br>这个qos规则的类型是”linux-htb”。</p>
+<p>qos规则有两个重要属性，分别是type和queues。<br>“tc”中，队列（queue）分为无类队列，有类队列。<br>无类队列只有一条队列，只有一种队列规则（qdisc）；而有类队列分为很多类（class），数据包到达时，根据不同的数据包类型，源目的ip，端口等等属性，被筛选器（filter）划分进不同的类中，不同的类可能有不同的队列规则，不同的类也可以继续划分，嵌套下去。<br>type就相当于不同的队列，具有不同的队列规则；queues就相当于有类队列的不同类。</p>
+<p>这里的type值设置为”linux-htb”。<br>linux-htb使用了”tc”的htb队列（hieratchical token bucket），分层次的令牌桶队列，属于有类队列。<br>在无类队列中，最简单的是pfifo_fast队列，采取先入先出的算法，只能延迟数据包发送或丢弃数据包，不能对数据包进行调度，即改变数据包发送顺序。<br>还有一种tbf队列（token bucket filter），采取上面提到的令牌桶的算法，而htb就是在tbf的基础上修改为了有类队列，其核心算法还是令牌桶算法。<br>Open vSwitch的qos规则除了提供linux-htb类型，还提供了linux-hfsc类型，对应了”tc”中的hsfc队列（hieratchical fair service curve），分层次的公平服务曲线队列，它同时除了针对带宽，还针对延迟对数据包进行调度，其原理参考<a href="http://linux-ip.net/articles/hfsc.en" target="_blank" rel="external">http://linux-ip.net/articles/hfsc.en</a> 。</p>
+<p>第8行，设置了”newqos”的一个额外属性，max-rate，表示最大发送速率，和上面的最大接收速率类似，其值为1000000000bps。<br>第9、10行，在qos规则中建立了两个queue，分别为vif10queue和vif20queue，key分别为123和234。<br>同样使用了<code>@</code>，即在第11、12行，创建了queue，并设置了最大发送速率分别为10000000bps和20000000bps，命名为vif10queue和vif20queue。<br>这两个queue属于属性queues，可以理解成htb算法中不同的类，它们的队列规则不同之处在于最大发送速率不同。<br>第14、15行，为网桥br0添加OpenFlow规则，当数据包用OpenFlow端口id为5的端口（即vif1.0）传递时，使用队列123（即vif10queue）发送；数据包用OpenFlow端口id为6（即vif2.0）传递时，使用队列234（即vif20queue）发送。<br>前面的命令全是创建qos规则，但是并没有使用，这两句才是使用qos规则的命令。<br>如果没有这两句命令，数据包发送一直使用默认的queue，没有对发送速率的限制。</p>
+<p>linux-htb类型qos规则为queue提供了四种属性，上面只用到了max-rate，除此之外，还有min-rate，burst，priority。</p>
+<ul>
+<li>min-rate：最低发送速率，保障了最低带宽。</li>
+<li>burst：桶大小，和policing部分介绍的含义一样，和突峰发送速率相关。</li>
+<li>priority：优先级，数字越小，优先级越高，默认值为0。数据包发送时，发送优先级高的类里的数据包。</li>
+</ul>
+<blockquote>
+<p>注意：openflow规则的priority值越大，优先级越高；而queue的prority值越小，优先级越高。</p>
+</blockquote>
+<p>而linux-hfsc的queue只有max-rate和min-rate两种属性。</p>
+<p>同样在整形里面，实际的最大发送速率大于我们设置的最大发送速率，因为有突峰发送速率存在。桶大小和最大突峰发送速率的关系，参看上一节策略部分。</p>
+<p>Open vSwitch和qos功能相关的命令和属性并不多，所以如果无法满足需求，只能直接使用linux的”tc”功能。</p>
+<h3 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h3><p>现在来完成一个整形（shaping）的实践：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#创建网桥br0</span></div><div class="line">vs-vsctl add-br br0</div><div class="line"></div><div class="line"><span class="comment">#创建两个虚拟端口p0和p1</span></div><div class="line">ovs-vsctl add-port br0 p0 -- <span class="built_in">set</span> interface p0 <span class="built_in">type</span>=internal -- <span class="built_in">set</span> interface p0 ofport_request=10</div><div class="line">ovs-vsctl add-port br0 p1 -- <span class="built_in">set</span> interface p1 <span class="built_in">type</span>=internal -- <span class="built_in">set</span> interface p1 ofport_request=11</div><div class="line"></div><div class="line"><span class="comment">#把以太网卡eth0加入到网桥br0中</span></div><div class="line">ovs-vsctl add-port br0 eth0</div><div class="line"></div><div class="line"><span class="comment">#设置ip、网关、路由信息等，使br0能连上外网</span></div><div class="line">ifconfig eth0 0</div><div class="line">ifconfig br0 10.18.129.162/16 up</div><div class="line">route add default gw 10.18.0.254</div><div class="line">route add -net 169.254.0.0 netmask 255.255.0.0 dev br</div><div class="line"><span class="comment">#ip地址10.18.129.162/16是eth0之前的ip地址，现在将其设置到br0上</span></div><div class="line"><span class="comment">#默认网关10.18.0.254和路由169.254.0.0也分别是eth0之前的信息，现在将其设置到br0上</span></div><div class="line"><span class="comment">#另外还要把br0的ip地址设为空，因为不能和br0的ip地址冲突</span></div><div class="line"><span class="comment">#如果该环境是单网卡服务器，最好使用脚本，因为在设置过程中会造成ssh连接断开</span></div><div class="line"></div><div class="line"><span class="comment">#设置两个虚拟端口的ip分别为10.18.200.10/16和10.18.200.11/16</span></div><div class="line">ifconfig p0 10.18.200.10/16 promisc up</div><div class="line">ifconfig p1 10.18.200.11/16 promisc up</div><div class="line"></div><div class="line"><span class="comment">#清楚现在eth0上qos规则，所有qos规则及queue信息</span></div><div class="line"><span class="comment">#如果是第一次运行，可以不运行这两句命令</span></div><div class="line">ovs-vsctl clear port eth0 qos</div><div class="line">ovs-vsctl -- --all destroy QoS -- --all destroy Queue</div><div class="line"></div><div class="line"><span class="comment">#该qos规则创建两个queue，其最大发送速率为100mbps和200mbps，id为123和234</span></div><div class="line">ovs-vsctl <span class="built_in">set</span> port eth0 qos=@newqos -- \</div><div class="line">--id=@newqos create qos <span class="built_in">type</span>=linux-htb \</div><div class="line">        other-config:max-rate=2000000000 \</div><div class="line">        queues:123=@p0queue \</div><div class="line">        queues:234=@p1queue -- \</div><div class="line">--id=@p0queue create queue other-config:max-rate=100000000 -- \</div><div class="line">--id=@p1queue create queue other-config:max-rate=200000000</div><div class="line"></div><div class="line"><span class="comment">#清楚br0上所有用ip匹配的openflow规则</span></div><div class="line"><span class="comment">#如果之前没有类似规则，可以不运行这句命令</span></div><div class="line">ovs-ofctl del-flows br0 ip</div><div class="line"></div><div class="line"><span class="comment">#在br0上添加两条openflow规则，将源地址为10.18.200.10的ip数据包放入id为123的queue，将源地址为10.18.200.11的ip数据包放入id为234的queue</span></div><div class="line">ovs-ofctl add-flow br0 priority=5,ip,nw_src=10.18.200.10,actions=set_queue:123,normal</div><div class="line">ovs-ofctl add-flow br0 priority=5,ip,nw_src=10.18.200.11,actions=set_queue:234,normal</div><div class="line"><span class="comment">#注意：在nw_src/nw_dst/nw_proto等匹配规则前必须加上ip或者icmp关键字</span></div><div class="line"><span class="comment">#必须确认数据包的网络层协议类型才能使用网络层的源地址/目的地址/协议编号匹配，否则不生效</span></div><div class="line"><span class="comment">#同样，在tp_src/mod_tp_dst等匹配规则前也必须加上tcp/udp/sctp等关键字</span></div><div class="line"><span class="comment">#必须确认数据包的传输层协议类型才能使用传输层的源地址/目的地址匹配，否则不生效</span></div><div class="line"><span class="comment">#openflow规则不生效的很有可能的一种原因是其他规则的优先级更高，导致优先匹配了其他规则，即使不生效的规则匹配精度更高。</span></div></pre></td></tr></table></figure></p>
+<p>现在开始发包测试，利用发包测速工具<a href="iperf.fr">iperf</a> 将数据包发往另一个节点（10.18.129.163）：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#10.18.129.163</span></div><div class="line">iperf <span class="_">-s</span> -p 12345 -i 1</div><div class="line"></div><div class="line"><span class="comment">#10.18.129.162</span></div><div class="line">iperf -c 10.18.129.163 -p 12345 -i 1 -t 30 -B 10.18.200.10 &amp; \</div><div class="line">iperf -c 10.18.129.163 -p 12345 -i 1 -t 30 -B 10.18.200.11</div></pre></td></tr></table></figure></p>
+<p>10.18.129.163上显示：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div></pre></td><td class="code"><pre><div class="line">------------------------------------------------------------</div><div class="line">Server listening on TCP port 12345</div><div class="line">TCP window size: 85.3 KByte (default)</div><div class="line">------------------------------------------------------------</div><div class="line">[  4] <span class="built_in">local</span> 10.18.129.163 port 12345 connected with 10.18.200.10 port 12345</div><div class="line">[  5] <span class="built_in">local</span> 10.18.129.163 port 12345 connected with 10.18.200.11 port 12345</div><div class="line">[ ID] Interval       Transfer     Bandwidth</div><div class="line">[  4]  0.0- 1.0 sec  11.9 MBytes   100 Mbits/sec</div><div class="line">[  5]  0.0- 1.0 sec  23.8 MBytes   200 Mbits/sec</div><div class="line">[  4]  1.0- 2.0 sec  11.9 MBytes  99.6 Mbits/sec</div><div class="line">[  5]  1.0- 2.0 sec  23.8 MBytes   200 Mbits/sec</div><div class="line">[  4]  2.0- 3.0 sec  11.9 MBytes  99.8 Mbits/sec</div><div class="line">[  5]  2.0- 3.0 sec  23.8 MBytes   200 Mbits/sec</div><div class="line">[  5]  3.0- 4.0 sec  23.8 MBytes   199 Mbits/sec</div><div class="line">[  4]  3.0- 4.0 sec  11.9 MBytes   100 Mbits/sec</div><div class="line">[  4]  4.0- 5.0 sec  11.9 MBytes  99.6 Mbits/sec</div><div class="line">[  5]  4.0- 5.0 sec  23.8 MBytes   199 Mbits/sec</div><div class="line">[  4]  5.0- 6.0 sec  11.9 MBytes  99.6 Mbits/sec</div><div class="line">[  5]  5.0- 6.0 sec  23.8 MBytes   200 Mbits/sec</div><div class="line">[  4]  6.0- 7.0 sec  11.9 MBytes  99.9 Mbits/sec</div><div class="line">[  5]  6.0- 7.0 sec  23.8 MBytes   199 Mbits/sec</div><div class="line">[  4]  7.0- 8.0 sec  11.9 MBytes  99.8 Mbits/sec</div><div class="line">[  5]  7.0- 8.0 sec  23.8 MBytes   200 Mbits/sec</div><div class="line">[  4]  8.0- 9.0 sec  11.9 MBytes  99.6 Mbits/sec</div><div class="line">[  5]  8.0- 9.0 sec  23.8 MBytes   200 Mbits/sec</div><div class="line">[  4]  9.0-10.0 sec  11.9 MBytes  99.6 Mbits/sec</div><div class="line">[  5]  9.0-10.0 sec  23.8 MBytes   200 Mbits/sec</div><div class="line">[  5] 10.0-11.0 sec  23.8 MBytes   200 Mbits/sec</div><div class="line">[  4] 10.0-11.0 sec  11.9 MBytes   100 Mbits/sec</div><div class="line">[  4] 11.0-12.0 sec  11.9 MBytes  99.5 Mbits/sec</div><div class="line">[  5] 11.0-12.0 sec  23.7 MBytes   199 Mbits/sec</div><div class="line">[  4] 12.0-13.0 sec  11.9 MBytes  99.6 Mbits/sec</div><div class="line">[  5] 12.0-13.0 sec  23.8 MBytes   200 Mbits/sec</div><div class="line">[  4] 13.0-14.0 sec  11.9 MBytes  99.7 Mbits/sec</div><div class="line">[  5] 13.0-14.0 sec  23.7 MBytes   199 Mbits/sec</div><div class="line">[  5] 14.0-15.0 sec  23.8 MBytes   200 Mbits/sec</div><div class="line">[  4] 14.0-15.0 sec  11.9 MBytes   100 Mbits/sec</div><div class="line">[  4] 15.0-16.0 sec  11.9 MBytes  99.5 Mbits/sec</div><div class="line">[  5] 15.0-16.0 sec  23.8 MBytes   200 Mbits/sec</div><div class="line">[  4] 16.0-17.0 sec  11.9 MBytes  99.7 Mbits/sec</div><div class="line">[  5] 16.0-17.0 sec  23.7 MBytes   199 Mbits/sec</div><div class="line">[  4] 17.0-18.0 sec  11.9 MBytes   100 Mbits/sec</div><div class="line">[  5] 17.0-18.0 sec  23.8 MBytes   200 Mbits/sec</div><div class="line">[  5] 18.0-19.0 sec  23.8 MBytes   199 Mbits/sec</div><div class="line">[  4] 18.0-19.0 sec  11.9 MBytes  99.6 Mbits/sec</div><div class="line">[  4] 19.0-20.0 sec  11.9 MBytes  99.6 Mbits/sec</div><div class="line">[  5] 19.0-20.0 sec  23.8 MBytes   199 Mbits/sec</div><div class="line">[  4] 20.0-21.0 sec  11.9 MBytes  99.7 Mbits/sec</div><div class="line">[  5] 20.0-21.0 sec  23.8 MBytes   200 Mbits/sec</div><div class="line">[  4] 21.0-22.0 sec  11.9 MBytes  99.8 Mbits/sec</div><div class="line">[  5] 21.0-22.0 sec  23.7 MBytes   199 Mbits/sec</div><div class="line">[  4] 22.0-23.0 sec  11.9 MBytes  99.6 Mbits/sec</div><div class="line">[  5] 22.0-23.0 sec  23.8 MBytes   200 Mbits/sec</div><div class="line">[  4] 23.0-24.0 sec  11.9 MBytes   100 Mbits/sec</div><div class="line">[  5] 23.0-24.0 sec  23.8 MBytes   200 Mbits/sec</div><div class="line">[  4] 24.0-25.0 sec  11.9 MBytes  99.6 Mbits/sec</div><div class="line">[  5] 24.0-25.0 sec  23.8 MBytes   199 Mbits/sec</div><div class="line">[  4] 25.0-26.0 sec  11.9 MBytes  99.6 Mbits/sec</div><div class="line">[  5] 25.0-26.0 sec  23.8 MBytes   200 Mbits/sec</div><div class="line">[  4] 26.0-27.0 sec  11.9 MBytes   100 Mbits/sec</div><div class="line">[  5] 26.0-27.0 sec  23.8 MBytes   200 Mbits/sec</div><div class="line">[  4] 27.0-28.0 sec  11.9 MBytes  99.6 Mbits/sec</div><div class="line">[  5] 27.0-28.0 sec  23.8 MBytes   199 Mbits/sec</div><div class="line">[  4] 28.0-29.0 sec  11.9 MBytes  99.6 Mbits/sec</div><div class="line">[  5] 28.0-29.0 sec  23.8 MBytes   200 Mbits/sec</div><div class="line">[  4] 29.0-30.0 sec  11.9 MBytes  99.7 Mbits/sec</div><div class="line">[  5] 29.0-30.0 sec  23.8 MBytes   200 Mbits/sec</div><div class="line">[  5]  0.0-30.2 sec   718 MBytes   200 Mbits/sec</div><div class="line">[  4]  0.0-30.3 sec   361 MBytes  99.7 Mbits/sec</div></pre></td></tr></table></figure></p>
+<p>可以看到最后的qos结果非常好。<br>节点10.18.129.162的两个进程使用两个不同的ip，占用两个不同的queue同时向节点10.18.129.163发包，接收方接收到数据包的带宽分别为200Mbps和99.7Mbps，符合之前发送方设置的200Mbps和100Mbps的最大发送速率。</p>
+<ul>
+<li>注：Open vSwitch官方文档的github地址在不断变动，上述超链接可能失效，请在<a href="http://openvswitch.org" target="_blank" rel="external">http://openvswitch.org</a> 和<a href="https://github.com/openvswitch/ovs" target="_blank" rel="external">https://github.com/openvswitch/ovs</a> 查找。</li>
+</ul>
+<p><strong> 转载请注明原作者和出处。</strong></p>
+<blockquote>
+<p>如果觉得这篇文章对您有帮助或启发，请随意打赏~</p>
+<p> <img src="http://7xivk7.com1.z0.glb.clouddn.com/paycode01.jpg" width="250" align="left"> <img src="http://7xivk7.com1.z0.glb.clouddn.com/paycode02.jpg" width="250" align="left"> </p>
+
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://aidaiz.com/openvswitch-qos/" data-id="cj2gdu6jp000ev1o3t19g3lte" class="article-share-link" data-share="baidu">Share</a>
+      
+
+      
+        <a href="http://aidaiz.com/openvswitch-qos/#ds-thread" class="article-comment-link">Comments</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/openflow/">openflow</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/openvswitch/">openvswitch</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/openvswitch-build/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Open vSwitch安装与使用</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+  <section id="comments">
+    <div id="ds-thread" class="ds-thread" data-thread-key="openvswitch-qos/" data-title="Open vSwitch的OpenFlow和QOS" data-url="http://aidaiz.com/openvswitch-qos/"></div>
+  </section>
+
+
+</section>
+      
+      <aside id="sidebar">
+  
+      <div class="widget-wrap">
+    <h3 class="widget-title">Weibo</h3>
+      <iframe width="100%" height="90" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=90&fansRow=2&ptype=1&speed=0&skin=1&isTitle=0&noborder=1&isWeibo=0&isFans=0&uid=1728443831&verifier=022f8fe1&dpc=1"></iframe>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/android/">android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/computer-architecture/">computer architecture</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/dpdk/">dpdk</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">hadoop</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/openvswitch/">openvswitch</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/spdk/">spdk</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/swift/">swift</a><span class="category-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cache/">cache</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/computer-architecture/">computer architecture</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dpdk/">dpdk</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/">hadoop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openflow/">openflow</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openvswitch/">openvswitch</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/">proguard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spdk/">spdk</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/swift/">swift</a><span class="tag-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/openvswitch-qos/">Open vSwitch的OpenFlow和QOS</a>
+          </li>
+        
+          <li>
+            <a href="/openvswitch-build/">Open vSwitch安装与使用</a>
+          </li>
+        
+          <li>
+            <a href="/ssh/">SSH秘钥与SSHFS挂载</a>
+          </li>
+        
+          <li>
+            <a href="/spdk/">SPDK简介</a>
+          </li>
+        
+          <li>
+            <a href="/hadoop/">Hadoop安装运行</a>
+          </li>
+        
+          <li>
+            <a href="/cache_miss_type/">容量失效（capacity miss）与冲突失效（conflict miss）的区别</a>
+          </li>
+        
+          <li>
+            <a href="/swift_14/">Swift基础入门(14)：权限控制</a>
+          </li>
+        
+          <li>
+            <a href="/swift_13/">Swift基础入门(13)：高级运算符</a>
+          </li>
+        
+          <li>
+            <a href="/swift_12/">Swift基础入门(12)：泛型</a>
+          </li>
+        
+          <li>
+            <a href="/swift_11/">Swift基础入门(11)：扩展和协议</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://yunhuanran.github.io" target="_blank">潮鸣</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Yunyao Zhang（张云尧）<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/xiangming/landscape-plus" target="_blank">Landscape-plus</a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+  <!-- totop start -->
+<div id="totop">
+<a title="totop"><img src="/img/scrollup.png"/></a>
+</div>
+
+<!-- totop end -->
+
+
+<!-- 多说公共js代码 start -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"aidaiz"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共js代码 end -->
+
+
+<!-- 百度分享 start -->
+
+<div id="article-share-box" class="article-share-box">
+  <div id="bdshare" class="bdsharebuttonbox article-share-links">
+    <a class="article-share-weibo" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a class="article-share-weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a class="article-share-qq" data-cmd="qzone" title="分享到QQ空间"></a>
+<!--   <a class="article-share-renren" data-cmd="renren" title="分享到人人网"></a> -->
+    <a class="article-share-facebook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a class="article-share-twitter" data-cmd="twi" title="分享到Twitter"></a>
+<!--    <a class="article-share-more" data-cmd="more" title="更多"></a> -->
+  </div>
+</div>
+<script>window._bd_share_config={"common":{},"share":{"bdCustomStyle":"/css/bdshare.css"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+<!-- 百度分享 end -->
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>
+

@@ -1,0 +1,390 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Swift基础入门(9)：可选链和自动引用计数 | Yunyao Zhang - 张云尧</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="本篇介绍Swift的基础知识：通过可选链（optional chaining）调用属性，方法和下标；自动引用计数（automatic reference counting）的工作机制；循环强引用的解决方案。">
+<meta name="keywords" content="swift">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift基础入门(9)：可选链和自动引用计数">
+<meta property="og:url" content="http://aidaiz.com/swift_9/index.html">
+<meta property="og:site_name" content="Yunyao Zhang - 张云尧">
+<meta property="og:description" content="本篇介绍Swift的基础知识：通过可选链（optional chaining）调用属性，方法和下标；自动引用计数（automatic reference counting）的工作机制；循环强引用的解决方案。">
+<meta property="og:image" content="http://7xivk7.com1.z0.glb.clouddn.com/paycode01.jpg">
+<meta property="og:image" content="http://7xivk7.com1.z0.glb.clouddn.com/paycode02.jpg">
+<meta property="og:updated_time" content="2017-05-08T16:40:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Swift基础入门(9)：可选链和自动引用计数">
+<meta name="twitter:description" content="本篇介绍Swift的基础知识：通过可选链（optional chaining）调用属性，方法和下标；自动引用计数（automatic reference counting）的工作机制；循环强引用的解决方案。">
+<meta name="twitter:image" content="http://7xivk7.com1.z0.glb.clouddn.com/paycode01.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="Yunyao Zhang - 张云尧" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?5f09ac010983cb94e34e25d4019d9b17";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<meta name="baidu-site-verification" content="DeH9kUFd9Y" />
+</head>
+
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Yunyao Zhang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">会有一天肆无忌惮地桀骜不驯</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+          <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+<!--        <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form"> --->
+<!--          <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="Search"> --->
+<!--          <input type="submit" value="" class="search-form-submit"> --->
+<!--          <input name=tn type=hidden value="bds"> --->
+<!--          <input name=cl type=hidden value="3"> --->
+<!--          <input name=ct type=hidden value="2097152"> --->
+<!--          <input type="hidden" name="si" value="aidaiz.com"> --->
+<!--        </form> --->
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://aidaiz.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+
+    <div class="outer">
+      <section id="main"><article id="post-swift_9" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/swift_9/" class="article-date">
+  <time datetime="2015-07-23T07:43:48.000Z" itemprop="datePublished">Jul 23 2015</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/swift/">swift</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Swift基础入门(9)：可选链和自动引用计数
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+	
+        <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#可选链"><span class="toc-number">1.</span> <span class="toc-text">可选链</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#自动引用计数"><span class="toc-number">2.</span> <span class="toc-text">自动引用计数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#类实例的循环强引用"><span class="toc-number">2.1.</span> <span class="toc-text">类实例的循环强引用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#强引用"><span class="toc-number">2.1.1.</span> <span class="toc-text">强引用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#弱引用"><span class="toc-number">2.1.2.</span> <span class="toc-text">弱引用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#无主引用"><span class="toc-number">2.1.3.</span> <span class="toc-text">无主引用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#闭包的循环强引用"><span class="toc-number">2.2.</span> <span class="toc-text">闭包的循环强引用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#闭包占用列表"><span class="toc-number">2.2.1.</span> <span class="toc-text">闭包占用列表</span></a></li></ol></li></ol></li></ol>
+        </div>
+        
+        <p>本篇介绍Swift的基础知识：通过可选链（<em>optional chaining</em>）调用属性，方法和下标；自动引用计数（<em>automatic reference counting</em>）的工作机制；循环强引用的解决方案。</p>
+<a id="more"></a>
+<p><strong>Title: <a href="https://aidaizyy.github.io/swift_9" target="_blank" rel="external">Swift基础入门(9)：可选链自动引用计数</a></strong><br><strong>Author: <a href="http://aidaizyy.github.io" target="_blank" rel="external">Yunyao Zhang(张云尧)</a></strong><br><strong>E-mail: <a href="&#109;&#97;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#97;&#x69;&#100;&#x61;&#105;&#x7a;&#x79;&#121;&#64;&#103;&#109;&#x61;&#105;&#108;&#x2e;&#99;&#x6f;&#x6d;">&#97;&#x69;&#100;&#x61;&#105;&#x7a;&#x79;&#121;&#64;&#103;&#109;&#x61;&#105;&#108;&#x2e;&#99;&#x6f;&#x6d;</a></strong><br><strong>Last Modified: <a href="http://aidaizyy.github.io" target="_blank" rel="external">2015-07-24</a></strong></p>
+<h1 id="可选链"><a href="#可选链" class="headerlink" title="可选链"></a>可选链</h1><p>如果请求和调用属性，方法和下标的目标可能为空<code>nil</code>，这样的多次请求或调用就可以被链接起来，称为可选链。<br>如果任何一个节点为空<code>nil</code>，整个可选链失效。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123; <span class="comment">//人</span></div><div class="line">    <span class="keyword">var</span> residence: <span class="type">Residence</span>? <span class="comment">//每个人可能有住所</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Residence</span> </span>&#123; <span class="comment">//住所</span></div><div class="line">    <span class="keyword">var</span> id: <span class="type">String</span>? <span class="comment">//住所可能有ID</span></div><div class="line">    <span class="keyword">var</span> address: <span class="type">Address</span>? <span class="comment">//住所可能有地址</span></div><div class="line">    <span class="keyword">var</span> rooms = [<span class="type">Room</span>]() <span class="comment">//住所的房间</span></div><div class="line">    <span class="keyword">var</span> numberOfRooms: <span class="type">Int</span> &#123; <span class="comment">//返回住所的房间数量</span></div><div class="line">        <span class="keyword">return</span> rooms.<span class="built_in">count</span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">subscript</span>(i: <span class="type">Int</span>) -&gt; <span class="type">Room</span> &#123; <span class="comment">//下标地址访问住所的一个房间</span></div><div class="line">        <span class="keyword">return</span> rooms[i]</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">printNumberOfRooms</span><span class="params">()</span></span> &#123; <span class="comment">//打印房间的数量</span></div><div class="line">        <span class="built_in">println</span>(<span class="string">"The number of rooms is \(numberOfRooms)"</span>)</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">getId</span><span class="params">()</span></span> -&gt; <span class="type">String</span>? &#123; <span class="comment">//返回住所的ID</span></div><div class="line">        <span class="keyword">if</span> id != <span class="literal">nil</span> &#123;</div><div class="line">            <span class="keyword">return</span> id</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">return</span> <span class="literal">nil</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Room</span> </span>&#123; <span class="comment">//房间</span></div><div class="line">    <span class="keyword">let</span> name: <span class="type">String</span> <span class="comment">//房间的名字</span></div><div class="line">    <span class="keyword">init</span>(name: <span class="type">String</span>) &#123; <span class="keyword">self</span>.name = name &#125; <span class="comment">//房间的构造器</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Address</span> </span>&#123; <span class="comment">//地址</span></div><div class="line">    <span class="keyword">var</span> street: <span class="type">String</span>? <span class="comment">//地址可能有街道</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> john = <span class="type">Person</span>()</div><div class="line"></div><div class="line"><span class="comment">//属性</span></div><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> roomCount = john.residence?.numberOfRooms &#123;</div><div class="line">    <span class="built_in">println</span>(<span class="string">"John's residence has \(roomCount) room(s)."</span>)</div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="built_in">println</span>(<span class="string">"Unable to retrieve the number of rooms."</span>)</div><div class="line">&#125;</div><div class="line"><span class="comment">// 打印 "Unable to retrieve the number of rooms。</span></div><div class="line"></div><div class="line"><span class="comment">//无返回值方法</span></div><div class="line"><span class="keyword">if</span> john.residence?.printNumberOfRooms() != <span class="literal">nil</span>&#123;</div><div class="line">    <span class="built_in">println</span>(<span class="string">"It was possible to print the number of rooms."</span>)</div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="built_in">println</span>(<span class="string">"It was not possible to print the number of rooms."</span>)</div><div class="line">&#125;</div><div class="line"><span class="comment">// 打印 "It was not possible to print the number of rooms."。</span></div><div class="line"></div><div class="line"><span class="comment">//有返回值方法</span></div><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> buildingId = john.residence?.getId() &#123;</div><div class="line">    <span class="built_in">println</span>(<span class="string">"John's building identifier is \(buildingId)."</span>)</div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="built_in">println</span>(<span class="string">"Unable to retrieve the ID of building."</span>)</div><div class="line">&#125;</div><div class="line"><span class="comment">// 打印 "John's building identifier is The Larches."。</span></div><div class="line"></div><div class="line"><span class="comment">//下标</span></div><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> firstRoomName = john.residence?[<span class="number">0</span>].name &#123;</div><div class="line">    <span class="built_in">println</span>(<span class="string">"The first room name is \(firstRoomName)."</span>)</div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="built_in">println</span>(<span class="string">"Unable to retrieve the first room name."</span>)</div><div class="line">&#125;</div><div class="line"><span class="comment">// 打印 "Unable to retrieve the first room name."。</span></div><div class="line"></div><div class="line"><span class="comment">//多层链接</span></div><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> johnsStreet = john.residence?.address?.street &#123;</div><div class="line">    <span class="built_in">println</span>(<span class="string">"John's street name is \(johnsStreet)."</span>)</div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="built_in">println</span>(<span class="string">"Unable to retrieve the address."</span>)</div><div class="line">&#125;</div><div class="line"><span class="comment">// 打印 "Unable to retrieve the address.”。</span></div></pre></td></tr></table></figure></p>
+<p>创建了<code>Person</code>的实例<code>john</code>，<code>john</code>中包含类<code>Residence</code>的实例<code>resindence</code>。<br><code>resindence</code>包含了可选类型的属性和方法，值可能为<code>nil</code>，所以访问它的属性，方法和下标时都应该加上<code>?</code>。<br>可选链中只要有一个节点为可选类型，可选链的结果就一定为可选类型。<br>第39行，<code>john.residence?.numberOfRooms</code>的结果类型为<code>Int?</code>。<br>第47行，<code>john.residence?.printNumberOfRooms()</code>的结果类型为<code>void?</code>。这里不能直接用函数结构作为布尔型去判断，而是与<code>nil</code>比较。<br>第55行，<code>john.residence?.getId()</code>的结果类型为<code>String?</code>。<br>第63行，<code>john.residence?[0].name</code>的结果类型为<code>String?</code>。这里的<code>?</code>放在<code>[0]</code>前，因为确保数组有值，才能通过下标去访问。<br>第71行，<code>john.reidence?.address?.street</code>的结果类型为<code>String?</code>。多层的可选链接链接到一起，<code>residence</code>和<code>address</code>都是可选类型，所以使用了两个<code>?</code>。如果给<code>john.residence.address</code>中的<code>address</code>分配实例，应该写作<code>john.residence!.address</code>，强制解析确保<code>residence</code>有值，才能对其中的<code>address</code>分配实例。</p>
+<h1 id="自动引用计数"><a href="#自动引用计数" class="headerlink" title="自动引用计数"></a>自动引用计数</h1><p>自动引用计数（<em>ARC</em>）跟踪和管理内存，会自动释放不再使用的实例占用的内存。<br>ARC会跟踪和计算每一个实例被多少属性，常量和变量引用，这样的引用称为对实例的强引用。不存在强引用，实例会被销毁，否则实例会被保留。</p>
+<h2 id="类实例的循环强引用"><a href="#类实例的循环强引用" class="headerlink" title="类实例的循环强引用"></a>类实例的循环强引用</h2><p>两个类中相互引用，相互保持对方的强引用，这样无法销毁，形成了循环强引用。</p>
+<h3 id="强引用"><a href="#强引用" class="headerlink" title="强引用"></a>强引用</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</div><div class="line">    <span class="keyword">let</span> name: <span class="type">String</span></div><div class="line">    <span class="keyword">init</span>(name: <span class="type">String</span>) &#123; <span class="keyword">self</span>.name = name &#125;</div><div class="line">    <span class="keyword">var</span> apartment: <span class="type">Apartment</span>?</div><div class="line">    <span class="keyword">deinit</span> &#123; <span class="built_in">println</span>(<span class="string">"\(name) is being deinitialized"</span>) &#125;dd</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Apartment</span> </span>&#123;</div><div class="line">    <span class="keyword">let</span> number: <span class="type">Int</span></div><div class="line">    <span class="keyword">init</span>(number: <span class="type">Int</span>) &#123; <span class="keyword">self</span>.number = number &#125;</div><div class="line">    <span class="keyword">var</span> tenant: <span class="type">Person</span>?</div><div class="line">    <span class="keyword">deinit</span> &#123; <span class="built_in">println</span>(<span class="string">"Apartment #\(number) is being deinitialized"</span>) &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> john: <span class="type">Person</span>?</div><div class="line"><span class="keyword">var</span> number73: <span class="type">Apartment</span>?</div><div class="line"></div><div class="line">john = <span class="type">Person</span>(name: <span class="string">"John Appleseed"</span>)</div><div class="line">number73 = <span class="type">Apartment</span>(number: <span class="number">73</span>)</div><div class="line"></div><div class="line">john!.apartment = number73</div><div class="line">number73!.tenant = john</div><div class="line"></div><div class="line">john = <span class="literal">nil</span></div><div class="line">number73 = <span class="literal">nil</span></div></pre></td></tr></table></figure>
+<p>上面的代码展示了类实例的循环强引用。<br>类<code>Person</code>中有属性是<code>Apartment</code>类型，类<code>Apartment</code>中有属性是<code>Person</code>类型。<br>声明了实例<code>john</code>和实例<code>number73</code>，并赋值。<br>最后两行把两个实例都设为<code>nil</code>，但是析构函数并没有被调用，因为两个实例还有循环强引用联系，并没有自动销魂，而且造成了内存泄露。</p>
+<h3 id="弱引用"><a href="#弱引用" class="headerlink" title="弱引用"></a>弱引用</h3><p>为了解决循环强引用问题，有两种办法：弱引用（<em>weak reference</em>）和无主引用（<em>unowned reference</em>）。<br>一个实例对另一个实例弱引用或者无主引用，不产生强引用，反过来，另一个实例对一个实例强引用，这样能够相互引用而不产生循环强引用。如果实例的值可能为<code>nil</code>使用弱引用；如果实例的值不可能为<code>nil</code>使用无主引用。</p>
+<p>声明时在属性或常量变量前加上<code>weak</code>关键字表示弱引用。<br>两个实例的值都可能为<code>nil</code>，使用弱引用。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">lass <span class="type">Person</span> &#123;</div><div class="line">    <span class="keyword">let</span> name: <span class="type">String</span></div><div class="line">    <span class="keyword">init</span>(name: <span class="type">String</span>) &#123; <span class="keyword">self</span>.name = name &#125;</div><div class="line">    <span class="keyword">var</span> apartment: <span class="type">Apartment</span>?</div><div class="line">    <span class="keyword">deinit</span> &#123; <span class="built_in">println</span>(<span class="string">"\(name) is being deinitialized"</span>) &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Apartment</span> </span>&#123;</div><div class="line">    <span class="keyword">let</span> number: <span class="type">Int</span></div><div class="line">    <span class="keyword">init</span>(number: <span class="type">Int</span>) &#123; <span class="keyword">self</span>.number = number &#125;</div><div class="line">    <span class="keyword">weak</span> <span class="keyword">var</span> tenant: <span class="type">Person</span>?</div><div class="line">    <span class="keyword">deinit</span> &#123; <span class="built_in">println</span>(<span class="string">"Apartment #\(number) is being deinitialized"</span>) &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> john: <span class="type">Person</span>?</div><div class="line"><span class="keyword">var</span> number73: <span class="type">Apartment</span>?</div><div class="line"></div><div class="line">john = <span class="type">Person</span>(name: <span class="string">"John Appleseed"</span>)</div><div class="line">number73 = <span class="type">Apartment</span>(number: <span class="number">73</span>)</div><div class="line"></div><div class="line">john!.apartment = number73</div><div class="line">number73!.tenant = john</div><div class="line"></div><div class="line">john = <span class="literal">nil</span></div><div class="line"><span class="comment">// prints "John Appleseed is being deinitialized"</span></div><div class="line">number73 = <span class="literal">nil</span></div><div class="line"><span class="comment">// prints "Apartment #73 is being deinitialized"</span></div></pre></td></tr></table></figure></p>
+<p>上面的代码和循环强引用代码基本一致，只是在类<code>Apartment</code>的类型为<code>Person?</code>的属性<code>tenant</code>前加上了<code>weak。因为</code>Person?<code>是可选类型，</code>tenant<code>值可能为</code>nil<code>，所以使用弱引用。
+最后一句，赋值</code>nil<code>给</code>john<code>后，因为</code>number73<code>对</code>john<code>不是强引用，</code>john<code>这时没有强引用，可以销毁，调用了析构函数。</code>john<code>销毁后，</code>number73<code>没有强引用，也可以被销毁。
+如果把</code>number73 = nil<code>和</code>john = nil<code>语句顺序交换，打印顺序不会变，因为没有强引用的</code>john`一定是先销毁。</p>
+<h3 id="无主引用"><a href="#无主引用" class="headerlink" title="无主引用"></a>无主引用</h3><p>声明时在属性或常量变量前加上<code>unowned</code>关键字表示无主引用。</p>
+<ul>
+<li>一个实例的值可能为<code>nil</code>，另一个实例的值不可能为<code>nil</code>。<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Customer</span> </span>&#123;</div><div class="line">    <span class="keyword">let</span> name: <span class="type">String</span></div><div class="line">    <span class="keyword">var</span> card: <span class="type">CreditCard</span>?</div><div class="line">    <span class="keyword">init</span>(name: <span class="type">String</span>) &#123;</div><div class="line">        <span class="keyword">self</span>.name = name</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">deinit</span> &#123; <span class="built_in">println</span>(<span class="string">"\(name) is being deinitialized"</span>) &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CreditCard</span> </span>&#123;</div><div class="line">    <span class="keyword">let</span> number: <span class="type">Int</span></div><div class="line">    <span class="keyword">unowned</span> <span class="keyword">let</span> customer: <span class="type">Customer</span></div><div class="line">    <span class="keyword">init</span>(number: <span class="type">Int</span>, customer: <span class="type">Customer</span>) &#123;</div><div class="line">        <span class="keyword">self</span>.number = number</div><div class="line">        <span class="keyword">self</span>.customer = customer</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">deinit</span> &#123; <span class="built_in">println</span>(<span class="string">"Card #\(number) is being deinitialized"</span>) &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> john: <span class="type">Customer</span>?</div><div class="line"></div><div class="line">john = <span class="type">Customer</span>(name: <span class="string">"John Appleseed"</span>)</div><div class="line">john!.card = <span class="type">CreditCard</span>(number: <span class="number">1234_5678_9012_3456</span>, customer: john!)</div><div class="line"></div><div class="line">john = <span class="literal">nil</span></div><div class="line"><span class="comment">// prints "John Appleseed is being deinitialized"</span></div><div class="line"><span class="comment">// prints "Card #1234567890123456 is being deinitialized"</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>类<code>CreditCard</code>的类型为<code>Customer</code>的属性<code>customer</code>前加上了<code>unowned</code>。因为<code>customer</code>在构造函数中就会赋予初始值，值不会为<code>nil</code>，所以使用无主引用。<br>最后一句，赋值<code>nil</code>给<code>john</code>后，因为类<code>CreditCard</code>的实例对<code>john</code>不是强引用，<code>john</code>这时没有强引用，可以销毁，调用了析构函数。<code>john</code>销毁后，类<code>Creditcard</code>的实例也没有强引用了，跟着被销毁了。</p>
+<ul>
+<li>两个实例的值都不可能为<code>nil</code>。<br>这种场景一个类使用无主属性，另一个类使用隐式解析可选类型。<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Country</span> </span>&#123;</div><div class="line">    <span class="keyword">let</span> name: <span class="type">String</span></div><div class="line">    <span class="keyword">let</span> capitalCity: <span class="type">City</span>!</div><div class="line">    <span class="keyword">init</span>(name: <span class="type">String</span>, capitalName: <span class="type">String</span>) &#123;</div><div class="line">        <span class="keyword">self</span>.name = name</div><div class="line">        <span class="keyword">self</span>.capitalCity = <span class="type">City</span>(name: capitalName, country: <span class="keyword">self</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">City</span> </span>&#123;</div><div class="line">    <span class="keyword">let</span> name: <span class="type">String</span></div><div class="line">    <span class="keyword">unowned</span> <span class="keyword">let</span> country: <span class="type">Country</span></div><div class="line">    <span class="keyword">init</span>(name: <span class="type">String</span>, country: <span class="type">Country</span>) &#123;</div><div class="line">        <span class="keyword">self</span>.name = name</div><div class="line">        <span class="keyword">self</span>.country = country</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> country = <span class="type">Country</span>(name: <span class="string">"Canada"</span>, capitalName: <span class="string">"Ottawa"</span>)</div><div class="line"><span class="built_in">println</span>(<span class="string">"\(country.name)'s capital city is called \(country.capitalCity.name)"</span>)</div><div class="line"><span class="comment">// prints "Canada's capital city is called Ottawa"</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>类<code>City</code>的类型为<code>Country</code>的属性<code>country</code>前加上了<code>unowned</code>表示无主属性。<br>类<code>Country</code>的类型为<code>City!</code>的属性<code>capitalCity</code>在类型后加上了<code>!</code>表示隐式解析可选类型。<br>类<code>Country</code>的实例的<code>country</code>创建时，调用构造器，为<code>name</code>和<code>capiptalCity</code>赋值。因为<code>self</code>属性必须在构造的第二阶段使用，也就是类中所有存储型属性全部有初始值之后才能使用。如果<code>Country</code>的值可以为<code>nil</code>，先给<code>capitalCity</code>赋值<code>nil</code>就可以调用构造器为<code>capitalCity</code>赋予新值。但是这里不可以赋值<code>nil</code>，所以加上了<code>!</code>隐私解析可选类型，默认初始值为<code>nil</code>，可以调用构造器赋予新值。<br>属性<code>capitalCity</code>在调用时可以直接使用，不再需要加<code>!</code>访问。</p>
+<h2 id="闭包的循环强引用"><a href="#闭包的循环强引用" class="headerlink" title="闭包的循环强引用"></a>闭包的循环强引用</h2><p>除了两个类实例的循环强引用，类实例和闭包也可能引起循环强引用，比如把闭包赋值给类的一个属性，而闭包中又通过<code>self</code>访问类的一个属性，这就引起了循环强引用，实例不会被销毁。</p>
+<h3 id="闭包占用列表"><a href="#闭包占用列表" class="headerlink" title="闭包占用列表"></a>闭包占用列表</h3><p>闭包占用列表（<em>closuer capture list</em>）可以解决闭包引起的循环强引用问题。</p>
+<blockquote>
+<p>闭包调用类属性，必须加上<code>self.</code>，不能直接通过属性名调用。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">lazy</span> <span class="keyword">var</span> someClosure: (<span class="type">Int</span>, <span class="type">String</span>) -&gt; <span class="type">String</span> = &#123;</div><div class="line">    [<span class="keyword">unowned</span> <span class="keyword">self</span>] (index: <span class="type">Int</span>, stringToProcess: <span class="type">String</span>) -&gt; <span class="type">String</span> <span class="keyword">in</span></div><div class="line">    <span class="comment">// closure body goes here</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+</blockquote>
+<p>定义占用列表，使用<code>weak</code>或<code>unowned</code>，视值是否能为<code>nil</code>而定。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">HTMLElement</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">let</span> name: <span class="type">String</span></div><div class="line">    <span class="keyword">let</span> text: <span class="type">String</span>?</div><div class="line"></div><div class="line">    <span class="built_in">lazy</span> <span class="keyword">var</span> asHTML: () -&gt; <span class="type">String</span> = &#123;</div><div class="line">        [<span class="keyword">unowned</span> <span class="keyword">self</span>] <span class="keyword">in</span></div><div class="line">        <span class="keyword">if</span> <span class="keyword">let</span> text = <span class="keyword">self</span>.text &#123;</div><div class="line">            <span class="keyword">return</span> <span class="string">"&lt;\(self.name)&gt;\(text)&lt;/\(self.name)&gt;"</span></div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">return</span> <span class="string">"&lt;\(self.name) /&gt;"</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">init</span>(name: <span class="type">String</span>, text: <span class="type">String</span>? = <span class="literal">nil</span>) &#123;</div><div class="line">        <span class="keyword">self</span>.name = name</div><div class="line">        <span class="keyword">self</span>.text = text</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">deinit</span> &#123;</div><div class="line">        <span class="built_in">println</span>(<span class="string">"\(name) is being deinitialized"</span>)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> paragraph: <span class="type">HTMLElement</span>? = <span class="type">HTMLElement</span>(name: <span class="string">"p"</span>, text: <span class="string">"hello, world"</span>)</div><div class="line"><span class="built_in">println</span>(paragraph!.asHTML())</div><div class="line"><span class="comment">// prints "&lt;p&gt;hello, world&lt;/p&gt;"</span></div><div class="line"></div><div class="line">paragraph = <span class="literal">nil</span></div><div class="line"><span class="comment">// prints "p is being deinitialized"</span></div></pre></td></tr></table></figure></p>
+<p>上面的例子中，闭包的指定参数列表和返回类型可以通过上下文推断，所以省略。<code>in</code>放在占用列表之后。<br>这里使用了无主引用，闭包通过<code>unowned self</code>对类<code>HTMLELement</code>无主引用。<br>最后一句，赋值<code>nil</code>给<code>paragraph</code>，没有了闭包对它的强引用，可以销毁并调用析构函数。</p>
+<p><strong> 转载请注明原作者和出处。</strong></p>
+<blockquote>
+<p>如果觉得这篇文章对您有帮助或启发，请随意打赏~</p>
+<p> <img src="http://7xivk7.com1.z0.glb.clouddn.com/paycode01.jpg" width="250" align="left"> <img src="http://7xivk7.com1.z0.glb.clouddn.com/paycode02.jpg" width="250" align="left"> </p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://aidaiz.com/swift_9/" data-id="cj2gdu6ll001pv1o3gm8tzty0" class="article-share-link" data-share="baidu">Share</a>
+      
+
+      
+        <a href="http://aidaiz.com/swift_9/#ds-thread" class="article-comment-link">Comments</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/swift/">swift</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/swift_10/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Swift基础入门(10)：类型转换
+        
+      </div>
+    </a>
+  
+  
+    <a href="/swift_8/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Swift基础入门(8)：继承，构造，析构和嵌套类型</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+  <section id="comments">
+    <div id="ds-thread" class="ds-thread" data-thread-key="swift_9/" data-title="Swift基础入门(9)：可选链和自动引用计数" data-url="http://aidaiz.com/swift_9/"></div>
+  </section>
+
+
+</section>
+      
+      <aside id="sidebar">
+  
+      <div class="widget-wrap">
+    <h3 class="widget-title">Weibo</h3>
+      <iframe width="100%" height="90" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=90&fansRow=2&ptype=1&speed=0&skin=1&isTitle=0&noborder=1&isWeibo=0&isFans=0&uid=1728443831&verifier=022f8fe1&dpc=1"></iframe>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/android/">android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/computer-architecture/">computer architecture</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/dpdk/">dpdk</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">hadoop</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/openvswitch/">openvswitch</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/spdk/">spdk</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/swift/">swift</a><span class="category-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cache/">cache</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/computer-architecture/">computer architecture</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dpdk/">dpdk</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/">hadoop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openflow/">openflow</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openvswitch/">openvswitch</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/">proguard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spdk/">spdk</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/swift/">swift</a><span class="tag-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/openvswitch-qos/">Open vSwitch的OpenFlow和QOS</a>
+          </li>
+        
+          <li>
+            <a href="/openvswitch-build/">Open vSwitch安装与使用</a>
+          </li>
+        
+          <li>
+            <a href="/ssh/">SSH秘钥与SSHFS挂载</a>
+          </li>
+        
+          <li>
+            <a href="/spdk/">SPDK简介</a>
+          </li>
+        
+          <li>
+            <a href="/hadoop/">Hadoop安装运行</a>
+          </li>
+        
+          <li>
+            <a href="/cache_miss_type/">容量失效（capacity miss）与冲突失效（conflict miss）的区别</a>
+          </li>
+        
+          <li>
+            <a href="/swift_14/">Swift基础入门(14)：权限控制</a>
+          </li>
+        
+          <li>
+            <a href="/swift_13/">Swift基础入门(13)：高级运算符</a>
+          </li>
+        
+          <li>
+            <a href="/swift_12/">Swift基础入门(12)：泛型</a>
+          </li>
+        
+          <li>
+            <a href="/swift_11/">Swift基础入门(11)：扩展和协议</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://yunhuanran.github.io" target="_blank">潮鸣</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Yunyao Zhang（张云尧）<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/xiangming/landscape-plus" target="_blank">Landscape-plus</a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+  <!-- totop start -->
+<div id="totop">
+<a title="totop"><img src="/img/scrollup.png"/></a>
+</div>
+
+<!-- totop end -->
+
+
+<!-- 多说公共js代码 start -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"aidaiz"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共js代码 end -->
+
+
+<!-- 百度分享 start -->
+
+<div id="article-share-box" class="article-share-box">
+  <div id="bdshare" class="bdsharebuttonbox article-share-links">
+    <a class="article-share-weibo" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a class="article-share-weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a class="article-share-qq" data-cmd="qzone" title="分享到QQ空间"></a>
+<!--   <a class="article-share-renren" data-cmd="renren" title="分享到人人网"></a> -->
+    <a class="article-share-facebook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a class="article-share-twitter" data-cmd="twi" title="分享到Twitter"></a>
+<!--    <a class="article-share-more" data-cmd="more" title="更多"></a> -->
+  </div>
+</div>
+<script>window._bd_share_config={"common":{},"share":{"bdCustomStyle":"/css/bdshare.css"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+<!-- 百度分享 end -->
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>
+

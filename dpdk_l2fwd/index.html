@@ -1,0 +1,415 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>DPDK-l2fwd详解 | Yunyao Zhang - 张云尧</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="L2 forwarding sample application在DPDK（Data Plane Development Kit）的基础上实现了第二层（链路层）的数据包转发。">
+<meta name="keywords" content="dpdk">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DPDK-l2fwd详解">
+<meta property="og:url" content="http://aidaiz.com/dpdk_l2fwd/index.html">
+<meta property="og:site_name" content="Yunyao Zhang - 张云尧">
+<meta property="og:description" content="L2 forwarding sample application在DPDK（Data Plane Development Kit）的基础上实现了第二层（链路层）的数据包转发。">
+<meta property="og:image" content="http://7xivk7.com1.z0.glb.clouddn.com/paycode01.jpg">
+<meta property="og:image" content="http://7xivk7.com1.z0.glb.clouddn.com/paycode02.jpg">
+<meta property="og:updated_time" content="2017-05-08T16:40:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DPDK-l2fwd详解">
+<meta name="twitter:description" content="L2 forwarding sample application在DPDK（Data Plane Development Kit）的基础上实现了第二层（链路层）的数据包转发。">
+<meta name="twitter:image" content="http://7xivk7.com1.z0.glb.clouddn.com/paycode01.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="Yunyao Zhang - 张云尧" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?5f09ac010983cb94e34e25d4019d9b17";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<meta name="baidu-site-verification" content="DeH9kUFd9Y" />
+</head>
+
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Yunyao Zhang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">会有一天肆无忌惮地桀骜不驯</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+          <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+<!--        <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form"> --->
+<!--          <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="Search"> --->
+<!--          <input type="submit" value="" class="search-form-submit"> --->
+<!--          <input name=tn type=hidden value="bds"> --->
+<!--          <input name=cl type=hidden value="3"> --->
+<!--          <input name=ct type=hidden value="2097152"> --->
+<!--          <input type="hidden" name="si" value="aidaiz.com"> --->
+<!--        </form> --->
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://aidaiz.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+
+    <div class="outer">
+      <section id="main"><article id="post-dpdk_l2fwd" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/dpdk_l2fwd/" class="article-date">
+  <time datetime="2015-03-31T05:59:13.000Z" itemprop="datePublished">Mar 31 2015</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/dpdk/">dpdk</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      DPDK-l2fwd详解
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+	
+        <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概要"><span class="toc-number">1.</span> <span class="toc-text">概要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编译"><span class="toc-number">2.</span> <span class="toc-text">编译</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运行"><span class="toc-number">3.</span> <span class="toc-text">运行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#详解"><span class="toc-number">4.</span> <span class="toc-text">详解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#初始化EAL-Environment-Abstraciton-Layer"><span class="toc-number">4.1.</span> <span class="toc-text">初始化EAL(Environment Abstraciton Layer)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参数传递"><span class="toc-number">4.2.</span> <span class="toc-text">参数传递</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建内存池"><span class="toc-number">4.3.</span> <span class="toc-text">创建内存池</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#端口处理"><span class="toc-number">4.4.</span> <span class="toc-text">端口处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设置每个端口的目的端口"><span class="toc-number">4.5.</span> <span class="toc-text">设置每个端口的目的端口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#初始化端口的配置信息"><span class="toc-number">4.6.</span> <span class="toc-text">初始化端口的配置信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#初始化每个端口"><span class="toc-number">4.7.</span> <span class="toc-text">初始化每个端口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#检查每个端口的连接状态"><span class="toc-number">4.8.</span> <span class="toc-text">检查每个端口的连接状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#在每个逻辑内核上启动线程，开始转发"><span class="toc-number">4.9.</span> <span class="toc-text">在每个逻辑内核上启动线程，开始转发</span></a></li></ol></li></ol>
+        </div>
+        
+        <p>L2 forwarding sample application在DPDK（Data Plane Development Kit）的基础上实现了第二层（链路层）的数据包转发。</p>
+<a id="more"></a>
+<p><strong>Title: <a href="http://aidaizyy.github.io/dpdk_l2fwd" target="_blank" rel="external">dpdk-l2fwd详解</a></strong><br><strong>Author: <a href="http://aidaizyy.github.io" target="_blank" rel="external">Yunyao Zhang（张云尧）</a></strong><br><strong>E-mail: <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#x3a;&#x61;&#105;&#100;&#97;&#105;&#x7a;&#x79;&#x79;&#64;&#x67;&#x6d;&#x61;&#105;&#108;&#x2e;&#x63;&#x6f;&#109;">&#x61;&#105;&#100;&#97;&#105;&#x7a;&#x79;&#x79;&#64;&#x67;&#x6d;&#x61;&#105;&#108;&#x2e;&#x63;&#x6f;&#109;</a></strong><br><strong>Last Modified: <a href="http://aidaizyy.github.io" target="_blank" rel="external">2015-04-15</a></strong></p>
+<h2 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h2><p>版本：DPDK-1.8.0</p>
+<p>本例中实现了相邻端口之间的相互转发。<br>比如一共4个端口可用，那么端口1收到数据后会转发给端口2，端口2收到数据后会转发给端口1，端口3和端口4也会相互转发。</p>
+<h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><p>设置环境变量<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">export</span> RTE_SDK=/(RTE_SDK) <span class="comment">#DPDK的路径</span></div><div class="line"><span class="built_in">export</span> RTE_TARGET=x86_64-native-linuxapp-gcc <span class="comment">#DPDK的编译目标</span></div></pre></td></tr></table></figure></p>
+<p>进入示例目录<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> /(RTE_SDK)/example/l2wfd</div></pre></td></tr></table></figure></p>
+<p>编译<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make</div></pre></td></tr></table></figure></p>
+<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./build/l2wfd [EAL options] -- -p PORTMASK [-q NQ -T t]</div></pre></td></tr></table></figure>
+<ul>
+<li><p>EAL options</p>
+<ul>
+<li>DPDK EAL的默认参数，必须参数为-c COREMASK -n NUM。</li>
+<li>COREMASK：一个十六进制位掩码表示分配的逻辑内核数量。</li>
+<li>NUM：一个十进制整数表示内存通道数量。</li>
+</ul>
+</li>
+<li><p>-p PORTMASK<br>  PORTMASK：一个十六进制位掩码表示分配的端口数量。</p>
+</li>
+<li><p>-q NQ<br>  NQ：表示分配给每个逻辑内核的收发队列数量。</p>
+</li>
+<li><p>-T t<br>  t: 表示打印统计数据到屏幕上的时间间隔，默认为10秒。</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./build/l2fwd -c f -n 4 -- -q 4 -p ffff</div></pre></td></tr></table></figure>
+<p>表示，分配给4个逻辑内核，每个内核分别有4个收发队列，而一共分配了16个端口。</p>
+<h2 id="详解"><a href="#详解" class="headerlink" title="详解"></a>详解</h2><h3 id="初始化EAL-Environment-Abstraciton-Layer"><a href="#初始化EAL-Environment-Abstraciton-Layer" class="headerlink" title="初始化EAL(Environment Abstraciton Layer)"></a>初始化EAL(Environment Abstraciton Layer)</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ret = rte_eal_init(argc, argv);</div><div class="line"><span class="keyword">if</span> (ret &lt; <span class="number">0</span>)</div><div class="line">	rte_exit(EXIT_FAILURE, <span class="string">"Invalid EAL arguments\n"</span>);</div></pre></td></tr></table></figure>
+<h3 id="参数传递"><a href="#参数传递" class="headerlink" title="参数传递"></a>参数传递</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ret = l2fwd_parse_args(argc, argv);</div><div class="line"><span class="keyword">if</span> (ret &lt; <span class="number">0</span>)</div><div class="line">	rte_exit(EXIT_FAILURE, <span class="string">"Invalid L2FWD arguments\n"</span>);</div></pre></td></tr></table></figure>
+<p>EAL参数传递已经在rte_eal_init()函数中完成了，这里主要传递“–”后面的参数。<br>传递参数之后，得到三个变量。</p>
+<ul>
+<li>l2fwd_enabled_port_mask：可用端口位掩码</li>
+<li>l2fwd_rx_queue_per_lcore：每个逻辑内核的收取队列数量</li>
+<li>timer_period：打印统计数据的时间间隔</li>
+</ul>
+<h3 id="创建内存池"><a href="#创建内存池" class="headerlink" title="创建内存池"></a>创建内存池</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">l2fwd_pktmbuf_pool =</div><div class="line">	rte_mempool_create(<span class="string">"mbuf_pool"</span>, NB_MBUF,</div><div class="line">			   MBUF_SIZE, <span class="number">32</span>,</div><div class="line">			   <span class="keyword">sizeof</span>(struct rte_pktmbuf_pool_private),</div><div class="line">			   rte_pktmbuf_pool_init, <span class="literal">NULL</span>,</div><div class="line">			   rte_pktmbuf_init, <span class="literal">NULL</span>,</div><div class="line">			   rte_socket_id(), <span class="number">0</span>);</div><div class="line"><span class="keyword">if</span> (l2fwd_pktmbuf_pool == <span class="literal">NULL</span>)</div><div class="line">	rte_exit(EXIT_FAILURE, <span class="string">"Cannot init mbuf pool\n"</span>);</div></pre></td></tr></table></figure>
+<ul>
+<li>“mbuf_pool”：内存池的名称</li>
+<li>NB_MBUF：内存池中存储mbuf的数量</li>
+<li>MBUF_SIZE: mbuf的大小</li>
+<li>32：内存池缓存的大小</li>
+</ul>
+<h3 id="端口处理"><a href="#端口处理" class="headerlink" title="端口处理"></a>端口处理</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//rte_eth_dev_count()函数返回端口总数</span></div><div class="line">nb_ports = rte_eth_dev_count();</div><div class="line"><span class="keyword">if</span> (nb_ports == <span class="number">0</span>)</div><div class="line">	rte_exit(EXIT_FAILURE, <span class="string">"No Ethernet ports - bye\n"</span>);</div><div class="line"></div><div class="line"><span class="keyword">if</span> (nb_ports &gt; RTE_MAX_ETHPORTS)</div><div class="line">	nb_ports = RTE_MAX_ETHPORTS;</div></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> (portid = <span class="number">0</span>; portid &lt; nb_ports; portid++) &#123;</div><div class="line">	<span class="comment">//跳过未分配或者不可用端口</span></div><div class="line">	<span class="keyword">if</span> ((l2fwd_enabled_port_mask &amp; (<span class="number">1</span> &lt;&lt; portid)) == <span class="number">0</span>)</div><div class="line">		<span class="keyword">continue</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可用端口位掩码表示，左数第n位如果为1，表示端口n可用，如果左数第n位如果为0，表示端口n不可用。<br>要得到第x位为1还是0，我们的方法是将1左移x位，得到一个只在x位为1，其他位都为0的数，再与位掩码相与。结果为1，那么第x位为1，结果位0，那么第x位为0.</p>
+<h3 id="设置每个端口的目的端口"><a href="#设置每个端口的目的端口" class="headerlink" title="设置每个端口的目的端口"></a>设置每个端口的目的端口</h3><p>这里设置数据包进入端口后，转发给相邻的端口。<br>每两个端口为一对，相互转发。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> (portid = <span class="number">0</span>; portid &lt; nb_ports; portid++) &#123;</div><div class="line">	<span class="keyword">if</span> ((l2fwd_enabled_port_mask &amp; (<span class="number">1</span> &lt;&lt; portid)) == <span class="number">0</span>)</div><div class="line">		<span class="keyword">continue</span>;</div><div class="line"></div><div class="line">	<span class="keyword">if</span> (nb_ports_in_mask % <span class="number">2</span>) &#123;</div><div class="line">		l2fwd_dst_ports[portid] = last_port;</div><div class="line">		l2fwd_dst_ports[last_port] = portid;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">else</span></div><div class="line">		last_port = portid;</div><div class="line"></div><div class="line">	nb_ports_in_mask++;</div><div class="line"></div><div class="line">	rte_eth_dev_info_get(portid, &amp;dev_info);</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span> (nb_ports_in_mask % <span class="number">2</span>) &#123;</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"Notice: odd number of ports in portmask.\n"</span>);</div><div class="line">	l2fwd_dst_ports[last_port] = last_port;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="初始化端口的配置信息"><a href="#初始化端口的配置信息" class="headerlink" title="初始化端口的配置信息"></a>初始化端口的配置信息</h3><p>为每个端口分配到相应的逻辑内核<br>每个端口只对应一个逻辑内核<br>每个逻辑内核对应l2fwd_rx_queue_per_lcore个端口<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> (portid = <span class="number">0</span>; portid &lt; nb_ports; portid++) &#123;</div><div class="line">	<span class="keyword">if</span> ((l2fwd_enabled_port_mask &amp; (<span class="number">1</span> &lt;&lt; portid)) == <span class="number">0</span>)</div><div class="line">		<span class="keyword">continue</span>;</div><div class="line"></div><div class="line">	<span class="comment">//得到一个收取队列未分配满且可用的逻辑内核</span></div><div class="line">	<span class="keyword">while</span> (rte_lcore_is_enabled(rx_lcore_id) == <span class="number">0</span> ||</div><div class="line">	       lcore_queue_conf[rx_lcore_id].n_rx_port ==</div><div class="line">	       l2fwd_rx_queue_per_lcore) &#123;</div><div class="line">		rx_lcore_id++;</div><div class="line">		<span class="keyword">if</span> (rx_lcore_id &gt;= RTE_MAX_LCORE)</div><div class="line">			rte_exit(EXIT_FAILURE, <span class="string">"Not enough cores\n"</span>);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">if</span> (qconf != &amp;lcore_queue_conf[rx_lcore_id])</div><div class="line">		<span class="comment">/* Assigned a new logical core in the loop above. */</span></div><div class="line">		qconf = &amp;lcore_queue_conf[rx_lcore_id];</div><div class="line"></div><div class="line">	qconf-&gt;rx_port_list[qconf-&gt;n_rx_port] = portid;</div><div class="line">	qconf-&gt;n_rx_port++;</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"Lcore %u: RX port %u\n"</span>, rx_lcore_id, (<span class="keyword">unsigned</span>) portid);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="初始化每个端口"><a href="#初始化每个端口" class="headerlink" title="初始化每个端口"></a>初始化每个端口</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> (portid = <span class="number">0</span>; portid &lt; nb_ports; portid++) &#123;</div><div class="line">	<span class="keyword">if</span> ((l2fwd_enabled_port_mask &amp; (<span class="number">1</span> &lt;&lt; portid)) == <span class="number">0</span>) &#123;</div><div class="line">		<span class="built_in">printf</span>(<span class="string">"Skipping disabled port %u\n"</span>, (<span class="keyword">unsigned</span>) portid);</div><div class="line">		nb_ports_available--;</div><div class="line">		<span class="keyword">continue</span>;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="built_in">printf</span>(<span class="string">"Initializing port %u... "</span>, (<span class="keyword">unsigned</span>) portid);</div><div class="line">	fflush(<span class="built_in">stdout</span>);</div><div class="line">	<span class="comment">//初始化端口，第二个参数和第三个参数表示分配收取队列和发送队列的数量</span></div><div class="line">	ret = rte_eth_dev_configure(portid, <span class="number">1</span>, <span class="number">1</span>, &amp;port_conf);</div><div class="line">	<span class="keyword">if</span> (ret &lt; <span class="number">0</span>)</div><div class="line">		rte_exit(EXIT_FAILURE, <span class="string">"Cannot configure device: err=%d, port=%u\n"</span>,</div><div class="line">			  ret, (<span class="keyword">unsigned</span>) portid);</div><div class="line"></div><div class="line">	<span class="comment">//得到端口对应的mac地址，存入l2fwd_ports_eth_addr[]数组</span></div><div class="line">	rte_eth_macaddr_get(portid,&amp;l2fwd_ports_eth_addr[portid]);</div><div class="line"></div><div class="line">	fflush(<span class="built_in">stdout</span>);</div><div class="line">	<span class="comment">//初始化一个收取队列，nb_rxd指收取队列的大小，最大能够存储mbuf的数量</span></div><div class="line">	ret = rte_eth_rx_queue_setup(portid, <span class="number">0</span>, nb_rxd,</div><div class="line">				     rte_eth_dev_socket_id(portid),</div><div class="line">				     <span class="literal">NULL</span>,</div><div class="line">				     l2fwd_pktmbuf_pool);</div><div class="line">	<span class="keyword">if</span> (ret &lt; <span class="number">0</span>)</div><div class="line">		rte_exit(EXIT_FAILURE, <span class="string">"rte_eth_rx_queue_setup:err=%d, port=%u\n"</span>,</div><div class="line">			  ret, (<span class="keyword">unsigned</span>) portid);</div><div class="line"></div><div class="line">	fflush(<span class="built_in">stdout</span>);</div><div class="line">	<span class="comment">//初始化一个发送队列，nb_txd指发送队列的大小，最大能够存储mbuf的数量</span></div><div class="line">	ret = rte_eth_tx_queue_setup(portid, <span class="number">0</span>, nb_txd,</div><div class="line">			rte_eth_dev_socket_id(portid),</div><div class="line">			<span class="literal">NULL</span>);</div><div class="line">	<span class="keyword">if</span> (ret &lt; <span class="number">0</span>)</div><div class="line">		rte_exit(EXIT_FAILURE, <span class="string">"rte_eth_tx_queue_setup:err=%d, port=%u\n"</span>,</div><div class="line">			ret, (<span class="keyword">unsigned</span>) portid);</div><div class="line"></div><div class="line">	<span class="comment">//开始运行该端口</span></div><div class="line">	ret = rte_eth_dev_start(portid);</div><div class="line">	<span class="keyword">if</span> (ret &lt; <span class="number">0</span>)</div><div class="line">		rte_exit(EXIT_FAILURE, <span class="string">"rte_eth_dev_start:err=%d, port=%u\n"</span>,</div><div class="line">			  ret, (<span class="keyword">unsigned</span>) portid);</div><div class="line"></div><div class="line">	<span class="built_in">printf</span>(<span class="string">"done: \n"</span>);</div><div class="line"></div><div class="line">	rte_eth_promiscuous_enable(portid);</div><div class="line"></div><div class="line">	<span class="built_in">printf</span>(<span class="string">"Port %u, MAC address: %02X:%02X:%02X:%02X:%02X:%02X\n\n"</span>,</div><div class="line">			(<span class="keyword">unsigned</span>) portid,</div><div class="line">			l2fwd_ports_eth_addr[portid].addr_bytes[<span class="number">0</span>],</div><div class="line">			l2fwd_ports_eth_addr[portid].addr_bytes[<span class="number">1</span>],</div><div class="line">			l2fwd_ports_eth_addr[portid].addr_bytes[<span class="number">2</span>],</div><div class="line">			l2fwd_ports_eth_addr[portid].addr_bytes[<span class="number">3</span>],</div><div class="line">			l2fwd_ports_eth_addr[portid].addr_bytes[<span class="number">4</span>],</div><div class="line">			l2fwd_ports_eth_addr[portid].addr_bytes[<span class="number">5</span>]);</div><div class="line"></div><div class="line">	<span class="comment">//初始化端口的统计数据</span></div><div class="line">	<span class="built_in">memset</span>(&amp;port_statistics, <span class="number">0</span>, <span class="keyword">sizeof</span>(port_statistics));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="检查每个端口的连接状态"><a href="#检查每个端口的连接状态" class="headerlink" title="检查每个端口的连接状态"></a>检查每个端口的连接状态</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">check_all_ports_link_status(nb_ports, l2fwd_enabled_port_mask);</div></pre></td></tr></table></figure>
+<h3 id="在每个逻辑内核上启动线程，开始转发"><a href="#在每个逻辑内核上启动线程，开始转发" class="headerlink" title="在每个逻辑内核上启动线程，开始转发"></a>在每个逻辑内核上启动线程，开始转发</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">rte_eal_mp_remote_launch(l2fwd_launch_one_lcore, <span class="literal">NULL</span>, CALL_MASTER);</div><div class="line">RTE_LCORE_FOREACH_SLAVE(lcore_id) &#123;</div><div class="line">	<span class="keyword">if</span> (rte_eal_wait_lcore(lcore_id) &lt; <span class="number">0</span>)</div><div class="line">		<span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>收包<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; qconf-&gt;n_rx_port; i++) &#123;</div><div class="line"></div><div class="line">	portid = qconf-&gt;rx_port_list[i];</div><div class="line">	<span class="comment">//收包，一次最多收取MAX_PKT_BURST个数据包</span></div><div class="line">	nb_rx = rte_eth_rx_burst((<span class="keyword">uint8_t</span>) portid, <span class="number">0</span>,</div><div class="line">				 pkts_burst, MAX_PKT_BURST);</div><div class="line">	</div><div class="line">	<span class="comment">//更新统计数据</span></div><div class="line">	port_statistics[portid].rx += nb_rx;</div><div class="line"></div><div class="line">	<span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; nb_rx; j++) &#123;</div><div class="line">		m = pkts_burst[j];</div><div class="line">		rte_prefetch0(rte_pktmbuf_mtod(m, <span class="keyword">void</span> *));</div><div class="line">		<span class="comment">//转发</span></div><div class="line">		l2fwd_simple_forward(m, portid);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>转发<br>替换源MAC地址和目的MAC地址<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span></span></div><div class="line"><span class="title">l2fwd_simple_forward</span><span class="params">(struct rte_mbuf *m, <span class="keyword">unsigned</span> portid)</span></div><div class="line">&#123;</div><div class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">ether_hdr</span> *<span class="title">eth</span>;</span></div><div class="line">	<span class="keyword">void</span> *tmp;</div><div class="line">	<span class="keyword">unsigned</span> dst_port;</div><div class="line"></div><div class="line">	dst_port = l2fwd_dst_ports[portid];</div><div class="line">	eth = rte_pktmbuf_mtod(m, struct ether_hdr *);</div><div class="line"></div><div class="line">	<span class="comment">//目的地址</span></div><div class="line">	<span class="comment">/* 02:00:00:00:00:xx */</span></div><div class="line">	tmp = &amp;eth-&gt;d_addr.addr_bytes[<span class="number">0</span>];</div><div class="line">	*((<span class="keyword">uint64_t</span> *)tmp) = <span class="number">0x000000000002</span> + ((<span class="keyword">uint64_t</span>)dst_port &lt;&lt; <span class="number">40</span>);</div><div class="line"></div><div class="line">	<span class="comment">//源地址</span></div><div class="line">	ether_addr_copy(&amp;l2fwd_ports_eth_addr[dst_port], &amp;eth-&gt;s_addr);</div><div class="line"></div><div class="line">	l2fwd_send_packet(m, (<span class="keyword">uint8_t</span>) dst_port);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>将数据包推送至发送队列，如果发送队列存够MAX_PKT_BURST，即每次最大收取包的数量，就会发包<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span></span></div><div class="line"><span class="title">l2fwd_send_packet</span><span class="params">(struct rte_mbuf *m, <span class="keyword">uint8_t</span> port)</span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">unsigned</span> lcore_id, len;</div><div class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">lcore_queue_conf</span> *<span class="title">qconf</span>;</span></div><div class="line"></div><div class="line">	lcore_id = rte_lcore_id();</div><div class="line"></div><div class="line">	qconf = &amp;lcore_queue_conf[lcore_id];</div><div class="line">	len = qconf-&gt;tx_mbufs[port].len;</div><div class="line">	qconf-&gt;tx_mbufs[port].m_table[len] = m;</div><div class="line">	len++;</div><div class="line"></div><div class="line">	<span class="comment">//当发包队列存够MAX_PKT_BURST，发包</span></div><div class="line">	<span class="keyword">if</span> (unlikely(len == MAX_PKT_BURST)) &#123;</div><div class="line">		l2fwd_send_burst(qconf, MAX_PKT_BURST, port);</div><div class="line">		len = <span class="number">0</span>;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	qconf-&gt;tx_mbufs[port].len = len;</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>每隔一定时间也会发包<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//上次收包时间和这次收包时间差</span></div><div class="line">diff_tsc = cur_tsc - prev_tsc;</div><div class="line"><span class="comment">//如果时间差大于我们设定的阈值，这里是100us</span></div><div class="line"><span class="keyword">if</span> (unlikely(diff_tsc &gt; drain_tsc)) &#123;</div><div class="line"></div><div class="line">	<span class="keyword">for</span> (portid = <span class="number">0</span>; portid &lt; RTE_MAX_ETHPORTS; portid++) &#123;			</div><div class="line">		<span class="keyword">if</span> (qconf-&gt;tx_mbufs[portid].len == <span class="number">0</span>)</div><div class="line">			<span class="keyword">continue</span>;</div><div class="line">		<span class="comment">//发包</span></div><div class="line">		l2fwd_send_burst(&amp;lcore_queue_conf[lcore_id],</div><div class="line">				 qconf-&gt;tx_mbufs[portid].len,</div><div class="line">				 (<span class="keyword">uint8_t</span>) portid);</div><div class="line">				qconf-&gt;tx_mbufs[portid].len = <span class="number">0</span>;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="keyword">if</span> (timer_period &gt; <span class="number">0</span>) &#123;</div><div class="line">			</div><div class="line">		timer_tsc += diff_tsc;</div><div class="line"></div><div class="line">		<span class="comment">//如果累积时间超过我们设定的阈值，就打印出统计数据，默认是10s</span></div><div class="line">		<span class="keyword">if</span> (unlikely(timer_tsc &gt;= (<span class="keyword">uint64_t</span>) timer_period)) &#123;</div><div class="line"></div><div class="line">			<span class="comment">//打印数据在发生在主逻辑内核上</span></div><div class="line">			<span class="keyword">if</span> (lcore_id == rte_get_master_lcore()) &#123;</div><div class="line">				<span class="comment">//打印统计数据</span></div><div class="line">				print_stats();</div><div class="line">				<span class="comment">//累积时间置零</span></div><div class="line">				timer_tsc = <span class="number">0</span>;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	prev_tsc = cur_tsc;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这两种情况都会产生发包，无论是发送队列存够阈值MAX_PKT_BURST，或者，时间差超过阈值brain_tsc，都会把发送队列上MAX_PKT_BURST个数据包推送出去，如果不足MAX_PKT_BURST，则把发送队列上全部数据包推送出去。</p>
+<p>发包函数<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span></span></div><div class="line"><span class="title">l2fwd_send_burst</span><span class="params">(struct lcore_queue_conf *qconf, <span class="keyword">unsigned</span> n, <span class="keyword">uint8_t</span> port)</span></div><div class="line">&#123;</div><div class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">rte_mbuf</span> **<span class="title">m_table</span>;</span></div><div class="line">	<span class="keyword">unsigned</span> ret;</div><div class="line">	<span class="keyword">unsigned</span> queueid =<span class="number">0</span>;</div><div class="line"></div><div class="line">	m_table = (struct rte_mbuf **)qconf-&gt;tx_mbufs[port].m_table;</div><div class="line">	<span class="comment">//发包</span></div><div class="line">	ret = rte_eth_tx_burst(port, (<span class="keyword">uint16_t</span>) queueid, m_table, (<span class="keyword">uint16_t</span>) n);</div><div class="line">	<span class="comment">//更新统计数据</span></div><div class="line">	port_statistics[port].tx += ret;</div><div class="line">	<span class="comment">//丢包</span></div><div class="line">	<span class="keyword">if</span> (unlikely(ret &lt; n)) &#123;</div><div class="line">		<span class="comment">//更新统计数据</span></div><div class="line">		port_statistics[port].dropped += (n - ret);</div><div class="line">		<span class="keyword">do</span> &#123;</div><div class="line">			<span class="comment">//把丢包部分free掉</span></div><div class="line">			rte_pktmbuf_free(m_table[ret]);</div><div class="line">		&#125; <span class="keyword">while</span> (++ret &lt; n);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在函数rte_eth_tx_burst()中：</p>
+<ul>
+<li>port：端口号。</li>
+<li>queueid：端口中的发送队列号。本例中每个端口都只有一个发送队列，所以固定为0。</li>
+<li>m_table：**rte_mbuf数据</li>
+<li>n：发送包的数量</li>
+</ul>
+<p><strong> 转载请注明原作者和出处。</strong></p>
+<blockquote>
+<p>如果觉得这篇文章对您有帮助或启发，请随意打赏~</p>
+<p> <img src="http://7xivk7.com1.z0.glb.clouddn.com/paycode01.jpg" width="250" align="left"> <img src="http://7xivk7.com1.z0.glb.clouddn.com/paycode02.jpg" width="250" align="left"> </p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://aidaiz.com/dpdk_l2fwd/" data-id="cj2gdu6jd0008v1o3rk6iaj4p" class="article-share-link" data-share="baidu">Share</a>
+      
+
+      
+        <a href="http://aidaiz.com/dpdk_l2fwd/#ds-thread" class="article-comment-link">Comments</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dpdk/">dpdk</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/dpdk/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          DPDK编译运行
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+
+  <section id="comments">
+    <div id="ds-thread" class="ds-thread" data-thread-key="dpdk_l2fwd/" data-title="DPDK-l2fwd详解" data-url="http://aidaiz.com/dpdk_l2fwd/"></div>
+  </section>
+
+
+</section>
+      
+      <aside id="sidebar">
+  
+      <div class="widget-wrap">
+    <h3 class="widget-title">Weibo</h3>
+      <iframe width="100%" height="90" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=90&fansRow=2&ptype=1&speed=0&skin=1&isTitle=0&noborder=1&isWeibo=0&isFans=0&uid=1728443831&verifier=022f8fe1&dpc=1"></iframe>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/android/">android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/computer-architecture/">computer architecture</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/dpdk/">dpdk</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">hadoop</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/openvswitch/">openvswitch</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/spdk/">spdk</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/swift/">swift</a><span class="category-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cache/">cache</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/computer-architecture/">computer architecture</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dpdk/">dpdk</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/">hadoop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openflow/">openflow</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openvswitch/">openvswitch</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/">proguard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spdk/">spdk</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/swift/">swift</a><span class="tag-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/openvswitch-qos/">Open vSwitch的OpenFlow和QOS</a>
+          </li>
+        
+          <li>
+            <a href="/openvswitch-build/">Open vSwitch安装与使用</a>
+          </li>
+        
+          <li>
+            <a href="/ssh/">SSH秘钥与SSHFS挂载</a>
+          </li>
+        
+          <li>
+            <a href="/spdk/">SPDK简介</a>
+          </li>
+        
+          <li>
+            <a href="/hadoop/">Hadoop安装运行</a>
+          </li>
+        
+          <li>
+            <a href="/cache_miss_type/">容量失效（capacity miss）与冲突失效（conflict miss）的区别</a>
+          </li>
+        
+          <li>
+            <a href="/swift_14/">Swift基础入门(14)：权限控制</a>
+          </li>
+        
+          <li>
+            <a href="/swift_13/">Swift基础入门(13)：高级运算符</a>
+          </li>
+        
+          <li>
+            <a href="/swift_12/">Swift基础入门(12)：泛型</a>
+          </li>
+        
+          <li>
+            <a href="/swift_11/">Swift基础入门(11)：扩展和协议</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://yunhuanran.github.io" target="_blank">潮鸣</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Yunyao Zhang（张云尧）<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/xiangming/landscape-plus" target="_blank">Landscape-plus</a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+  <!-- totop start -->
+<div id="totop">
+<a title="totop"><img src="/img/scrollup.png"/></a>
+</div>
+
+<!-- totop end -->
+
+
+<!-- 多说公共js代码 start -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"aidaiz"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共js代码 end -->
+
+
+<!-- 百度分享 start -->
+
+<div id="article-share-box" class="article-share-box">
+  <div id="bdshare" class="bdsharebuttonbox article-share-links">
+    <a class="article-share-weibo" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a class="article-share-weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a class="article-share-qq" data-cmd="qzone" title="分享到QQ空间"></a>
+<!--   <a class="article-share-renren" data-cmd="renren" title="分享到人人网"></a> -->
+    <a class="article-share-facebook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a class="article-share-twitter" data-cmd="twi" title="分享到Twitter"></a>
+<!--    <a class="article-share-more" data-cmd="more" title="更多"></a> -->
+  </div>
+</div>
+<script>window._bd_share_config={"common":{},"share":{"bdCustomStyle":"/css/bdshare.css"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+<!-- 百度分享 end -->
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>
+

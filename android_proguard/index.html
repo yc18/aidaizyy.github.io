@@ -1,0 +1,376 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android代码混淆（Proguard） | Yunyao Zhang - 张云尧</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Android采用Java语言，编译成class文件，会很容易被反编译为java源代码。为了代码不被反编译，往往采用代码混淆。Android自带Proguard可以完成这项工作，同时删除没有使用的字段属性等，优化代码。">
+<meta name="keywords" content="android,proguard">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android代码混淆（Proguard）">
+<meta property="og:url" content="http://aidaiz.com/android_proguard/index.html">
+<meta property="og:site_name" content="Yunyao Zhang - 张云尧">
+<meta property="og:description" content="Android采用Java语言，编译成class文件，会很容易被反编译为java源代码。为了代码不被反编译，往往采用代码混淆。Android自带Proguard可以完成这项工作，同时删除没有使用的字段属性等，优化代码。">
+<meta property="og:image" content="http://7xivk7.com1.z0.glb.clouddn.com/paycode01.jpg">
+<meta property="og:image" content="http://7xivk7.com1.z0.glb.clouddn.com/paycode02.jpg">
+<meta property="og:updated_time" content="2017-05-08T16:40:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android代码混淆（Proguard）">
+<meta name="twitter:description" content="Android采用Java语言，编译成class文件，会很容易被反编译为java源代码。为了代码不被反编译，往往采用代码混淆。Android自带Proguard可以完成这项工作，同时删除没有使用的字段属性等，优化代码。">
+<meta name="twitter:image" content="http://7xivk7.com1.z0.glb.clouddn.com/paycode01.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="Yunyao Zhang - 张云尧" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?5f09ac010983cb94e34e25d4019d9b17";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<meta name="baidu-site-verification" content="DeH9kUFd9Y" />
+</head>
+
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Yunyao Zhang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">会有一天肆无忌惮地桀骜不驯</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+          <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+<!--        <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form"> --->
+<!--          <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="Search"> --->
+<!--          <input type="submit" value="" class="search-form-submit"> --->
+<!--          <input name=tn type=hidden value="bds"> --->
+<!--          <input name=cl type=hidden value="3"> --->
+<!--          <input name=ct type=hidden value="2097152"> --->
+<!--          <input type="hidden" name="si" value="aidaiz.com"> --->
+<!--        </form> --->
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://aidaiz.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+
+    <div class="outer">
+      <section id="main"><article id="post-android_proguard" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/android_proguard/" class="article-date">
+  <time datetime="2015-07-13T03:42:52.000Z" itemprop="datePublished">Jul 13 2015</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/android/">android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android代码混淆（Proguard）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+	
+        <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                
+        </div>
+        
+        <p>Android采用Java语言，编译成class文件，会很容易被反编译为java源代码。为了代码不被反编译，往往采用代码混淆。Android自带Proguard可以完成这项工作，同时删除没有使用的字段属性等，优化代码。</p>
+<a id="more"></a>
+<p><strong>Title: <a href="https://aidaizyy.github.io/android_proguard" target="_blank" rel="external">Android代码混淆（Proguard）</a></strong><br><strong>Author: <a href="http://aidaizyy.github.io" target="_blank" rel="external">Yunyao Zhang（张云尧）</a></strong><br><strong>E-mail: <a href="&#x6d;&#97;&#105;&#x6c;&#x74;&#111;&#x3a;&#x61;&#x69;&#x64;&#x61;&#105;&#x7a;&#121;&#x79;&#64;&#103;&#109;&#x61;&#x69;&#x6c;&#46;&#x63;&#x6f;&#x6d;">&#x61;&#x69;&#x64;&#x61;&#105;&#x7a;&#121;&#x79;&#64;&#103;&#109;&#x61;&#x69;&#x6c;&#46;&#x63;&#x6f;&#x6d;</a></strong><br><strong>Last Modified: <a href="http://aidaizyy.github.io" target="_blank" rel="external">2015-07-13</a></strong></p>
+<p>##概要</p>
+<p>Proguard并没有改变程序结构，只是通过修改名称，调整顺序等措施将代码变得难以阅读，难以理解，但却可以运行。<br>在Android项目的主目录里自带proguard-project.txt文件，代码混淆的规则就写在里面。</p>
+<p>##配置</p>
+<p>主目录的project.properties文件需要加上下面这句话，以告诉项目需要运行Proguard：</p>
+<p><em>proguard.config=${sdk.dir}/tools/proguard/proguard-android.txt:proguard-project.txt</em> </p>
+<p>创建好的Android项目一般自带这条语句，不过开头用#注释了，去掉#即可。</p>
+<p>##规则<br><em>摘抄自<a href="http://blog.csdn.net/banketree/article/details/41928175" target="_blank" rel="external">http://blog.csdn.net/banketree/article/details/41928175</a></em></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">-include &#123;filename&#125;    从给定的文件中读取配置参数 </div><div class="line">-basedirectory &#123;directoryname&#125;    指定基础目录为以后相对的档案名称 </div><div class="line">-injars &#123;class_path&#125;    指定要处理的应用程序jar,war,ear和目录 </div><div class="line">-outjars &#123;class_path&#125;    指定处理完后要输出的jar,war,ear和目录的名称 </div><div class="line">-libraryjars &#123;classpath&#125;    指定要处理的应用程序jar,war,ear和目录所需要的程序库文件 </div><div class="line">-dontskipnonpubliclibraryclasses    指定不去忽略非公共的库类。 </div><div class="line">-dontskipnonpubliclibraryclassmembers    指定不去忽略包可见的库类的成员。</div><div class="line"></div><div class="line">保留选项 </div><div class="line">-keep &#123;Modifier&#125; &#123;class_specification&#125;    保护指定的类文件和类的成员 </div><div class="line">-keepclassmembers &#123;modifier&#125; &#123;class_specification&#125;    保护指定类的成员，如果此类受到保护他们会保护的更好</div><div class="line">-keepclasseswithmembers &#123;class_specification&#125;    保护指定的类和类的成员，但条件是所有指定的类和类成员是要存在。 </div><div class="line">-keepnames &#123;class_specification&#125;    保护指定的类和类的成员的名称（如果他们不会压缩步骤中删除） </div><div class="line">-keepclassmembernames &#123;class_specification&#125;    保护指定的类的成员的名称（如果他们不会压缩步骤中删除） </div><div class="line">-keepclasseswithmembernames &#123;class_specification&#125;    保护指定的类和类的成员的名称，如果所有指定的类成员出席（在压缩步骤之后） </div><div class="line">-printseeds &#123;filename&#125;    列出类和类的成员-keep选项的清单，标准输出到给定的文件 </div><div class="line"></div><div class="line">压缩 </div><div class="line">-dontshrink    不压缩输入的类文件 </div><div class="line">-printusage &#123;filename&#125; </div><div class="line">-whyareyoukeeping &#123;class_specification&#125;     </div><div class="line"></div><div class="line">优化 </div><div class="line">-dontoptimize    不优化输入的类文件 </div><div class="line">-assumenosideeffects &#123;class_specification&#125;    优化时假设指定的方法，没有任何副作用 </div><div class="line">-allowaccessmodification    优化时允许访问并修改有修饰符的类和类的成员 </div><div class="line"></div><div class="line">混淆 </div><div class="line">-dontobfuscate    不混淆输入的类文件 </div><div class="line">-printmapping &#123;filename&#125; </div><div class="line">-applymapping &#123;filename&#125;    重用映射增加混淆 </div><div class="line">-obfuscationdictionary &#123;filename&#125;    使用给定文件中的关键字作为要混淆方法的名称 </div><div class="line">-overloadaggressively    混淆时应用侵入式重载 </div><div class="line">-useuniqueclassmembernames    确定统一的混淆类的成员名称来增加混淆 </div><div class="line">-flattenpackagehierarchy &#123;package_name&#125;    重新包装所有重命名的包并放在给定的单一包中 </div><div class="line">-repackageclass &#123;package_name&#125;    重新包装所有重命名的类文件中放在给定的单一包中 </div><div class="line">-dontusemixedcaseclassnames    混淆时不会产生形形色色的类名 </div><div class="line">-keepattributes &#123;attribute_name,...&#125;    保护给定的可选属性，例如LineNumberTable, LocalVariableTable, SourceFile, Deprecated, Synthetic, Signature, and InnerClasses. </div><div class="line">-renamesourcefileattribute &#123;string&#125;    设置源文件中给定的字符串常量</div></pre></td></tr></table></figure>
+<p>##实例</p>
+<p>project-proguard.txt中创建混淆规则。<br>缺省情况下会混淆所有代码，导致出错，必须保证不能被混淆的代码被保持。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div></pre></td><td class="code"><pre><div class="line">-ignorewarnings				# 忽略警告，避免打包时某些警告出现</div><div class="line">-optimizationpasses 5			# 指定代码的压缩级别</div><div class="line">-dontusemixedcaseclassnames		# 是否使用大小写混合</div><div class="line">-dontskipnonpubliclibraryclasses	# 是否混淆第三方jar</div><div class="line">-dontpreverify                   	# 混淆时是否做预校验</div><div class="line">-verbose                            	# 混淆时是否记录日志</div><div class="line">-optimizations !code/simplification/arithmetic,!field/\*,!class/merging/\*	# 混淆时所采用的算法</div><div class="line"></div><div class="line">-keepattributes \*Annotation\*</div><div class="line">-keepattributes Signature</div><div class="line"></div><div class="line">-libraryjars   libs/treecore.jar	# 保持第三方jar包不被混淆</div><div class="line">-libraryjars   libs/android-viewbadger.jar</div><div class="line">-libraryjars   libs/MapApi.jar</div><div class="line">-libraryjars   libs/SinaWeiboSDK.jar</div><div class="line"></div><div class="line">-dontwarn android.support.v4.**     </div><div class="line">-dontwarn android.os.**</div><div class="line"></div><div class="line">-keep class android.support.v4.** &#123; *; &#125; 		# 保持哪些类不被混淆</div><div class="line">-keep class com.baidu.** &#123; *; &#125;  </div><div class="line">-keep class vi.com.gdi.bgl.android.**&#123;*;&#125;</div><div class="line">-keep class android.os.**&#123;*;&#125;</div><div class="line"></div><div class="line">-keep interface android.support.v4.app.** &#123; *; &#125;  </div><div class="line">-keep public class * extends android.support.v4.**  </div><div class="line">-keep public class * extends android.app.Fragment</div><div class="line">-keep public class * extends android.app.Activity</div><div class="line">-keep public class * extends android.app.Application</div><div class="line">-keep public class * extends android.app.Service</div><div class="line">-keep public class * extends android.content.BroadcastReceiver</div><div class="line">-keep public class * extends android.content.ContentProvider</div><div class="line">-keep public class * extends android.support.v4.widget</div><div class="line">-keep public class * extends com.sqlcrypt.database</div><div class="line">-keep public class * extends com.sqlcrypt.database.sqlite</div><div class="line">-keep public class * extends com.treecore.**</div><div class="line">-keep public class * extends de.greenrobot.dao.**</div><div class="line"></div><div class="line"></div><div class="line">-keepclasseswithmembernames class * &#123;	# 保持 native 方法不被混淆</div><div class="line">    native &lt;methods&gt;;</div><div class="line">&#125;</div><div class="line"></div><div class="line">-keepclasseswithmembers class * &#123;	# 保持自定义控件类不被混淆</div><div class="line">    public &lt;init&gt;(android.content.Context, android.util.AttributeSet);</div><div class="line">&#125;</div><div class="line"></div><div class="line">-keepclasseswithmembers class * &#123;	# 保持自定义控件类不被混淆</div><div class="line">    public &lt;init&gt;(android.content.Context, android.util.AttributeSet, int);</div><div class="line">&#125;</div><div class="line"></div><div class="line">-keepclassmembers class * extends android.app.Activity &#123;	#保持类成员</div><div class="line">   public void *(android.view.View);</div><div class="line">&#125;</div><div class="line"></div><div class="line">-keepclassmembers enum * &#123;	# 保持枚举 enum 类不被混淆</div><div class="line">    public static **[] values();</div><div class="line">    public static ** valueOf(java.lang.String);</div><div class="line">&#125;</div><div class="line"></div><div class="line">-keep class * implements android.os.Parcelable &#123;	# 保持 Parcelable 不被混淆</div><div class="line">  public static final android.os.Parcelable$Creator *;</div><div class="line">&#125;</div><div class="line"></div><div class="line">-keep class MyClass;	# 保持自己定义的类不被混淆</div></pre></td></tr></table></figure>
+<p>##反编译</p>
+<p>dex2jar：将apk转化为class文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">https://github.com/pxb1988/dex2jar</div></pre></td></tr></table></figure></p>
+<p>JD-GUI：将class文件转化为java文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://jd.benow.ca/</div></pre></td></tr></table></figure></p>
+<p>通过这个两个工具可以将apk转化为java源文件。<br>通过Proguard生成的apk可转化为java源文件来进行比对以检测Proguard是否生效。</p>
+<p><strong> 转载请注明原作者和出处。</strong></p>
+<blockquote>
+<p>如果觉得这篇文章对您有帮助或启发，请随意打赏~</p>
+<p> <img src="http://7xivk7.com1.z0.glb.clouddn.com/paycode01.jpg" width="250" align="left"> <img src="http://7xivk7.com1.z0.glb.clouddn.com/paycode02.jpg" width="250" align="left"> </p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://aidaiz.com/android_proguard/" data-id="cj2gdu6if0001v1o36agfpyts" class="article-share-link" data-share="baidu">Share</a>
+      
+
+      
+        <a href="http://aidaiz.com/android_proguard/#ds-thread" class="article-comment-link">Comments</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/proguard/">proguard</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/swift_1/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Swift基础入门(1)：常量变量，基本数据类型和基本运算符
+        
+      </div>
+    </a>
+  
+  
+    <a href="/dpdk/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">DPDK编译运行</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+  <section id="comments">
+    <div id="ds-thread" class="ds-thread" data-thread-key="android_proguard/" data-title="Android代码混淆（Proguard）" data-url="http://aidaiz.com/android_proguard/"></div>
+  </section>
+
+
+</section>
+      
+      <aside id="sidebar">
+  
+      <div class="widget-wrap">
+    <h3 class="widget-title">Weibo</h3>
+      <iframe width="100%" height="90" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=90&fansRow=2&ptype=1&speed=0&skin=1&isTitle=0&noborder=1&isWeibo=0&isFans=0&uid=1728443831&verifier=022f8fe1&dpc=1"></iframe>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/android/">android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/computer-architecture/">computer architecture</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/dpdk/">dpdk</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">hadoop</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/openvswitch/">openvswitch</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/spdk/">spdk</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/swift/">swift</a><span class="category-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cache/">cache</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/computer-architecture/">computer architecture</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dpdk/">dpdk</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/">hadoop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openflow/">openflow</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openvswitch/">openvswitch</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/">proguard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spdk/">spdk</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/swift/">swift</a><span class="tag-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/openvswitch-qos/">Open vSwitch的OpenFlow和QOS</a>
+          </li>
+        
+          <li>
+            <a href="/openvswitch-build/">Open vSwitch安装与使用</a>
+          </li>
+        
+          <li>
+            <a href="/ssh/">SSH秘钥与SSHFS挂载</a>
+          </li>
+        
+          <li>
+            <a href="/spdk/">SPDK简介</a>
+          </li>
+        
+          <li>
+            <a href="/hadoop/">Hadoop安装运行</a>
+          </li>
+        
+          <li>
+            <a href="/cache_miss_type/">容量失效（capacity miss）与冲突失效（conflict miss）的区别</a>
+          </li>
+        
+          <li>
+            <a href="/swift_14/">Swift基础入门(14)：权限控制</a>
+          </li>
+        
+          <li>
+            <a href="/swift_13/">Swift基础入门(13)：高级运算符</a>
+          </li>
+        
+          <li>
+            <a href="/swift_12/">Swift基础入门(12)：泛型</a>
+          </li>
+        
+          <li>
+            <a href="/swift_11/">Swift基础入门(11)：扩展和协议</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://yunhuanran.github.io" target="_blank">潮鸣</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Yunyao Zhang（张云尧）<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/xiangming/landscape-plus" target="_blank">Landscape-plus</a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+  <!-- totop start -->
+<div id="totop">
+<a title="totop"><img src="/img/scrollup.png"/></a>
+</div>
+
+<!-- totop end -->
+
+
+<!-- 多说公共js代码 start -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"aidaiz"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共js代码 end -->
+
+
+<!-- 百度分享 start -->
+
+<div id="article-share-box" class="article-share-box">
+  <div id="bdshare" class="bdsharebuttonbox article-share-links">
+    <a class="article-share-weibo" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a class="article-share-weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a class="article-share-qq" data-cmd="qzone" title="分享到QQ空间"></a>
+<!--   <a class="article-share-renren" data-cmd="renren" title="分享到人人网"></a> -->
+    <a class="article-share-facebook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a class="article-share-twitter" data-cmd="twi" title="分享到Twitter"></a>
+<!--    <a class="article-share-more" data-cmd="more" title="更多"></a> -->
+  </div>
+</div>
+<script>window._bd_share_config={"common":{},"share":{"bdCustomStyle":"/css/bdshare.css"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+<!-- 百度分享 end -->
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>
+

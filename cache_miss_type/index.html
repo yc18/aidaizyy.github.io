@@ -1,0 +1,363 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>容量失效（capacity miss）与冲突失效（conflict miss）的区别 | Yunyao Zhang - 张云尧</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Cache访问失效分为强制性失效/冷失效（compulsory miss/cold miss）、容量失效（capacity miss）和冲突失效（conflict miss）。其中容量失效和冲突失效概念非常相近，理解起来不容易区别。">
+<meta name="keywords" content="cache,computer architecture">
+<meta property="og:type" content="article">
+<meta property="og:title" content="容量失效（capacity miss）与冲突失效（conflict miss）的区别">
+<meta property="og:url" content="http://aidaiz.com/cache_miss_type/index.html">
+<meta property="og:site_name" content="Yunyao Zhang - 张云尧">
+<meta property="og:description" content="Cache访问失效分为强制性失效/冷失效（compulsory miss/cold miss）、容量失效（capacity miss）和冲突失效（conflict miss）。其中容量失效和冲突失效概念非常相近，理解起来不容易区别。">
+<meta property="og:image" content="http://7xivk7.com1.z0.glb.clouddn.com/paycode01.jpg">
+<meta property="og:image" content="http://7xivk7.com1.z0.glb.clouddn.com/paycode02.jpg">
+<meta property="og:updated_time" content="2017-05-08T16:40:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="容量失效（capacity miss）与冲突失效（conflict miss）的区别">
+<meta name="twitter:description" content="Cache访问失效分为强制性失效/冷失效（compulsory miss/cold miss）、容量失效（capacity miss）和冲突失效（conflict miss）。其中容量失效和冲突失效概念非常相近，理解起来不容易区别。">
+<meta name="twitter:image" content="http://7xivk7.com1.z0.glb.clouddn.com/paycode01.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="Yunyao Zhang - 张云尧" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?5f09ac010983cb94e34e25d4019d9b17";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<meta name="baidu-site-verification" content="DeH9kUFd9Y" />
+</head>
+
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Yunyao Zhang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">会有一天肆无忌惮地桀骜不驯</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+          <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+<!--        <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form"> --->
+<!--          <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="Search"> --->
+<!--          <input type="submit" value="" class="search-form-submit"> --->
+<!--          <input name=tn type=hidden value="bds"> --->
+<!--          <input name=cl type=hidden value="3"> --->
+<!--          <input name=ct type=hidden value="2097152"> --->
+<!--          <input type="hidden" name="si" value="aidaiz.com"> --->
+<!--        </form> --->
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://aidaiz.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+
+    <div class="outer">
+      <section id="main"><article id="post-cache_miss_type" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/cache_miss_type/" class="article-date">
+  <time datetime="2015-12-10T08:26:02.000Z" itemprop="datePublished">Dec 10 2015</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/computer-architecture/">computer architecture</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      容量失效（capacity miss）与冲突失效（conflict miss）的区别
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+	
+        <p>Cache访问失效分为强制性失效/冷失效（compulsory miss/cold miss）、容量失效（capacity miss）和冲突失效（conflict miss）。其中容量失效和冲突失效概念非常相近，理解起来不容易区别。</p>
+<a id="more"></a>
+<p><strong>Title: <a href="https://aidaizyy.github.io/cache_miss_type" target="_blank" rel="external">容量失效（capacity miss）与冲突失效（conflict miss）的区别</a></strong><br><strong>Author: <a href="http://aidaizyy.github.io" target="_blank" rel="external">Yunyao Zhang(张云尧)</a></strong><br><strong>E-mail: <a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#97;&#105;&#x64;&#97;&#105;&#x7a;&#x79;&#x79;&#64;&#103;&#109;&#97;&#x69;&#108;&#46;&#x63;&#111;&#x6d;">&#97;&#105;&#x64;&#97;&#105;&#x7a;&#x79;&#x79;&#64;&#103;&#109;&#97;&#x69;&#108;&#46;&#x63;&#111;&#x6d;</a></strong><br><strong>Last Modified: <a href="http://aidaizyy.github.io" target="_blank" rel="external">2015-12-10</a></strong></p>
+<h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><ul>
+<li><strong>强制性失效：</strong>CPU第一次访问相应cache块，cache中肯定没有该cache块，引起的失效叫做强制性失效。这是不可避免的。</li>
+<li><strong>容量失效：</strong>有限的cache容量导致cache放不下而替换出cache块，被替换出去的cache块再被访问，引起的失效叫做容量失效。</li>
+<li><strong>冲突失效：</strong>在直接相联或组相联的cache中，不同的cache块由于index相同相互替换，引起的失效叫做冲突失效。</li>
+</ul>
+<p>#理解</p>
+<p>如果两个cache块指向同一个cache位置，替换后，访问被替换cache块到底是属于容量失效还是冲突失效呢？<br>主要看当前cache的存储情况。<br>假设这里有32KB大小的直接相联cache。<br>情况一（容量失效）：如果有一个64KB大小的数组需要重复访问，数组的大小远远大于cache大小，没办法全部放入cache。第一次访问数组发生的失效全都是强制性失效。之后再访问数组，再发生的失效则全都是容量失效，这时cache已经存满，容量不足以存储全部数据。<br>情况二（冲突失效）：如果有两个8KB大小的数据需要来回访问，但是这两个数组都映射到相同的地址，cache大小足够存储全部的数据，但是因为相同地址发生了冲突需要来回替换，发生的失效则全都是冲突失效（第一次访问失效依旧是强制性失效），这时cache并没有存满。<br>避免容量失效只能通过增加cache大小实现，而避免冲突失效则可以通过提高相联度，优化替换策略，优化代码，增大cache容量等很多措施实现。</p>
+<p><strong> 转载请注明原作者和出处。</strong></p>
+<blockquote>
+<p>如果觉得这篇文章对您有帮助或启发，请随意打赏~</p>
+<p> <img src="http://7xivk7.com1.z0.glb.clouddn.com/paycode01.jpg" width="250" align="left"> <img src="http://7xivk7.com1.z0.glb.clouddn.com/paycode02.jpg" width="250" align="left"> </p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://aidaiz.com/cache_miss_type/" data-id="cj2gdu6iw0003v1o3c931u9e3" class="article-share-link" data-share="baidu">Share</a>
+      
+
+      
+        <a href="http://aidaiz.com/cache_miss_type/#ds-thread" class="article-comment-link">Comments</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cache/">cache</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/computer-architecture/">computer architecture</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/hadoop/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Hadoop安装运行
+        
+      </div>
+    </a>
+  
+  
+    <a href="/swift_14/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Swift基础入门(14)：权限控制</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+  <section id="comments">
+    <div id="ds-thread" class="ds-thread" data-thread-key="cache_miss_type/" data-title="容量失效（capacity miss）与冲突失效（conflict miss）的区别" data-url="http://aidaiz.com/cache_miss_type/"></div>
+  </section>
+
+
+</section>
+      
+      <aside id="sidebar">
+  
+      <div class="widget-wrap">
+    <h3 class="widget-title">Weibo</h3>
+      <iframe width="100%" height="90" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=90&fansRow=2&ptype=1&speed=0&skin=1&isTitle=0&noborder=1&isWeibo=0&isFans=0&uid=1728443831&verifier=022f8fe1&dpc=1"></iframe>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/android/">android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/computer-architecture/">computer architecture</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/dpdk/">dpdk</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">hadoop</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/openvswitch/">openvswitch</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/spdk/">spdk</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/swift/">swift</a><span class="category-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cache/">cache</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/computer-architecture/">computer architecture</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dpdk/">dpdk</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/">hadoop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openflow/">openflow</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openvswitch/">openvswitch</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/">proguard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spdk/">spdk</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/swift/">swift</a><span class="tag-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/openvswitch-qos/">Open vSwitch的OpenFlow和QOS</a>
+          </li>
+        
+          <li>
+            <a href="/openvswitch-build/">Open vSwitch安装与使用</a>
+          </li>
+        
+          <li>
+            <a href="/ssh/">SSH秘钥与SSHFS挂载</a>
+          </li>
+        
+          <li>
+            <a href="/spdk/">SPDK简介</a>
+          </li>
+        
+          <li>
+            <a href="/hadoop/">Hadoop安装运行</a>
+          </li>
+        
+          <li>
+            <a href="/cache_miss_type/">容量失效（capacity miss）与冲突失效（conflict miss）的区别</a>
+          </li>
+        
+          <li>
+            <a href="/swift_14/">Swift基础入门(14)：权限控制</a>
+          </li>
+        
+          <li>
+            <a href="/swift_13/">Swift基础入门(13)：高级运算符</a>
+          </li>
+        
+          <li>
+            <a href="/swift_12/">Swift基础入门(12)：泛型</a>
+          </li>
+        
+          <li>
+            <a href="/swift_11/">Swift基础入门(11)：扩展和协议</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://yunhuanran.github.io" target="_blank">潮鸣</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Yunyao Zhang（张云尧）<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/xiangming/landscape-plus" target="_blank">Landscape-plus</a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+  <!-- totop start -->
+<div id="totop">
+<a title="totop"><img src="/img/scrollup.png"/></a>
+</div>
+
+<!-- totop end -->
+
+
+<!-- 多说公共js代码 start -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"aidaiz"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共js代码 end -->
+
+
+<!-- 百度分享 start -->
+
+<div id="article-share-box" class="article-share-box">
+  <div id="bdshare" class="bdsharebuttonbox article-share-links">
+    <a class="article-share-weibo" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a class="article-share-weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a class="article-share-qq" data-cmd="qzone" title="分享到QQ空间"></a>
+<!--   <a class="article-share-renren" data-cmd="renren" title="分享到人人网"></a> -->
+    <a class="article-share-facebook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a class="article-share-twitter" data-cmd="twi" title="分享到Twitter"></a>
+<!--    <a class="article-share-more" data-cmd="more" title="更多"></a> -->
+  </div>
+</div>
+<script>window._bd_share_config={"common":{},"share":{"bdCustomStyle":"/css/bdshare.css"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+<!-- 百度分享 end -->
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>
+

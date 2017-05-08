@@ -1,0 +1,398 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Hadoop安装运行 | Yunyao Zhang - 张云尧</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Hadoop：是一个由Apache基金会所开发的处理计算机集群上大数据的开源分布式系统基础框架。本文基于Mac OSX 10.11操作系统和Hadoop 2.6.4。">
+<meta name="keywords" content="hadoop,java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hadoop安装运行">
+<meta property="og:url" content="http://aidaiz.com/hadoop/index.html">
+<meta property="og:site_name" content="Yunyao Zhang - 张云尧">
+<meta property="og:description" content="Hadoop：是一个由Apache基金会所开发的处理计算机集群上大数据的开源分布式系统基础框架。本文基于Mac OSX 10.11操作系统和Hadoop 2.6.4。">
+<meta property="og:image" content="http://7xivk7.com1.z0.glb.clouddn.com/paycode01.jpg">
+<meta property="og:image" content="http://7xivk7.com1.z0.glb.clouddn.com/paycode02.jpg">
+<meta property="og:updated_time" content="2017-05-08T16:40:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hadoop安装运行">
+<meta name="twitter:description" content="Hadoop：是一个由Apache基金会所开发的处理计算机集群上大数据的开源分布式系统基础框架。本文基于Mac OSX 10.11操作系统和Hadoop 2.6.4。">
+<meta name="twitter:image" content="http://7xivk7.com1.z0.glb.clouddn.com/paycode01.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="Yunyao Zhang - 张云尧" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?5f09ac010983cb94e34e25d4019d9b17";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<meta name="baidu-site-verification" content="DeH9kUFd9Y" />
+</head>
+
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Yunyao Zhang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">会有一天肆无忌惮地桀骜不驯</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+          <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+<!--        <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form"> --->
+<!--          <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="Search"> --->
+<!--          <input type="submit" value="" class="search-form-submit"> --->
+<!--          <input name=tn type=hidden value="bds"> --->
+<!--          <input name=cl type=hidden value="3"> --->
+<!--          <input name=ct type=hidden value="2097152"> --->
+<!--          <input type="hidden" name="si" value="aidaiz.com"> --->
+<!--        </form> --->
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://aidaiz.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+
+    <div class="outer">
+      <section id="main"><article id="post-hadoop" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/hadoop/" class="article-date">
+  <time datetime="2016-05-29T06:18:57.000Z" itemprop="datePublished">May 29 2016</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/hadoop/">hadoop</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Hadoop安装运行
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+	
+        <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#准备"><span class="toc-number">1.</span> <span class="toc-text">准备</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#JAVA"><span class="toc-number">1.1.</span> <span class="toc-text">JAVA</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SSH"><span class="toc-number">1.2.</span> <span class="toc-text">SSH</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#下载"><span class="toc-number">2.</span> <span class="toc-text">下载</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#下载Hadoop"><span class="toc-number">2.1.</span> <span class="toc-text">下载Hadoop</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解开压缩包"><span class="toc-number">2.2.</span> <span class="toc-text">解开压缩包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设置环境变量"><span class="toc-number">2.3.</span> <span class="toc-text">设置环境变量</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置"><span class="toc-number">3.</span> <span class="toc-text">配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#编辑hadoop-env-sh文件"><span class="toc-number">3.1.</span> <span class="toc-text">编辑hadoop-env.sh文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#编辑core-site-xml文件"><span class="toc-number">3.2.</span> <span class="toc-text">编辑core-site.xml文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#编辑hdfs-site-xml文件"><span class="toc-number">3.3.</span> <span class="toc-text">编辑hdfs-site.xml文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#编辑mapred-site-xml文件"><span class="toc-number">3.4.</span> <span class="toc-text">编辑mapred-site.xml文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装HDFS"><span class="toc-number">4.</span> <span class="toc-text">安装HDFS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运行"><span class="toc-number">5.</span> <span class="toc-text">运行</span></a></li></ol>
+        </div>
+        
+        <p>Hadoop：是一个由Apache基金会所开发的处理计算机集群上大数据的开源分布式系统基础框架。<br>本文基于Mac OSX 10.11操作系统和Hadoop 2.6.4。</p>
+<a id="more"></a>
+<p><strong>Title: <a href="https://aidaizyy.github.io/hadoop" target="_blank" rel="external">Hadoop安装运行</a></strong><br><strong>Author: <a href="http://aidaizyy.github.io" target="_blank" rel="external">Yunyao Zhang(张云尧)</a></strong><br><strong>E-mail: <a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#111;&#x3a;&#x61;&#105;&#x64;&#x61;&#x69;&#122;&#121;&#x79;&#64;&#x67;&#109;&#x61;&#x69;&#x6c;&#46;&#x63;&#x6f;&#x6d;">&#x61;&#105;&#x64;&#x61;&#x69;&#122;&#121;&#x79;&#64;&#x67;&#109;&#x61;&#x69;&#x6c;&#46;&#x63;&#x6f;&#x6d;</a></strong><br><strong>Last Modified: <a href="http://aidaizyy.github.io" target="_blank" rel="external">2016-05-29</a></strong></p>
+<h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><h3 id="JAVA"><a href="#JAVA" class="headerlink" title="JAVA"></a>JAVA</h3><p>Hadoop是由Java实现的，所以首先确入是否已经安装Java。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">java -version</div></pre></td></tr></table></figure></p>
+<p>在终端中输入以上命令，确认是否安装Java。如果没有，可以去<a href="http://www.java.com" target="_blank" rel="external">Java官方网站</a>下载，并参照说明配置环境变量。如果已经安装Java，可以进行下一步。<br>本文基于JDK 1.8安装Hadoop。官方要求至少java 1.5及其以上版本。</p>
+<h3 id="SSH"><a href="#SSH" class="headerlink" title="SSH"></a>SSH</h3><p>其次，确认ssh安装，且sshd一直运行，以便Hadoop脚本管理远端Hadoop守护进程。<br>Mac系统已自带ssh，可通过以下三条命令验证。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">which</span> ssh</div><div class="line"><span class="built_in">which</span> sshd</div><div class="line"><span class="built_in">which</span> ssh-Keygen</div></pre></td></tr></table></figure></p>
+<p>得到ssh路径。<br>我们要实现无密码登录ssh。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh-keygen -t rsa</div></pre></td></tr></table></figure></p>
+<p>输入以上命令，需要输入密码时按enter键。<br>成功后进入ssh目录。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> ~/.ssh</div><div class="line">cp id_rsa.pub authorized_keys</div></pre></td></tr></table></figure></p>
+<p>下面验证是否成功。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh localhost</div></pre></td></tr></table></figure></p>
+<p>如果出现<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh: connect to host localhost port 22: Connection refuse</div></pre></td></tr></table></figure></p>
+<p>说明用户没有权限，需要去“系统偏好设置”——“共享”——“远程登录”，勾选并选择允许访问：“所有用户”。</p>
+<p>注意，在Windows系统下，需要安装Cygwin，提供shell支持。</p>
+<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><h3 id="下载Hadoop"><a href="#下载Hadoop" class="headerlink" title="下载Hadoop"></a>下载Hadoop</h3><p>前往<a href="http://hadoop.apache.org/releases.html" target="_blank" rel="external">Apache Hadoop官方网站</a>下载Hadoop发行版。本文下载了最新修改发布的2.6.4版本（2016年2月），选择<a href="http://www.apache.org/dyn/closer.cgi/hadoop/common/hadoop-2.6.4/hadoop-2.6.4.tar.gz" target="_blank" rel="external">binary版本</a>，如果选择了source版本，压缩包后会有-src后缀，表示源码，需要额外编译。</p>
+<h3 id="解开压缩包"><a href="#解开压缩包" class="headerlink" title="解开压缩包"></a>解开压缩包</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tar -xvzf hadoop-2.6.4.tar.gz</div></pre></td></tr></table></figure>
+<p>我这里将其放置的路径是~/Applications（本文的路径是/Users/zhangyunyao/Applications/hadoop-2.6.4）。</p>
+<h3 id="设置环境变量"><a href="#设置环境变量" class="headerlink" title="设置环境变量"></a>设置环境变量</h3><p>在~/.bash_profile文件或~/.profile文件中添加环境变量（本文在zsh环境下，在~/.zshrc中添加环境变量）。</p>
+<p><strong>添加JAVA_HOME环境变量</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">export JAVA_HOME=`/usr/libexec/java_home`</div></pre></td></tr></table></figure></p>
+<p>将上面句子加在环境变量文件末尾，并用source命令更新。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">source</span> .zshrc</div></pre></td></tr></table></figure></p>
+<p>验证JAVA_HOME环境变量是否设置成功。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">echo</span> <span class="variable">$JAVA_HOME</span></div></pre></td></tr></table></figure></p>
+<p>如果返回Java路径则说明设置成功。</p>
+<p><strong>添加HADOOP_HOME环境变量</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">export HADOOP_HOME=/Users/zhangyunyao/Applications/hadoop-2.6.4</div></pre></td></tr></table></figure></p>
+<p>将上面句子加载环境变量文件末尾，同样可以用source命令更新和echo命令验证。</p>
+<p><strong>添加其他可能用到的环境变量</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">export PATH=$PATH:$JAVA_HOME/bin:$HADOOP_HOME/bin:$HADOOP_HOME/sbin</div><div class="line">export CLASSPATH=$CLASSPATH:$JAVA_HOME/lib</div></pre></td></tr></table></figure></p>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>进入hadoop-2.6.4目录后，主要配置四个文件（hadoop-env.sh，core-site.xml，mapred-site.xml，hdfs-site.xml），很多资料显示这四个文件在conf目录里。但在Hadoop 2.5以后，这四个文件都在etc/hadoop文件夹下。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> hadoop-2.6.4/etc/hadoop</div></pre></td></tr></table></figure></p>
+<h3 id="编辑hadoop-env-sh文件"><a href="#编辑hadoop-env-sh文件" class="headerlink" title="编辑hadoop-env.sh文件"></a>编辑hadoop-env.sh文件</h3><p>该文件涉及Hadoop的配置。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">export JAVA_HOME=$&#123;JAVA_HOME&#125;</div></pre></td></tr></table></figure></p>
+<p>因为我们在环境配置中已经设置了JAVA_HOME的值，所以这里可以不用修改。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#export HADOOP_HEADSIZE=</div></pre></td></tr></table></figure></p>
+<p>表示Hadoop堆可用的最大大小，默认是1000MB。没有特殊需求，可以不用修改。修改的话去掉注释符号“#”，并在“=”后面加上数字，比如“=2000”，表示2000MB。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">export HADOOP_OPTS=&quot;$HADOOP_OPTS -Djava.net.preferIPv4Stack=true&quot;</div></pre></td></tr></table></figure></p>
+<p>已经有默认值，暂时不需要修改。</p>
+<h3 id="编辑core-site-xml文件"><a href="#编辑core-site-xml文件" class="headerlink" title="编辑core-site.xml文件"></a>编辑core-site.xml文件</h3><p>参考官方提供的默认文件<a href="http://hadoop.apache.org/docs/r2.6.4/hadoop-project-dist/hadoop-common/core-default.xml" target="_blank" rel="external">core-default.xml</a>，其他版本都可以在官网找到对应的默认文件。<br>“hadoop.tmp.dir”表示临时目录，“fs.default.name”表示缺省的文件URI标识，这里设置了主机名和端口。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;configuration&gt;</div><div class="line"> 	&lt;property&gt;</div><div class="line">    		&lt;name&gt;hadoop.tmp.dir&lt;/name&gt;</div><div class="line">    		&lt;value&gt;/Users/zhangyunyao/Applications/hadoop-2.6.4/tmp/hadoop-$&#123;user.name&#125;&lt;/value&gt;</div><div class="line">    		&lt;description&gt;A base for other temporary directories.&lt;/description&gt;</div><div class="line">  	&lt;/property&gt;</div><div class="line">  	&lt;property&gt;</div><div class="line">    		&lt;name&gt;fs.default.name&lt;/name&gt;</div><div class="line">    		&lt;value&gt;hdfs://localhost:9000&lt;/value&gt;</div><div class="line">  	&lt;/property&gt;</div><div class="line">&lt;/configuration&gt;</div></pre></td></tr></table></figure></p>
+<h3 id="编辑hdfs-site-xml文件"><a href="#编辑hdfs-site-xml文件" class="headerlink" title="编辑hdfs-site.xml文件"></a>编辑hdfs-site.xml文件</h3><p>参考官方提供的默认文件<a href="http://hadoop.apache.org/docs/r2.6.4/hadoop-project-dist/hadoop-hdfs/hdfs-default.xml" target="_blank" rel="external">hdfs-default.xml</a>，其他版本都可以在官网找到对应的默认文件。<br>“dfs.replication”表示缺省的块复制数量，因为这里只有一个节点，所以值设为1。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;configuration&gt;</div><div class="line">    	&lt;property&gt;</div><div class="line">        	&lt;name&gt;dfs.replication&lt;/name&gt;</div><div class="line">        	&lt;value&gt;1&lt;/value&gt;</div><div class="line">    	&lt;/property&gt;</div><div class="line">&lt;/configuration&gt;</div></pre></td></tr></table></figure></p>
+<h3 id="编辑mapred-site-xml文件"><a href="#编辑mapred-site-xml文件" class="headerlink" title="编辑mapred-site.xml文件"></a>编辑mapred-site.xml文件</h3><p>参考官方提供的默认文件<a href="http://hadoop.apache.org/docs/r2.6.4/hadoop-mapreduce-client/hadoop-mapreduce-client-core/mapred-default.xml" target="_blank" rel="external">mapred-default.xml</a>，其他版本都可以在官网找到对应的默认文件。<br>“mapreduce.jobtracker.address”表示JobTracker作业跟踪器的地址，这里设置了它的主机名和端口。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;configuration&gt;</div><div class="line">	&lt;property&gt;</div><div class="line">		&lt;name&gt;mapreduce.jobtracker.address&lt;/name&gt;</div><div class="line">		&lt;value&gt;localhost:9001&lt;/value&gt;</div><div class="line">		&lt;description&gt;The address of JobTracker&lt;/description&gt;</div><div class="line">	&lt;/property&gt;</div><div class="line">&lt;/configuration&gt;</div></pre></td></tr></table></figure></p>
+<p>注意hadoop-2.6.4/etc/hadoop目录下是没有mapred-site.xml文件的，只有mapred-site.xml.temple。我们需要把该文件复制一份，并命令为mapred-site.xml。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cp mapred-site.xml.tmple mapred-site.xml</div></pre></td></tr></table></figure></p>
+<h2 id="安装HDFS"><a href="#安装HDFS" class="headerlink" title="安装HDFS"></a>安装HDFS</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hadoop namenode -format</div></pre></td></tr></table></figure>
+<p>在Hadoop目录内输入以上命令。</p>
+<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><p>运行hadoop-2.6.4/sbin目录下的start-all.sh脚本。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./start-all.sh</div></pre></td></tr></table></figure></p>
+<p>输入命令<code>jps</code>验证是否成功运行Hadoop。<br>在本机上出现如下信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">30417 SecondaryNameNode</div><div class="line">30610 Jps</div><div class="line">30324 DataNode</div><div class="line">30571 NodeManager</div><div class="line">29660 ResourceManager</div><div class="line">30253 NameNode</div></pre></td></tr></table></figure></p>
+<p>说明Hadoop已经成功运行。</p>
+<p>运行自带的例子验证。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hadoop jar <span class="variable">$HADOOP_HOME</span>/share/hadoop/madreduce/hadoop-mapreduce-examples-2.6.4.jar pi 10 100</div></pre></td></tr></table></figure></p>
+<p>出现以下信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">Number of Maps  = 10</div><div class="line">Samples per Map = 100</div><div class="line">Wrote input for Map #0</div><div class="line">Wrote input for Map #1</div><div class="line">Wrote input for Map #2</div><div class="line">Wrote input for Map #3</div><div class="line">Wrote input for Map #4</div><div class="line">Wrote input for Map #5</div><div class="line">Wrote input for Map #6</div><div class="line">Wrote input for Map #7</div><div class="line">Wrote input for Map #8</div><div class="line">Wrote input for Map #9</div><div class="line">Starting Job</div><div class="line">……</div><div class="line">Job Finished in 1.749 seconds</div><div class="line">Estimated value of Pi is 3.14800000000000000000</div></pre></td></tr></table></figure></p>
+<p>说明自带的例子hadoop-mapreduce-examples-2.6.4.jar已经成功运行，至此确认Hadoop已经成功安装。</p>
+<p><strong> 转载请注明原作者和出处。</strong></p>
+<blockquote>
+<p>如果觉得这篇文章对您有帮助或启发，请随意打赏~</p>
+<p> <img src="http://7xivk7.com1.z0.glb.clouddn.com/paycode01.jpg" width="250" align="left"> <img src="http://7xivk7.com1.z0.glb.clouddn.com/paycode02.jpg" width="250" align="left"> </p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://aidaiz.com/hadoop/" data-id="cj2gdu6ji0009v1o3tpvnhjch" class="article-share-link" data-share="baidu">Share</a>
+      
+
+      
+        <a href="http://aidaiz.com/hadoop/#ds-thread" class="article-comment-link">Comments</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/">hadoop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/spdk/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          SPDK简介
+        
+      </div>
+    </a>
+  
+  
+    <a href="/cache_miss_type/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">容量失效（capacity miss）与冲突失效（conflict miss）的区别</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+  <section id="comments">
+    <div id="ds-thread" class="ds-thread" data-thread-key="hadoop/" data-title="Hadoop安装运行" data-url="http://aidaiz.com/hadoop/"></div>
+  </section>
+
+
+</section>
+      
+      <aside id="sidebar">
+  
+      <div class="widget-wrap">
+    <h3 class="widget-title">Weibo</h3>
+      <iframe width="100%" height="90" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=90&fansRow=2&ptype=1&speed=0&skin=1&isTitle=0&noborder=1&isWeibo=0&isFans=0&uid=1728443831&verifier=022f8fe1&dpc=1"></iframe>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/android/">android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/computer-architecture/">computer architecture</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/dpdk/">dpdk</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">hadoop</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/openvswitch/">openvswitch</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/spdk/">spdk</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/swift/">swift</a><span class="category-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cache/">cache</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/computer-architecture/">computer architecture</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dpdk/">dpdk</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/">hadoop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openflow/">openflow</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openvswitch/">openvswitch</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/">proguard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spdk/">spdk</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/swift/">swift</a><span class="tag-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/openvswitch-qos/">Open vSwitch的OpenFlow和QOS</a>
+          </li>
+        
+          <li>
+            <a href="/openvswitch-build/">Open vSwitch安装与使用</a>
+          </li>
+        
+          <li>
+            <a href="/ssh/">SSH秘钥与SSHFS挂载</a>
+          </li>
+        
+          <li>
+            <a href="/spdk/">SPDK简介</a>
+          </li>
+        
+          <li>
+            <a href="/hadoop/">Hadoop安装运行</a>
+          </li>
+        
+          <li>
+            <a href="/cache_miss_type/">容量失效（capacity miss）与冲突失效（conflict miss）的区别</a>
+          </li>
+        
+          <li>
+            <a href="/swift_14/">Swift基础入门(14)：权限控制</a>
+          </li>
+        
+          <li>
+            <a href="/swift_13/">Swift基础入门(13)：高级运算符</a>
+          </li>
+        
+          <li>
+            <a href="/swift_12/">Swift基础入门(12)：泛型</a>
+          </li>
+        
+          <li>
+            <a href="/swift_11/">Swift基础入门(11)：扩展和协议</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://yunhuanran.github.io" target="_blank">潮鸣</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Yunyao Zhang（张云尧）<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/xiangming/landscape-plus" target="_blank">Landscape-plus</a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+  <!-- totop start -->
+<div id="totop">
+<a title="totop"><img src="/img/scrollup.png"/></a>
+</div>
+
+<!-- totop end -->
+
+
+<!-- 多说公共js代码 start -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"aidaiz"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共js代码 end -->
+
+
+<!-- 百度分享 start -->
+
+<div id="article-share-box" class="article-share-box">
+  <div id="bdshare" class="bdsharebuttonbox article-share-links">
+    <a class="article-share-weibo" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a class="article-share-weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a class="article-share-qq" data-cmd="qzone" title="分享到QQ空间"></a>
+<!--   <a class="article-share-renren" data-cmd="renren" title="分享到人人网"></a> -->
+    <a class="article-share-facebook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a class="article-share-twitter" data-cmd="twi" title="分享到Twitter"></a>
+<!--    <a class="article-share-more" data-cmd="more" title="更多"></a> -->
+  </div>
+</div>
+<script>window._bd_share_config={"common":{},"share":{"bdCustomStyle":"/css/bdshare.css"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+<!-- 百度分享 end -->
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>
+

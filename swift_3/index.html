@@ -1,0 +1,438 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Swift基础入门(3)：数组，集合和字典 | Yunyao Zhang - 张云尧</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="本篇介绍Swift的基础知识：数组（Array），集合（Set）和字符（Dictionary）。">
+<meta name="keywords" content="swift">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift基础入门(3)：数组，集合和字典">
+<meta property="og:url" content="http://aidaiz.com/swift_3/index.html">
+<meta property="og:site_name" content="Yunyao Zhang - 张云尧">
+<meta property="og:description" content="本篇介绍Swift的基础知识：数组（Array），集合（Set）和字符（Dictionary）。">
+<meta property="og:image" content="http://7xivk7.com1.z0.glb.clouddn.com/paycode01.jpg">
+<meta property="og:image" content="http://7xivk7.com1.z0.glb.clouddn.com/paycode02.jpg">
+<meta property="og:updated_time" content="2017-05-08T16:40:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Swift基础入门(3)：数组，集合和字典">
+<meta name="twitter:description" content="本篇介绍Swift的基础知识：数组（Array），集合（Set）和字符（Dictionary）。">
+<meta name="twitter:image" content="http://7xivk7.com1.z0.glb.clouddn.com/paycode01.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="Yunyao Zhang - 张云尧" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?5f09ac010983cb94e34e25d4019d9b17";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<meta name="baidu-site-verification" content="DeH9kUFd9Y" />
+</head>
+
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Yunyao Zhang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">会有一天肆无忌惮地桀骜不驯</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+          <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+<!--        <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form"> --->
+<!--          <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="Search"> --->
+<!--          <input type="submit" value="" class="search-form-submit"> --->
+<!--          <input name=tn type=hidden value="bds"> --->
+<!--          <input name=cl type=hidden value="3"> --->
+<!--          <input name=ct type=hidden value="2097152"> --->
+<!--          <input type="hidden" name="si" value="aidaiz.com"> --->
+<!--        </form> --->
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://aidaiz.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+
+    <div class="outer">
+      <section id="main"><article id="post-swift_3" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/swift_3/" class="article-date">
+  <time datetime="2015-07-15T09:04:30.000Z" itemprop="datePublished">Jul 15 2015</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/swift/">swift</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Swift基础入门(3)：数组，集合和字典
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+	
+        <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#数组"><span class="toc-number">1.</span> <span class="toc-text">数组</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#构造"><span class="toc-number">1.1.</span> <span class="toc-text">构造</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数量"><span class="toc-number">1.2.</span> <span class="toc-text">数量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#访问"><span class="toc-number">1.3.</span> <span class="toc-text">访问</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#遍历"><span class="toc-number">1.4.</span> <span class="toc-text">遍历</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加"><span class="toc-number">1.5.</span> <span class="toc-text">添加</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#删除"><span class="toc-number">1.6.</span> <span class="toc-text">删除</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#替换"><span class="toc-number">1.7.</span> <span class="toc-text">替换</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#集合"><span class="toc-number">2.</span> <span class="toc-text">集合</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#构造-1"><span class="toc-number">2.1.</span> <span class="toc-text">构造</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数量-1"><span class="toc-number">2.2.</span> <span class="toc-text">数量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#遍历-1"><span class="toc-number">2.3.</span> <span class="toc-text">遍历</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加-1"><span class="toc-number">2.4.</span> <span class="toc-text">添加</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#删除-1"><span class="toc-number">2.5.</span> <span class="toc-text">删除</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#包含"><span class="toc-number">2.6.</span> <span class="toc-text">包含</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#比较"><span class="toc-number">2.7.</span> <span class="toc-text">比较</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#操作"><span class="toc-number">2.8.</span> <span class="toc-text">操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#哈希值"><span class="toc-number">2.9.</span> <span class="toc-text">哈希值</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#字典"><span class="toc-number">3.</span> <span class="toc-text">字典</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#构造-2"><span class="toc-number">3.1.</span> <span class="toc-text">构造</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数量-2"><span class="toc-number">3.2.</span> <span class="toc-text">数量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#访问-1"><span class="toc-number">3.3.</span> <span class="toc-text">访问</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#遍历-2"><span class="toc-number">3.4.</span> <span class="toc-text">遍历</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加-2"><span class="toc-number">3.5.</span> <span class="toc-text">添加</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#删除-2"><span class="toc-number">3.6.</span> <span class="toc-text">删除</span></a></li></ol></li></ol>
+        </div>
+        
+        <p>本篇介绍Swift的基础知识：数组（Array），集合（Set）和字符（Dictionary）。</p>
+<a id="more"></a>
+<p><strong>Title: <a href="https://aidaizyy.github.io/swift_3" target="_blank" rel="external">Swift基础入门(3)：数组，集合和字典</a></strong><br><strong>Author: <a href="http://aidaizyy.github.io" target="_blank" rel="external">Yunyao Zhang(张云尧)</a></strong><br><strong>E-mail: <a href="&#x6d;&#97;&#x69;&#108;&#x74;&#x6f;&#x3a;&#x61;&#x69;&#100;&#x61;&#x69;&#x7a;&#121;&#x79;&#64;&#x67;&#x6d;&#x61;&#105;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;">&#x61;&#x69;&#100;&#x61;&#x69;&#x7a;&#121;&#x79;&#64;&#x67;&#x6d;&#x61;&#105;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;</a></strong><br><strong>Last Modified: <a href="http://aidaizyy.github.io" target="_blank" rel="external">2015-07-16</a></strong></p>
+<h1 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h1><h2 id="构造"><a href="#构造" class="headerlink" title="构造"></a>构造</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> shoppinglist = [<span class="string">"Eggs"</span>, <span class="string">"Milk"</span>]	<span class="comment">//初始化为字符串数组，没有指定数据类型，通过添加数据自动判断为String数组</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> someInts1 = [<span class="number">2</span>, <span class="number">3</span>]</div><div class="line"><span class="keyword">var</span> someInts2: [<span class="type">Int</span>] = [<span class="number">2</span>, <span class="number">3</span>]		<span class="comment">//等价于上一句，初始化为整数数组，指定了数据类型Int，只能添加Int数据，并添加了元素2，3</span></div><div class="line"><span class="keyword">var</span> someInts3: <span class="type">Array</span>&lt;<span class="type">Int</span>&gt; = [<span class="number">2</span>, <span class="number">3</span>]	<span class="comment">//等价于上一句</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> someInts4 = <span class="type">Array</span>&lt;<span class="type">Int</span>&gt;()		<span class="comment">//初始化为整数数组，指定了数据类型Int，只能添加Int数据，没有添加元素</span></div><div class="line"><span class="keyword">var</span> someInts5 = [<span class="type">Int</span>]()			<span class="comment">//等价于上一句</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> someDoubles = []			<span class="comment">//初始化为空数组，没有指定数据类型，通过添加数据自动判断</span></div><div class="line">someDoubles.append(<span class="number">2.3</span>)			<span class="comment">//通过添加数据自动判断为Double数组</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> threeDoubles = [<span class="type">Double</span>](<span class="built_in">count</span>: <span class="number">3</span>, repeatedValue: <span class="number">0.0</span>)</div><div class="line"><span class="comment">//(count: , repeatedValue: )形式，指定了重复的值和重复的次数，构造数组&#123;0.0, 0.0, 0.0&#125;</span></div></pre></td></tr></table></figure>
+<p>数组的元素只能有一种数据类型。</p>
+<h2 id="数量"><a href="#数量" class="headerlink" title="数量"></a>数量</h2><ul>
+<li>Array.count：属性<code>count</code>表示数组<code>Array</code>的元素个数。</li>
+<li>Array.isEmpty：属性<code>isEmpty</code>表示数组<code>Array</code>的元素是否为0个，结果为<code>true</code>或<code>false</code>。</li>
+</ul>
+<h2 id="访问"><a href="#访问" class="headerlink" title="访问"></a>访问</h2><ul>
+<li>Array[i]：通过下标<code>[i]</code>访问数组<code>Array</code>的第<code>i</code>位，可修改。</li>
+</ul>
+<h2 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a>遍历</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> shoppinglist = [<span class="string">"Eggs"</span>, <span class="string">"Milk"</span>]</div><div class="line"><span class="keyword">for</span> item <span class="keyword">in</span> shoppingList &#123;</div><div class="line">	<span class="built_in">println</span>(item)</div><div class="line">&#125;</div><div class="line"><span class="comment">//Eggs</span></div><div class="line"><span class="comment">//Milk</span></div></pre></td></tr></table></figure>
+<h2 id="添加"><a href="#添加" class="headerlink" title="添加"></a>添加</h2><ul>
+<li>Array.append(Item)：将元素<code>Item</code>添加到数组<code>Array</code>的尾部。</li>
+<li>Array.imsert(Item, atIndex: i)：将元素<code>Item</code>添加到数组<code>Array</code>的第<code>i</code>位。</li>
+<li>Array += [Item1, Item2]：将元素<code>Item1</code>和<code>Item2</code>添加到数组<code>Array</code>的尾部。</li>
+</ul>
+<h2 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h2><ul>
+<li>Array.removeAtIndex(i)：删除数组<code>Array</code>的第<code>i</code>位。</li>
+<li>Array.removeLast()：删除数组<code>Array</code>的最后一位。</li>
+</ul>
+<h2 id="替换"><a href="#替换" class="headerlink" title="替换"></a>替换</h2><ul>
+<li>Array[m…n] = [Item1, Item2]：用元素<code>Item1</code>和<code>Item2</code>替换数组<code>Array</code>的第<code>m</code>位到第<code>n</code>位。这种方法不能用于添加新元素。</li>
+</ul>
+<h1 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h1><p>集合中的元素没有确定顺序，且每个元素只出现一次。</p>
+<h2 id="构造-1"><a href="#构造-1" class="headerlink" title="构造"></a>构造</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> shoppinglist: <span class="type">Set</span> = [<span class="string">"Eggs"</span>, <span class="string">"Milk"</span>]	<span class="comment">//初始化为字符串集合，没有指定数据类型，通过添加数据自动判断为String集合</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> someInts1: <span class="type">Set</span> = [<span class="number">2</span>, <span class="number">3</span>]			</div><div class="line"><span class="keyword">var</span> someInts2: <span class="type">Set</span>&lt;<span class="type">Int</span>&gt; = [<span class="number">2</span>, <span class="number">3</span>]		<span class="comment">//等价于上一句，初始化为整数集合，指定了数据类型Int，只能添加Int数据，并添加了元素2，3</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> someInts3 = <span class="type">Set</span>&lt;<span class="type">Int</span>&gt;()			<span class="comment">//初始化为整数集合，指定了数据类型Int，只能添加Int数据，没有添加元素</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> someDoubles: <span class="type">Set</span> = []			<span class="comment">//初始化为空集合，没有指定数据类型，通过添加数据自动判断</span></div><div class="line">someDoubles.insert(<span class="number">2.3</span>)				<span class="comment">//通过添加数据自动判断为Double集合</span></div></pre></td></tr></table></figure>
+<p>集合的元素只能有一种数据类型。</p>
+<h2 id="数量-1"><a href="#数量-1" class="headerlink" title="数量"></a>数量</h2><ul>
+<li>Set.count：属性<code>count</code>表示集合<code>Set</code>的元素个数。</li>
+<li>Set.isEmpty：属性<code>isEmpty</code>表示集合<code>Set</code>的元素是否为0个，结果为<code>true</code>或<code>false</code>。</li>
+</ul>
+<h2 id="遍历-1"><a href="#遍历-1" class="headerlink" title="遍历"></a>遍历</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> shoppinglist1: <span class="type">Set</span> = [<span class="string">"Milk"</span>, <span class="string">"Eggs"</span>]</div><div class="line"><span class="keyword">for</span> item <span class="keyword">in</span> shoppingList &#123;</div><div class="line">	<span class="built_in">println</span>(item)</div><div class="line">&#125;</div><div class="line"><span class="comment">//Milk</span></div><div class="line"><span class="comment">//Eggs</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> shoppinglist2: <span class="type">Set</span> = [<span class="string">"Milk"</span>, <span class="string">"Eggs"</span>]</div><div class="line"><span class="keyword">for</span> item <span class="keyword">in</span> sorted(shoppingList) &#123;</div><div class="line">	<span class="built_in">println</span>(item)</div><div class="line">&#125;</div><div class="line"><span class="comment">//Eggs</span></div><div class="line"><span class="comment">//Milk</span></div></pre></td></tr></table></figure>
+<p>因为<code>Set</code>中没有确定顺序，可以通过<code>sorted(Set)</code>函数返回一个排序的集合。</p>
+<h2 id="添加-1"><a href="#添加-1" class="headerlink" title="添加"></a>添加</h2><ul>
+<li>Set.imsert(Item)：将元素<code>Item</code>添加到集合<code>Set</code>中。</li>
+</ul>
+<h2 id="删除-1"><a href="#删除-1" class="headerlink" title="删除"></a>删除</h2><ul>
+<li>Set.remove(Item)：删除集合<code>Set</code>中的元素<code>Item</code>，成功则返回<code>Item</code>，如果集合中不包含<code>Item</code>则返回<code>nil</code>。</li>
+<li>Set.removeAll()：删除集合<code>Set</code>中的所有元素</li>
+</ul>
+<h2 id="包含"><a href="#包含" class="headerlink" title="包含"></a>包含</h2><ul>
+<li>Set.contains(Item)：检查集合<code>Set</code>是否包含元素<code>Item</code>，返回<code>true</code>或<code>false</code>。</li>
+</ul>
+<h2 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> s1: <span class="type">Set</span> = [<span class="number">1</span>, <span class="number">2</span>]</div><div class="line"><span class="keyword">let</span> s2: <span class="type">Set</span> = [<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">1</span>, <span class="number">2</span>]</div><div class="line"><span class="keyword">let</span> cityAnimals: <span class="type">Set</span> = [<span class="number">6</span>, <span class="number">7</span>]</div><div class="line">s1.isSubsetOf(s2)</div><div class="line"><span class="comment">// true</span></div><div class="line">s2.isSuperSetOf(s1)</div><div class="line"><span class="comment">// true</span></div><div class="line">s2.isDisjointWith(s3)</div><div class="line"><span class="comment">// true</span></div></pre></td></tr></table></figure>
+<ul>
+<li>==：判断两个集合是否相等</li>
+<li>Set1.isSubsetOf(Set2)：判断<code>Set1</code>是否是<code>Set2</code>的子集</li>
+<li>Set1.isSupersetOf(Set2)：判断<code>Set1</code>是否是<code>Set2</code>的父集</li>
+<li>Set1.isStrictSubsetOf(Set2)，Set1.isStrictSupersetOf(Set2)：和上面方法相似，不过两个集合不能相等。</li>
+<li>Set1.isDisjoinWith(Set2)：判断<code>Set1</code>和<code>Set2</code>是否完成没有一个相同元素<br>上述方法都返回<code>true</code>或<code>false</code>。</li>
+</ul>
+<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> oddDigits: <span class="type">Set</span> = [<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">9</span>]</div><div class="line"><span class="keyword">let</span> evenDigits: <span class="type">Set</span> = [<span class="number">0</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">8</span>]</div><div class="line"><span class="keyword">let</span> singleDigitPrimeNumbers: <span class="type">Set</span> = [<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>]</div><div class="line">sorted(oddDigits.union(evenDigits))</div><div class="line"><span class="comment">// [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</span></div><div class="line">sorted(oddDigits.intersect(evenDigits))</div><div class="line"><span class="comment">// []</span></div><div class="line">sorted(oddDigits.subtract(singleDigitPrimeNumbers))</div><div class="line"><span class="comment">// [1, 9]</span></div><div class="line">sorted(oddDigits.exclusiveOr(singleDigitPrimeNumbers))</div><div class="line"><span class="comment">// [1, 2, 9]</span></div></pre></td></tr></table></figure>
+<ul>
+<li>Set1.intersects(Set2)：返回<code>Set1</code>和<code>Set2</code>的交集，即两个集合中都有的元素</li>
+<li>Set1.union(Set2)：返回<code>Set1</code>和<code>Set2</code>的并集，即两个集合中的所有元素</li>
+<li>Set1.subtract(Set2)：返回<code>Set1</code>和<code>Set2</code>的差集，即<code>Set1</code>中有的且<code>Set2</code>中没有的元素</li>
+<li>Set1.exclusiverOr(Set2)：返回并集减去并集的集合，即<code>Set1</code>中独有的和<code>Set2</code>中独有的元素，也就是所有元素减去两个集合中都有的元素。</li>
+</ul>
+<h2 id="哈希值"><a href="#哈希值" class="headerlink" title="哈希值"></a>哈希值</h2><p>Swift中的所有基本类型默认都是可哈希的，通过<code>a.hashValue</code>求得哈希值。哈希值相等可以判断对象相同，如<code>a == b</code>即<code>a.hashValue == b.hashValue</code>。</p>
+<h1 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h1><p>字典中每个值（<em>Value</em>）都关联唯一的建（<em>key</em>）。</p>
+<h2 id="构造-2"><a href="#构造-2" class="headerlink" title="构造"></a>构造</h2><p>在构造过程中，键值对默认用<code>[key 1: value 1, key 2: value 2, key 3: value 3]</code>的形式。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> airports1 = [<span class="string">"TYO"</span>: <span class="string">"Tokyo"</span>, <span class="string">"DUB"</span>: <span class="string">"Dublin"</span>]				<span class="comment">//初始化为[String: String]字典，没有指定数据类型，通过添加数据自动判断</span></div><div class="line"><span class="keyword">var</span> airports2: [<span class="type">String</span>: <span class="type">String</span>] = [<span class="string">"TYO"</span>: <span class="string">"Tokyo"</span>, <span class="string">"DUB"</span>: <span class="string">"Dublin"</span>]		<span class="comment">//等价于上一句</span></div><div class="line"><span class="keyword">var</span> airports3: <span class="type">Dictionary</span>&lt;<span class="type">Stringr</span>, <span class="type">String</span>&gt; = [<span class="string">"TYO"</span>: <span class="string">"Tokyo"</span>, <span class="string">"DUB"</span>: <span class="string">"Dublin"</span>]	<span class="comment">//等价于上一句</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> airports4 = <span class="type">Dictionary</span>&lt;<span class="type">String</span>, <span class="type">Sting</span>&gt;()	<span class="comment">//初始化为[Sting: String]空字典，指定了数据类型[String: String]，只能添加[String:String]数据，没有添加元素</span></div><div class="line"><span class="keyword">var</span> airports5 = [<span class="type">String</span>: <span class="type">String</span>]()		<span class="comment">//等价于上一句</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> airports6 = [:]	<span class="comment">//初始化为空字典，没有指定数据类型，通过添加数据自动判断</span></div><div class="line">airports6[<span class="number">2</span>] = <span class="number">3</span>	<span class="comment">//通过添加数据自动判断为[Int: Int]字典</span></div></pre></td></tr></table></figure></p>
+<h2 id="数量-2"><a href="#数量-2" class="headerlink" title="数量"></a>数量</h2><ul>
+<li>Dictionary.count：属性<code>count</code>表示字典<code>Dictionary</code>的元素个数。</li>
+<li>Dictionary.isEmpty：属性<code>isEmpty</code>表示字典<code>Dictionary</code>的元素是否为0个，结果为<code>true</code>或<code>false</code>。</li>
+</ul>
+<h2 id="访问-1"><a href="#访问-1" class="headerlink" title="访问"></a>访问</h2><ul>
+<li>Dictionary[key]：通过下标<code>[key]</code>访问字典<code>Dictionary</code>的键<code>key</code>对应的值，可修改。</li>
+</ul>
+<h2 id="遍历-2"><a href="#遍历-2" class="headerlink" title="遍历"></a>遍历</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> (airportCode, airportName) <span class="keyword">in</span> airports &#123;</div><div class="line">    <span class="built_in">println</span>(<span class="string">"\(airportCode): \(airportName)"</span>)</div><div class="line">&#125;</div><div class="line"><span class="comment">// TYO: Tokyo</span></div><div class="line"><span class="comment">// DUB: Dublin</span></div><div class="line"></div><div class="line"><span class="keyword">for</span> airportCode <span class="keyword">in</span> airports.keys &#123;</div><div class="line">    <span class="built_in">println</span>(<span class="string">"Airport code: \(airportCode)"</span>)</div><div class="line">&#125;</div><div class="line"><span class="comment">// Airport code: TYO</span></div><div class="line"><span class="comment">// Airport code: DUB</span></div><div class="line"></div><div class="line"><span class="keyword">for</span> airportName <span class="keyword">in</span> airports.values &#123;</div><div class="line">    <span class="built_in">println</span>(<span class="string">"Airport name: \(airportName)"</span>)</div><div class="line">&#125;</div><div class="line"><span class="comment">// Airport name: Tokyo</span></div><div class="line"><span class="comment">// Airport name: Dublin</span></div></pre></td></tr></table></figure>
+<p><code>for-in</code>可便利字典，可便利键值对<code>(key, value)</code>，也可以通过属性<code>keys</code>或<code>values</code>只便利键值其中一项。<br>字典的属性<code>keys</code>和<code>values</code>返回数组。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> airportCodes = <span class="type">Array</span>(airports.keys)</div><div class="line"><span class="comment">// airportCodes is ["TYO", "DUB"]</span></div><div class="line"></div><div class="line"><span class="keyword">let</span> airportNames = <span class="type">Array</span>(airports.values)</div><div class="line"><span class="comment">// airportNames is ["Tokyo", "Dublin"]</span></div></pre></td></tr></table></figure></p>
+<h2 id="添加-2"><a href="#添加-2" class="headerlink" title="添加"></a>添加</h2><ul>
+<li>Dictionary[key] = value：更新字典<code>Dictionary</code>中键<code>key</code>对应的值，如果不存在，则将键值对<key, valye="">添加到字典<code>Dictionary</code>中。</key,></li>
+<li>Dicitonary.updateValue(value, forkey: key)：更新字典<code>Dictionary</code>中键<code>key</code>对应的值，如果不存在，则将键值对<key, value="">添加到字典<code>Dictionary</code>。<br>注意：该方法返回<strong>原值</strong>，即执行<code>updateValue</code>方法之前键<code>key</code>对应的值，如果不存在，则返回<code>nil</code>。</key,></li>
+</ul>
+<h2 id="删除-2"><a href="#删除-2" class="headerlink" title="删除"></a>删除</h2><ul>
+<li>Dictionary[key] = nil：删除字典<code>Dictionary</code>中键<code>key</code>对应的值。</li>
+<li>Dictionary.removeValueForKey(key)：删除字典<code>Dictionary</code>中键<code>key</code>对应的值，返回删除的值，如果不存在，则返回<code>nil</code>。</li>
+</ul>
+<p>添加操作和删除操作返回值有可能为<code>nil</code>，都是可选类型，使用时需要进行判断是否有值。</p>
+<p><strong> 转载请注明原作者和出处。</strong></p>
+<blockquote>
+<p>如果觉得这篇文章对您有帮助或启发，请随意打赏~</p>
+<p> <img src="http://7xivk7.com1.z0.glb.clouddn.com/paycode01.jpg" width="250" align="left"> <img src="http://7xivk7.com1.z0.glb.clouddn.com/paycode02.jpg" width="250" align="left"> </p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://aidaiz.com/swift_3/" data-id="cj2gdu6ky001av1o3zh0mzd30" class="article-share-link" data-share="baidu">Share</a>
+      
+
+      
+        <a href="http://aidaiz.com/swift_3/#ds-thread" class="article-comment-link">Comments</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/swift/">swift</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/swift_4/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Swift基础入门(4)：条件与循环语句
+        
+      </div>
+    </a>
+  
+  
+    <a href="/swift_2/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Swift基础入门(2)：字符串和字符</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+  <section id="comments">
+    <div id="ds-thread" class="ds-thread" data-thread-key="swift_3/" data-title="Swift基础入门(3)：数组，集合和字典" data-url="http://aidaiz.com/swift_3/"></div>
+  </section>
+
+
+</section>
+      
+      <aside id="sidebar">
+  
+      <div class="widget-wrap">
+    <h3 class="widget-title">Weibo</h3>
+      <iframe width="100%" height="90" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=90&fansRow=2&ptype=1&speed=0&skin=1&isTitle=0&noborder=1&isWeibo=0&isFans=0&uid=1728443831&verifier=022f8fe1&dpc=1"></iframe>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/android/">android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/computer-architecture/">computer architecture</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/dpdk/">dpdk</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">hadoop</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/openvswitch/">openvswitch</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/spdk/">spdk</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/swift/">swift</a><span class="category-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cache/">cache</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/computer-architecture/">computer architecture</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dpdk/">dpdk</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/">hadoop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openflow/">openflow</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openvswitch/">openvswitch</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/">proguard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spdk/">spdk</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/swift/">swift</a><span class="tag-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/openvswitch-qos/">Open vSwitch的OpenFlow和QOS</a>
+          </li>
+        
+          <li>
+            <a href="/openvswitch-build/">Open vSwitch安装与使用</a>
+          </li>
+        
+          <li>
+            <a href="/ssh/">SSH秘钥与SSHFS挂载</a>
+          </li>
+        
+          <li>
+            <a href="/spdk/">SPDK简介</a>
+          </li>
+        
+          <li>
+            <a href="/hadoop/">Hadoop安装运行</a>
+          </li>
+        
+          <li>
+            <a href="/cache_miss_type/">容量失效（capacity miss）与冲突失效（conflict miss）的区别</a>
+          </li>
+        
+          <li>
+            <a href="/swift_14/">Swift基础入门(14)：权限控制</a>
+          </li>
+        
+          <li>
+            <a href="/swift_13/">Swift基础入门(13)：高级运算符</a>
+          </li>
+        
+          <li>
+            <a href="/swift_12/">Swift基础入门(12)：泛型</a>
+          </li>
+        
+          <li>
+            <a href="/swift_11/">Swift基础入门(11)：扩展和协议</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://yunhuanran.github.io" target="_blank">潮鸣</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Yunyao Zhang（张云尧）<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/xiangming/landscape-plus" target="_blank">Landscape-plus</a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+  <!-- totop start -->
+<div id="totop">
+<a title="totop"><img src="/img/scrollup.png"/></a>
+</div>
+
+<!-- totop end -->
+
+
+<!-- 多说公共js代码 start -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"aidaiz"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共js代码 end -->
+
+
+<!-- 百度分享 start -->
+
+<div id="article-share-box" class="article-share-box">
+  <div id="bdshare" class="bdsharebuttonbox article-share-links">
+    <a class="article-share-weibo" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a class="article-share-weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a class="article-share-qq" data-cmd="qzone" title="分享到QQ空间"></a>
+<!--   <a class="article-share-renren" data-cmd="renren" title="分享到人人网"></a> -->
+    <a class="article-share-facebook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a class="article-share-twitter" data-cmd="twi" title="分享到Twitter"></a>
+<!--    <a class="article-share-more" data-cmd="more" title="更多"></a> -->
+  </div>
+</div>
+<script>window._bd_share_config={"common":{},"share":{"bdCustomStyle":"/css/bdshare.css"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+<!-- 百度分享 end -->
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>
+

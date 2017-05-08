@@ -1,0 +1,414 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Swift基础入门(11)：扩展和协议 | Yunyao Zhang - 张云尧</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="本篇介绍Swift的基础知识：扩展（extensions）和协议（protocol）的语法和实例。">
+<meta name="keywords" content="swift">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift基础入门(11)：扩展和协议">
+<meta property="og:url" content="http://aidaiz.com/swift_11/index.html">
+<meta property="og:site_name" content="Yunyao Zhang - 张云尧">
+<meta property="og:description" content="本篇介绍Swift的基础知识：扩展（extensions）和协议（protocol）的语法和实例。">
+<meta property="og:image" content="http://7xivk7.com1.z0.glb.clouddn.com/paycode01.jpg">
+<meta property="og:image" content="http://7xivk7.com1.z0.glb.clouddn.com/paycode02.jpg">
+<meta property="og:updated_time" content="2017-05-08T16:40:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Swift基础入门(11)：扩展和协议">
+<meta name="twitter:description" content="本篇介绍Swift的基础知识：扩展（extensions）和协议（protocol）的语法和实例。">
+<meta name="twitter:image" content="http://7xivk7.com1.z0.glb.clouddn.com/paycode01.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="Yunyao Zhang - 张云尧" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?5f09ac010983cb94e34e25d4019d9b17";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<meta name="baidu-site-verification" content="DeH9kUFd9Y" />
+</head>
+
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Yunyao Zhang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">会有一天肆无忌惮地桀骜不驯</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+          <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+<!--        <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form"> --->
+<!--          <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="Search"> --->
+<!--          <input type="submit" value="" class="search-form-submit"> --->
+<!--          <input name=tn type=hidden value="bds"> --->
+<!--          <input name=cl type=hidden value="3"> --->
+<!--          <input name=ct type=hidden value="2097152"> --->
+<!--          <input type="hidden" name="si" value="aidaiz.com"> --->
+<!--        </form> --->
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://aidaiz.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+
+    <div class="outer">
+      <section id="main"><article id="post-swift_11" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/swift_11/" class="article-date">
+  <time datetime="2015-07-24T08:28:22.000Z" itemprop="datePublished">Jul 24 2015</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/swift/">swift</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Swift基础入门(11)：扩展和协议
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+	
+        <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#扩展"><span class="toc-number">1.</span> <span class="toc-text">扩展</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#语法"><span class="toc-number">1.1.</span> <span class="toc-text">语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#计算型属性"><span class="toc-number">1.2.</span> <span class="toc-text">计算型属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方法"><span class="toc-number">1.3.</span> <span class="toc-text">方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#下标"><span class="toc-number">1.4.</span> <span class="toc-text">下标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#构造器"><span class="toc-number">1.5.</span> <span class="toc-text">构造器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#嵌套类型"><span class="toc-number">1.6.</span> <span class="toc-text">嵌套类型</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#协议"><span class="toc-number">2.</span> <span class="toc-text">协议</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#语法-1"><span class="toc-number">2.1.</span> <span class="toc-text">语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#属性"><span class="toc-number">2.2.</span> <span class="toc-text">属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方法-1"><span class="toc-number">2.3.</span> <span class="toc-text">方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#构造器-1"><span class="toc-number">2.4.</span> <span class="toc-text">构造器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#适配协议"><span class="toc-number">2.5.</span> <span class="toc-text">适配协议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#协议继承"><span class="toc-number">2.6.</span> <span class="toc-text">协议继承</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#协议合成"><span class="toc-number">2.7.</span> <span class="toc-text">协议合成</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#协议一致性"><span class="toc-number">2.8.</span> <span class="toc-text">协议一致性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#可选协议"><span class="toc-number">2.9.</span> <span class="toc-text">可选协议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#协议扩展"><span class="toc-number">2.10.</span> <span class="toc-text">协议扩展</span></a></li></ol></li></ol>
+        </div>
+        
+        <p>本篇介绍Swift的基础知识：扩展（<em>extensions</em>）和协议（<em>protocol</em>）的语法和实例。</p>
+<a id="more"></a>
+<p><strong>Title: <a href="https://aidaizyy.github.io/swift_11" target="_blank" rel="external">Swift基础入门(11)：扩展和协议</a></strong><br><strong>Author: <a href="http://aidaizyy.github.io" target="_blank" rel="external">Yunyao Zhang(张云尧)</a></strong><br><strong>E-mail: <a href="&#109;&#97;&#105;&#x6c;&#116;&#111;&#58;&#x61;&#x69;&#x64;&#97;&#x69;&#x7a;&#121;&#x79;&#64;&#103;&#x6d;&#97;&#x69;&#108;&#x2e;&#99;&#x6f;&#109;">&#x61;&#x69;&#x64;&#97;&#x69;&#x7a;&#121;&#x79;&#64;&#103;&#x6d;&#97;&#x69;&#108;&#x2e;&#99;&#x6f;&#109;</a></strong><br><strong>Last Modified: <a href="http://aidaizyy.github.io" target="_blank" rel="external">2015-07-27</a></strong></p>
+<h1 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h1><p>扩展可以为枚举，类和结构体：</p>
+<ul>
+<li>添加计算型实例属性和计算型类型属性</li>
+<li>添加实例方法和类型方法</li>
+<li>添加构造器</li>
+<li>添加下标</li>
+<li>添加新的嵌套类型</li>
+<li>已有类型适配协议</li>
+</ul>
+<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><p>声明扩展使用关键字<code>extension</code>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">extension SomeType &#123;</div><div class="line">    // 新功能</div><div class="line">&#125;</div><div class="line"></div><div class="line">extension SomeType: SomeProtocol, AnotherProtocol &#123;</div><div class="line">    // 已有类型适配的协议实现</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="计算型属性"><a href="#计算型属性" class="headerlink" title="计算型属性"></a>计算型属性</h2><p>扩展只能添加计算型属性，包括实例属性和类型属性，但是不能添加存储属性和属性观察器。<br>下面的例子为<code>Double</code>类添加了5个计算型实例属性，因为都是只读属性，所以省略了<code>get</code>关键字。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Double</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> km: <span class="type">Double</span> &#123; <span class="keyword">return</span> <span class="keyword">self</span> * <span class="number">1_000.0</span> &#125;</div><div class="line">    <span class="keyword">var</span> m : <span class="type">Double</span> &#123; <span class="keyword">return</span> <span class="keyword">self</span> &#125;</div><div class="line">    <span class="keyword">var</span> cm: <span class="type">Double</span> &#123; <span class="keyword">return</span> <span class="keyword">self</span> / <span class="number">100.0</span> &#125;</div><div class="line">    <span class="keyword">var</span> mm: <span class="type">Double</span> &#123; <span class="keyword">return</span> <span class="keyword">self</span> / <span class="number">1_000.0</span> &#125;</div><div class="line">    <span class="keyword">var</span> ft: <span class="type">Double</span> &#123; <span class="keyword">return</span> <span class="keyword">self</span> / <span class="number">3.28084</span> &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">let</span> oneInch = <span class="number">25.4</span>.mm</div><div class="line"><span class="built_in">println</span>(<span class="string">"One inch is \(oneInch) meters"</span>)</div><div class="line"><span class="comment">// 打印输出："One inch is 0.0254 meters"</span></div><div class="line"><span class="keyword">let</span> threeFeet = <span class="number">3</span>.ft</div><div class="line"><span class="built_in">println</span>(<span class="string">"Three feet is \(threeFeet) meters"</span>)</div><div class="line"><span class="comment">// 打印输出："Three feet is 0.914399970739201 meters"</span></div></pre></td></tr></table></figure></p>
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p>下面的例子为<code>Int</code>类型添加了1个实例方法，实现了多次执行某任务的功能。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Int</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">repetitions</span><span class="params">(task: <span class="params">()</span></span></span> -&gt; ()) &#123;</div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span>..&lt;<span class="keyword">self</span> &#123;</div><div class="line">            task()</div><div class="line">&#125;&#125;&#125;</div><div class="line"></div><div class="line"><span class="number">3</span>.repetitions(&#123;</div><div class="line">    <span class="built_in">println</span>(<span class="string">"Hello!"</span>)</div><div class="line">    &#125;)</div><div class="line"><span class="comment">// Hello!</span></div><div class="line"><span class="comment">// Hello!</span></div><div class="line"><span class="comment">// Hello!</span></div></pre></td></tr></table></figure></p>
+<p>这个实例方法传入一个无参数无返回值的函数，没有返回值。</p>
+<p>扩展的方法可以修改实例本身，使用<code>mutating</code>关键字。<br>下面的例子添加了一个实现平方计算的方法。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Int</span> </span>&#123;</div><div class="line">    <span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">square</span><span class="params">()</span></span> &#123;</div><div class="line">        <span class="keyword">self</span> = <span class="keyword">self</span> * <span class="keyword">self</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> someInt = <span class="number">3</span></div><div class="line">someInt.square()</div><div class="line"><span class="comment">// someInt 现在值是 9</span></div></pre></td></tr></table></figure></p>
+<p>枚举和结构体修改<code>self</code>或者属性的方法都必须标注为<code>mutating</code>。</p>
+<h2 id="下标"><a href="#下标" class="headerlink" title="下标"></a>下标</h2><p>下面的例子为<code>Int</code>类型添加了1个下标，返回整数的从右数第<code>index</code>位上的个位数。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Int</span> </span>&#123;</div><div class="line">    <span class="keyword">subscript</span>(<span class="keyword">var</span> digitIndex: <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</div><div class="line">        <span class="keyword">var</span> decimalBase = <span class="number">1</span></div><div class="line">            <span class="keyword">while</span> digitIndex &gt; <span class="number">0</span> &#123;</div><div class="line">                decimalBase *= <span class="number">10</span></div><div class="line">                --digitIndex</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> (<span class="keyword">self</span> / decimalBase) % <span class="number">10</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="number">746381295</span>[<span class="number">0</span>]</div><div class="line"><span class="comment">// returns 5</span></div><div class="line"><span class="number">746381295</span>[<span class="number">1</span>]</div><div class="line"><span class="comment">// returns 9</span></div><div class="line"><span class="number">746381295</span>[<span class="number">2</span>]</div><div class="line"><span class="comment">// returns 2</span></div><div class="line"><span class="number">746381295</span>[<span class="number">8</span>]</div><div class="line"><span class="comment">// returns 7</span></div></pre></td></tr></table></figure></p>
+<h2 id="构造器"><a href="#构造器" class="headerlink" title="构造器"></a>构造器</h2><p>扩展只能添加便利构造器，但是不能添加指定构造器和析构函数。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Size</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> width = <span class="number">0.0</span>, height = <span class="number">0.0</span></div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Point</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> x = <span class="number">0.0</span>, y = <span class="number">0.0</span></div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Rect</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> origin = <span class="type">Point</span>()</div><div class="line">    <span class="keyword">var</span> size = <span class="type">Size</span>()</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Rect</span> </span>&#123;</div><div class="line">    <span class="keyword">init</span>(center: <span class="type">Point</span>, size: <span class="type">Size</span>) &#123;</div><div class="line">        <span class="keyword">let</span> originX = center.x - (size.width / <span class="number">2</span>)</div><div class="line">        <span class="keyword">let</span> originY = center.y - (size.height / <span class="number">2</span>)</div><div class="line">        <span class="keyword">self</span>.<span class="keyword">init</span>(origin: <span class="type">Point</span>(x: originX, y: originY), size: size)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> centerRect = <span class="type">Rect</span>(center: <span class="type">Point</span>(x: <span class="number">4.0</span>, y: <span class="number">4.0</span>),</div><div class="line">    size: <span class="type">Size</span>(width: <span class="number">3.0</span>, height: <span class="number">3.0</span>))</div><div class="line"><span class="comment">// centerRect的原点是 (2.5, 2.5)，大小是 (3.0, 3.0)</span></div></pre></td></tr></table></figure></p>
+<p>上面的例子为类<code>Rect</code>添加了构造器，传入<code>Point</code>和<code>Size</code>参数，初始化了<code>Rect</code>。</p>
+<h2 id="嵌套类型"><a href="#嵌套类型" class="headerlink" title="嵌套类型"></a>嵌套类型</h2><p>扩展可以向已有的枚举，类和结构体添加新的嵌套类型。<br>下面的例子为<code>Character</code>添加了新的枚举类型：<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Character</span> </span>&#123;</div><div class="line">    <span class="class"><span class="keyword">enum</span> <span class="title">Kind</span> </span>&#123;</div><div class="line">        <span class="keyword">case</span> <span class="type">Vowel</span>, <span class="type">Consonant</span>, <span class="type">Other</span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">var</span> kind: <span class="type">Kind</span> &#123;</div><div class="line">        <span class="keyword">switch</span> <span class="type">String</span>(<span class="keyword">self</span>).lowercaseString &#123;</div><div class="line">        <span class="keyword">case</span> <span class="string">"a"</span>, <span class="string">"e"</span>, <span class="string">"i"</span>, <span class="string">"o"</span>, <span class="string">"u"</span>:</div><div class="line">            <span class="keyword">return</span> .<span class="type">Vowel</span></div><div class="line">        <span class="keyword">case</span> <span class="string">"b"</span>, <span class="string">"c"</span>, <span class="string">"d"</span>, <span class="string">"f"</span>, <span class="string">"g"</span>, <span class="string">"h"</span>, <span class="string">"j"</span>, <span class="string">"k"</span>, <span class="string">"l"</span>, <span class="string">"m"</span>,</div><div class="line">             <span class="string">"n"</span>, <span class="string">"p"</span>, <span class="string">"q"</span>, <span class="string">"r"</span>, <span class="string">"s"</span>, <span class="string">"t"</span>, <span class="string">"v"</span>, <span class="string">"w"</span>, <span class="string">"x"</span>, <span class="string">"y"</span>, <span class="string">"z"</span>:</div><div class="line">            <span class="keyword">return</span> .<span class="type">Consonant</span></div><div class="line">        <span class="keyword">default</span>:</div><div class="line">            <span class="keyword">return</span> .<span class="type">Other</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">printLetterKinds</span><span class="params">(word: String)</span></span> &#123;</div><div class="line">    <span class="built_in">println</span>(<span class="string">"'\(word)' is made up of the following kinds of letters:"</span>)</div><div class="line">    <span class="keyword">for</span> character <span class="keyword">in</span> word &#123;</div><div class="line">        <span class="keyword">switch</span> character.kind &#123;</div><div class="line">        <span class="keyword">case</span> .<span class="type">Vowel</span>:</div><div class="line">            <span class="built_in">print</span>(<span class="string">"vowel "</span>)</div><div class="line">        <span class="keyword">case</span> .<span class="type">Consonant</span>:</div><div class="line">            <span class="built_in">print</span>(<span class="string">"consonant "</span>)</div><div class="line">        <span class="keyword">case</span> .<span class="type">Other</span>:</div><div class="line">            <span class="built_in">print</span>(<span class="string">"other "</span>)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">print</span>(<span class="string">"\n"</span>)</div><div class="line">&#125;</div><div class="line">printLetterKinds(<span class="string">"Hello"</span>)</div><div class="line"><span class="comment">// 'Hello' is made up of the following kinds of letters:</span></div><div class="line"><span class="comment">// consonant vowel consonant consonant vowel</span></div></pre></td></tr></table></figure></p>
+<p>枚举类型<code>Kind</code>表示字母是元音，辅音还是其他类型。<br>添加了计算型方法，返回字母对应的<code>Kind</code>枚举成员类型。</p>
+<h1 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h1><p>协议类似于C++/Java语言中的接口，定义要实现的属性方法，但是不实现，由继承的枚举，结构体和类去实现。</p>
+<h2 id="语法-1"><a href="#语法-1" class="headerlink" title="语法"></a>语法</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">SomeProtocol</span> </span>&#123;</div><div class="line">    <span class="comment">// 协议内容</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">SomeStructure</span>: <span class="title">FirstProtocol</span>, <span class="title">AnotherProtocol</span> </span>&#123;</div><div class="line">    <span class="comment">// 结构体内容</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">SomeClass</span>: <span class="title">SomeSuperClass</span>, <span class="title">FirstProtocol</span>, <span class="title">AnotherProtocol</span> </span>&#123;</div><div class="line">    <span class="comment">// 类的内容</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>结构体<code>SomeStructure</code>实现（用<code>:</code>表示）协议<code>someProtocol</code>和<code>AnotherProtocol</code>，多个协议隔开用<code>,</code>表示，需要实现协议的所有属性和方法。<br>类<code>SomeClass</code>实现父类<code>SomeSuperClass</code>和两个协议，需要把父类声明写到前面，协议并列写在后面。</p>
+<ul>
+<li>协议类型<br>协议也可以作为一种基本类型，作为函数方法的参数类型、返回值类型，常量变量属性的类型，数组字典等集合的元素类型等等。<br>当协议作为集合的元素类型时，遍历集合得到的实例是协议类型，只能访问属于协议中定义的属性方法下标。</li>
+</ul>
+<h2 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h2><p>协议中声明的属性，可以实现为实例属性或类型属性，存储型属性或计算型属性都可以。<br>协议中的只读属性，可以实现为只读属性或读写属性；但是协议中的读写属性，只能实现为读写属性。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">SomeProtocol</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> mustBeSettable : <span class="type">Int</span> &#123; <span class="keyword">get</span> <span class="keyword">set</span> &#125;	<span class="comment">//读写属性</span></div><div class="line">    <span class="keyword">var</span> doesNotNeedToBeSettable: <span class="type">Int</span> &#123; <span class="keyword">get</span> &#125;	<span class="comment">//只读属性</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>协议中可以定义类型属性，只能实现为类型属性，属性前加上关键字<code>static</code>。<br>枚举和结构体实现后要在属性前加上关键字<code>static</code>，但是类实现后要在属性前加上关键字<code>class</code>。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">AnotherProtocol</span> </span>&#123;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">var</span> someTypeProperty: <span class="type">Int</span> &#123; <span class="keyword">get</span> <span class="keyword">set</span> &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>下面一个实例。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">FullyNamed</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> fullName: <span class="type">String</span> &#123; <span class="keyword">get</span> &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Person</span>: <span class="title">FullyNamed</span></span>&#123;</div><div class="line">    <span class="keyword">var</span> fullName: <span class="type">String</span></div><div class="line">&#125;</div><div class="line"><span class="keyword">let</span> john = <span class="type">Person</span>(fullName: <span class="string">"John Appleseed"</span>)</div><div class="line"><span class="comment">//john.fullName 为 "John Appleseed"</span></div></pre></td></tr></table></figure></p>
+<h2 id="方法-1"><a href="#方法-1" class="headerlink" title="方法"></a>方法</h2><p>协议中的方法不需要大括号和具体实现，支持变长参数，而不支持参数默认值。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">RandomNumberGenerator</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">random</span><span class="params">()</span></span> -&gt; <span class="type">Double</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>和类型属性一样，类型方法也是在协议中使用<code>static</code>，枚举和结构体中用<code>static</code>继承，而类中用<code>class</code>继承。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">SomeProtocol</span> </span>&#123;</div><div class="line">    <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">someTypeMethod</span>()</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ul>
+<li>变异方法<br>在<code>func</code>前加上关键字<code>mutating</code>的方法表示在该方法中可以修改实例及其属性的值，称为变异（<em>mutating</em>）方法。<br>枚举和结构体实现时，需要加上<code>mutating</code>关键字；而类实现时，不需要加上<code>mutating</code>关键字。<br>下面一个实例。<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">Togglable</span> </span>&#123;</div><div class="line">    <span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">toggle</span><span class="params">()</span></span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">OnOffSwitch</span>: <span class="title">Togglable</span> </span>&#123;</div><div class="line">    <span class="keyword">case</span> <span class="type">Off</span>, <span class="type">On</span></div><div class="line">    <span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">toggle</span><span class="params">()</span></span> &#123;</div><div class="line">        <span class="keyword">switch</span> <span class="keyword">self</span> &#123;</div><div class="line">        <span class="keyword">case</span> <span class="type">Off</span>:</div><div class="line">            <span class="keyword">self</span> = <span class="type">On</span></div><div class="line">        <span class="keyword">case</span> <span class="type">On</span>:</div><div class="line">            <span class="keyword">self</span> = <span class="type">Off</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> lightSwitch = <span class="type">OnOffSwitch</span>.<span class="type">Off</span></div><div class="line">lightSwitch.toggle()</div><div class="line"><span class="comment">//lightSwitch 现在的值为 .On</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>在<code>func toggle()</code>中，修改了<code>self</code>的值，属于变异方法。</p>
+<h2 id="构造器-1"><a href="#构造器-1" class="headerlink" title="构造器"></a>构造器</h2><p>协议中的构造器不需要大括号和具体实现。<br>类实现协议时，必须给构造器前面加上关键字<code>required</code>，表示它的子类必须继承的构造器。<br>当然，如果针对<code>final</code>类就不需要加<code>required</code>了，标有关键字<code>final</code>的类表示不能有子类。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">SomeProtocol</span> </span>&#123;</div><div class="line">    <span class="keyword">init</span>(someParameter: <span class="type">Int</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">SomeClass</span>: <span class="title">SomeProtocol</span> </span>&#123;</div><div class="line">    <span class="keyword">required</span> <span class="keyword">init</span>(someParameter: <span class="type">Int</span>) &#123;</div><div class="line">        <span class="comment">//构造器实现</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>还有一种情况，如果子类重写了父类的指定构造器，需要在构造器前加上<code>override</code>，但是如果又要同时实现协议，需要在构造器前加上<code>required</code>，那么<code>required</code>应该放在<code>override</code>前面。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">SomeSubClass</span>: <span class="title">SomeSuperClass</span>, <span class="title">SomeProtocol</span> </span>&#123;</div><div class="line">    <span class="comment">// "required" from SomeProtocol conformance; "override" from SomeSuperClass</span></div><div class="line">    <span class="keyword">required</span> <span class="keyword">override</span> <span class="keyword">init</span>() &#123;</div><div class="line">        <span class="comment">// 构造器实现</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ul>
+<li>可失败构造器<br>协议中的可失败构造器可以实现成可失败构造器或非可失败构造器；而协议中的非可失败构造器只能实现成非可失败构造器或隐式解析类型的可失败构造器（<code>init!</code>）。</li>
+</ul>
+<h2 id="适配协议"><a href="#适配协议" class="headerlink" title="适配协议"></a>适配协议</h2><p>扩展可以对已存在的枚举，结构体和类添加成员，比如属性，方法，下标，协议等。<br>下面的例子展示了通过扩展为已有类型适配协议。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">TextRepresentable</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">asText</span><span class="params">()</span></span> -&gt; <span class="type">String</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Dice</span>: <span class="title">TextRepresentable</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">asText</span><span class="params">()</span></span> -&gt; <span class="type">String</span> &#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"A \(sides)-sided dice"</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><code>Dice</code>是一个已存在的类型，协议中的<code>asText</code>方法被添加实现在了<code>Dice</code>中。<br>如果<code>Dice</code>已经存在了<code>asText() -&gt; String</code>方法，可以直接<code>extension Dice: TextRepresentable {}</code>，添加实现协议的声明。</p>
+<h2 id="协议继承"><a href="#协议继承" class="headerlink" title="协议继承"></a>协议继承</h2><p>协议也可以和类一样，继承别的协议。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">InheritingProtocol</span>: <span class="title">SomeProtocol</span>, <span class="title">AnotherProtocol</span> </span>&#123;</div><div class="line">    <span class="comment">// 协议定义</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ul>
+<li>类专属协议<br>如果在继承列表中加上<code>class</code>，且<code>class</code>必须第一个被声明，其他继承协议在后面并列声明，则表示这个协议只能由类实现，枚举和结构体不可以实现。<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">SomeClassOnlyProtocol</span>: <span class="title">class</span>, <span class="title">SomeInheritedProtocol</span> </span>&#123;</div><div class="line">    <span class="comment">// class-only protocol definition goes here</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="协议合成"><a href="#协议合成" class="headerlink" title="协议合成"></a>协议合成</h2><p>多个协议可以用protcol<someprotocol, anotherprotocol="">的格式临时组合成一个协议。<br>下面一个例子。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">Named</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> name: <span class="type">String</span> &#123; <span class="keyword">get</span> &#125;</div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">Aged</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> age: <span class="type">Int</span> &#123; <span class="keyword">get</span> &#125;</div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Person</span>: <span class="title">Named</span>, <span class="title">Aged</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> name: <span class="type">String</span></div><div class="line">    <span class="keyword">var</span> age: <span class="type">Int</span></div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">wishHappyBirthday</span><span class="params">(celebrator: <span class="keyword">protocol</span>&lt;Named, Aged&gt;)</span></span> &#123;</div><div class="line">    <span class="built_in">println</span>(<span class="string">"Happy birthday \(celebrator.name) - you're \(celebrator.age)!"</span>)</div><div class="line">&#125;</div><div class="line"><span class="keyword">let</span> birthdayPerson = <span class="type">Person</span>(name: <span class="string">"Malcolm"</span>, age: <span class="number">21</span>)</div><div class="line">wishHappyBirthday(birthdayPerson)</div><div class="line"><span class="comment">// 输出 "Happy birthday Malcolm - you're 21!</span></div></pre></td></tr></table></figure></someprotocol,></p>
+<h2 id="协议一致性"><a href="#协议一致性" class="headerlink" title="协议一致性"></a>协议一致性</h2><p>用<code>is</code>操作符检查协议是否实现了特定协议，返回<code>true</code>或<code>false</code>。<br>用<code>as?</code>操作符返回一个可选值，如果协议实现了特定协议，返回协议类型；否则返回<code>nil</code>。如果这个协议一定实现了特定协议，可以用<code>as!</code>强制返回非可选的特定类型。<br>下面一个例子。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">HasArea</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> area: <span class="type">Double</span> &#123; <span class="keyword">get</span> &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Circle</span>: <span class="title">HasArea</span> </span>&#123;</div><div class="line">    <span class="keyword">let</span> pi = <span class="number">3.1415927</span></div><div class="line">    <span class="keyword">var</span> radius: <span class="type">Double</span></div><div class="line">    <span class="keyword">var</span> area: <span class="type">Double</span> &#123; <span class="keyword">return</span> pi * radius * radius &#125;</div><div class="line">    <span class="keyword">init</span>(radius: <span class="type">Double</span>) &#123; <span class="keyword">self</span>.radius = radius &#125;</div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Country</span>: <span class="title">HasArea</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> area: <span class="type">Double</span></div><div class="line">    <span class="keyword">init</span>(area: <span class="type">Double</span>) &#123; <span class="keyword">self</span>.area = area &#125;</div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> legs: <span class="type">Int</span></div><div class="line">    <span class="keyword">init</span>(legs: <span class="type">Int</span>) &#123; <span class="keyword">self</span>.legs = legs &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> objects: [<span class="type">AnyObject</span>] = [</div><div class="line">    <span class="type">Circle</span>(radius: <span class="number">2.0</span>),</div><div class="line">    <span class="type">Country</span>(area: <span class="number">243_610</span>),</div><div class="line">    <span class="type">Animal</span>(legs: <span class="number">4</span>)</div><div class="line">]</div><div class="line"></div><div class="line"><span class="keyword">for</span> object <span class="keyword">in</span> objects &#123;</div><div class="line">    <span class="keyword">if</span> <span class="keyword">let</span> objectWithArea = object <span class="keyword">as</span>? <span class="type">HasArea</span> &#123;</div><div class="line">        <span class="built_in">println</span>(<span class="string">"Area is \(objectWithArea.area)"</span>)</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="built_in">println</span>(<span class="string">"Something that doesn't have an area"</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">// Area is 12.5663708</span></div><div class="line"><span class="comment">// Area is 243610.0</span></div><div class="line"><span class="comment">// Something that doesn't have an area</span></div></pre></td></tr></table></figure></p>
+<p>类<code>Circle</code>和类<code>Country</code>都实现了<code>HasArea</code>协议，而类<code>Animal</code>没有实现<code>HasArea</code>协议。<br>这三个类的实例用同一个数组装上，然后遍历，利用协议一致性检查。在这个数组中实例的值的类型没有变，但是这里显式为<code>HasArea</code>类型，所以只能访问<code>area</code>属性。</p>
+<h2 id="可选协议"><a href="#可选协议" class="headerlink" title="可选协议"></a>可选协议</h2><p>可选类型可以含有可选成员，可以选择是否实现这些可选成员，用关键字<code>optional</code>来表示这些可选成员。可选协议在调用时可以使用可选链。<br>协议前的<code>@objc</code>表示协议是可选的，也表示暴露给<code>Objective-C</code>的代码，只对类有效。所以可选协议只能由类实现。<br>下面一个例子。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@objc</span> <span class="class"><span class="keyword">protocol</span> <span class="title">CounterDataSource</span> </span>&#123;</div><div class="line">    <span class="keyword">optional</span> <span class="function"><span class="keyword">func</span> <span class="title">incrementForCount</span><span class="params">(<span class="built_in">count</span>: Int)</span></span> -&gt; <span class="type">Int</span></div><div class="line">    <span class="keyword">optional</span> <span class="keyword">var</span> fixedIncrement: <span class="type">Int</span> &#123; <span class="keyword">get</span> &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">@objc</span> <span class="class"><span class="keyword">class</span> <span class="title">Counter</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> <span class="built_in">count</span> = <span class="number">0</span></div><div class="line">    <span class="keyword">var</span> dataSource: <span class="type">CounterDataSource</span>?</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">increment</span><span class="params">()</span></span> &#123;</div><div class="line">        <span class="keyword">if</span> <span class="keyword">let</span> amount = dataSource?.incrementForCount?(<span class="built_in">count</span>) &#123;</div><div class="line">            <span class="built_in">count</span> += amount</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> <span class="keyword">let</span> amount = dataSource?.fixedIncrement? &#123;</div><div class="line">            <span class="built_in">count</span> += amount</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//为协议实现可选属性</span></div><div class="line"><span class="meta">@objc</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreeSource</span>: <span class="title">CounterDataSource</span> </span>&#123;</div><div class="line">    <span class="keyword">let</span> fixedIncrement = <span class="number">3</span></div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> counter = <span class="type">Counter</span>()</div><div class="line">counter.dataSource = <span class="type">ThreeSource</span>()</div><div class="line"><span class="keyword">for</span> <span class="number">_</span> <span class="keyword">in</span> <span class="number">1</span>...<span class="number">4</span> &#123;</div><div class="line">    counter.increment()</div><div class="line">    <span class="built_in">print</span>(counter.<span class="built_in">count</span>)</div><div class="line">&#125;</div><div class="line"><span class="comment">// 3</span></div><div class="line"><span class="comment">// 6</span></div><div class="line"><span class="comment">// 9</span></div><div class="line"><span class="comment">// 12</span></div><div class="line"></div><div class="line"><span class="comment">//为协议实现可选方法</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">TowardsZeroSource</span>: <span class="title">CounterDataSource</span> </span>&#123;</div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">incrementForCount</span><span class="params">(<span class="built_in">count</span>: Int)</span></span> -&gt; <span class="type">Int</span> &#123;</div><div class="line">        <span class="keyword">if</span> <span class="built_in">count</span> == <span class="number">0</span> &#123;</div><div class="line">            <span class="keyword">return</span> <span class="number">0</span></div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> <span class="built_in">count</span> &lt; <span class="number">0</span> &#123;</div><div class="line">            <span class="keyword">return</span> <span class="number">1</span></div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">return</span> -<span class="number">1</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">counter.<span class="built_in">count</span> = -<span class="number">4</span></div><div class="line">counter.dataSource = <span class="type">TowardsZeroSource</span>()</div><div class="line"><span class="keyword">for</span> <span class="number">_</span> <span class="keyword">in</span> <span class="number">1</span>...<span class="number">5</span> &#123;</div><div class="line">    counter.increment()</div><div class="line">    <span class="built_in">print</span>(counter.<span class="built_in">count</span>)</div><div class="line">&#125;</div><div class="line"><span class="comment">// -3</span></div><div class="line"><span class="comment">// -2</span></div><div class="line"><span class="comment">// -1</span></div><div class="line"><span class="comment">// 0</span></div><div class="line"><span class="comment">// 0</span></div></pre></td></tr></table></figure></p>
+<h2 id="协议扩展"><a href="#协议扩展" class="headerlink" title="协议扩展"></a>协议扩展</h2><p>扩展协议可以为每个实现该协议的地方（<em>遵循者</em>）添加属性或方法的实现，该协议的遵循者不用任何修改，可以得到添加的属性方法。<br>这种方式可以为协议中的属性和方法提供默认的实现，遵循者中再次实现可以覆盖默认的实现。<br>扩展协议时可以限定条件，只有满足条件的遵循者能够得到协议扩展的属性和方法。</p>
+<p><strong> 转载请注明原作者和出处。</strong></p>
+<blockquote>
+<p>如果觉得这篇文章对您有帮助或启发，请随意打赏~</p>
+<p> <img src="http://7xivk7.com1.z0.glb.clouddn.com/paycode01.jpg" width="250" align="left"> <img src="http://7xivk7.com1.z0.glb.clouddn.com/paycode02.jpg" width="250" align="left"> </p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://aidaiz.com/swift_11/" data-id="cj2gdu6kc000vv1o31qpbjwg5" class="article-share-link" data-share="baidu">Share</a>
+      
+
+      
+        <a href="http://aidaiz.com/swift_11/#ds-thread" class="article-comment-link">Comments</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/swift/">swift</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/swift_12/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Swift基础入门(12)：泛型
+        
+      </div>
+    </a>
+  
+  
+    <a href="/swift_10/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Swift基础入门(10)：类型转换</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+  <section id="comments">
+    <div id="ds-thread" class="ds-thread" data-thread-key="swift_11/" data-title="Swift基础入门(11)：扩展和协议" data-url="http://aidaiz.com/swift_11/"></div>
+  </section>
+
+
+</section>
+      
+      <aside id="sidebar">
+  
+      <div class="widget-wrap">
+    <h3 class="widget-title">Weibo</h3>
+      <iframe width="100%" height="90" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=90&fansRow=2&ptype=1&speed=0&skin=1&isTitle=0&noborder=1&isWeibo=0&isFans=0&uid=1728443831&verifier=022f8fe1&dpc=1"></iframe>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/android/">android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/computer-architecture/">computer architecture</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/dpdk/">dpdk</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">hadoop</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/openvswitch/">openvswitch</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/spdk/">spdk</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/swift/">swift</a><span class="category-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cache/">cache</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/computer-architecture/">computer architecture</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dpdk/">dpdk</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/">hadoop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openflow/">openflow</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openvswitch/">openvswitch</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/">proguard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spdk/">spdk</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/swift/">swift</a><span class="tag-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/openvswitch-qos/">Open vSwitch的OpenFlow和QOS</a>
+          </li>
+        
+          <li>
+            <a href="/openvswitch-build/">Open vSwitch安装与使用</a>
+          </li>
+        
+          <li>
+            <a href="/ssh/">SSH秘钥与SSHFS挂载</a>
+          </li>
+        
+          <li>
+            <a href="/spdk/">SPDK简介</a>
+          </li>
+        
+          <li>
+            <a href="/hadoop/">Hadoop安装运行</a>
+          </li>
+        
+          <li>
+            <a href="/cache_miss_type/">容量失效（capacity miss）与冲突失效（conflict miss）的区别</a>
+          </li>
+        
+          <li>
+            <a href="/swift_14/">Swift基础入门(14)：权限控制</a>
+          </li>
+        
+          <li>
+            <a href="/swift_13/">Swift基础入门(13)：高级运算符</a>
+          </li>
+        
+          <li>
+            <a href="/swift_12/">Swift基础入门(12)：泛型</a>
+          </li>
+        
+          <li>
+            <a href="/swift_11/">Swift基础入门(11)：扩展和协议</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://yunhuanran.github.io" target="_blank">潮鸣</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Yunyao Zhang（张云尧）<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/xiangming/landscape-plus" target="_blank">Landscape-plus</a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+  <!-- totop start -->
+<div id="totop">
+<a title="totop"><img src="/img/scrollup.png"/></a>
+</div>
+
+<!-- totop end -->
+
+
+<!-- 多说公共js代码 start -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"aidaiz"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共js代码 end -->
+
+
+<!-- 百度分享 start -->
+
+<div id="article-share-box" class="article-share-box">
+  <div id="bdshare" class="bdsharebuttonbox article-share-links">
+    <a class="article-share-weibo" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a class="article-share-weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a class="article-share-qq" data-cmd="qzone" title="分享到QQ空间"></a>
+<!--   <a class="article-share-renren" data-cmd="renren" title="分享到人人网"></a> -->
+    <a class="article-share-facebook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a class="article-share-twitter" data-cmd="twi" title="分享到Twitter"></a>
+<!--    <a class="article-share-more" data-cmd="more" title="更多"></a> -->
+  </div>
+</div>
+<script>window._bd_share_config={"common":{},"share":{"bdCustomStyle":"/css/bdshare.css"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+<!-- 百度分享 end -->
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>
+

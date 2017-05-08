@@ -1,0 +1,401 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>DPDK编译运行 | Yunyao Zhang - 张云尧</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="DPDK（Data Plane Development kit）是Intel发布的数据包处理转发套件。">
+<meta name="keywords" content="dpdk">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DPDK编译运行">
+<meta property="og:url" content="http://aidaiz.com/dpdk/index.html">
+<meta property="og:site_name" content="Yunyao Zhang - 张云尧">
+<meta property="og:description" content="DPDK（Data Plane Development kit）是Intel发布的数据包处理转发套件。">
+<meta property="og:image" content="http://7xivk7.com1.z0.glb.clouddn.com/paycode01.jpg">
+<meta property="og:image" content="http://7xivk7.com1.z0.glb.clouddn.com/paycode02.jpg">
+<meta property="og:updated_time" content="2017-05-08T16:40:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DPDK编译运行">
+<meta name="twitter:description" content="DPDK（Data Plane Development kit）是Intel发布的数据包处理转发套件。">
+<meta name="twitter:image" content="http://7xivk7.com1.z0.glb.clouddn.com/paycode01.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="Yunyao Zhang - 张云尧" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?5f09ac010983cb94e34e25d4019d9b17";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<meta name="baidu-site-verification" content="DeH9kUFd9Y" />
+</head>
+
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Yunyao Zhang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">会有一天肆无忌惮地桀骜不驯</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+          <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+<!--        <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form"> --->
+<!--          <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="Search"> --->
+<!--          <input type="submit" value="" class="search-form-submit"> --->
+<!--          <input name=tn type=hidden value="bds"> --->
+<!--          <input name=cl type=hidden value="3"> --->
+<!--          <input name=ct type=hidden value="2097152"> --->
+<!--          <input type="hidden" name="si" value="aidaiz.com"> --->
+<!--        </form> --->
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://aidaiz.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+
+    <div class="outer">
+      <section id="main"><article id="post-dpdk" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/dpdk/" class="article-date">
+  <time datetime="2015-04-28T06:46:52.000Z" itemprop="datePublished">Apr 28 2015</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/dpdk/">dpdk</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      DPDK编译运行
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+	
+        <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#下载源码"><span class="toc-number">1.</span> <span class="toc-text">下载源码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#准备环境"><span class="toc-number">2.</span> <span class="toc-text">准备环境</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#linux-kernel-header"><span class="toc-number">2.1.</span> <span class="toc-text">linux kernel header</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#libpcap函数库"><span class="toc-number">2.2.</span> <span class="toc-text">libpcap函数库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hugepages"><span class="toc-number">2.3.</span> <span class="toc-text">hugepages</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编译安装"><span class="toc-number">3.</span> <span class="toc-text">编译安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#加载模块"><span class="toc-number">4.</span> <span class="toc-text">加载模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#绑定网卡"><span class="toc-number">5.</span> <span class="toc-text">绑定网卡</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运行示例"><span class="toc-number">6.</span> <span class="toc-text">运行示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#脚本安装"><span class="toc-number">7.</span> <span class="toc-text">脚本安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#示例程序"><span class="toc-number">8.</span> <span class="toc-text">示例程序</span></a></li></ol>
+        </div>
+        
+        <p>DPDK（Data Plane Development kit）是Intel发布的数据包处理转发套件。</p>
+<a id="more"></a>
+<p><strong>Title: <a href="https://aidaizyy.github.io/dpdk" target="_blank" rel="external">dpdk编译运行</a></strong><br><strong>Author: <a href="http://aidaizyy.github.io" target="_blank" rel="external">Yunyao Zhang(张云尧)</a></strong><br><strong>E-mail: <a href="&#109;&#x61;&#105;&#108;&#116;&#111;&#58;&#97;&#105;&#x64;&#97;&#105;&#x7a;&#x79;&#x79;&#64;&#103;&#109;&#x61;&#105;&#x6c;&#46;&#x63;&#x6f;&#x6d;">&#97;&#105;&#x64;&#97;&#105;&#x7a;&#x79;&#x79;&#64;&#103;&#109;&#x61;&#105;&#x6c;&#46;&#x63;&#x6f;&#x6d;</a></strong><br><strong>Last Modified: <a href="http://aidaizyy.github.io" target="_blank" rel="external">2016-08-23</a></strong></p>
+<h2 id="下载源码"><a href="#下载源码" class="headerlink" title="下载源码"></a>下载源码</h2><p>下载DPDK-2.0.0<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">wget http://www.dpdk.org/browse/dpdk/snapshot/dpdk-2.0.0.tar.gz</div></pre></td></tr></table></figure></p>
+<p>或者直接访问<a href="http://www.dpdk.org/download/" target="_blank" rel="external">http://www.dpdk.org/download/</a> 下载最新的版本。</p>
+<p>解开压缩包<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tar -xvzf dpdk-2.0.0.tar.gz</div></pre></td></tr></table></figure></p>
+<h2 id="准备环境"><a href="#准备环境" class="headerlink" title="准备环境"></a>准备环境</h2><h3 id="linux-kernel-header"><a href="#linux-kernel-header" class="headerlink" title="linux kernel header"></a>linux kernel header</h3><p>确保系统是否已安装linux kernel header，未安装则：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install linux-header-3.13.0-49-generic</div></pre></td></tr></table></figure></p>
+<p>linux kernel版本号由系统本身决定，以下命令查看：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uname -r</div></pre></td></tr></table></figure></p>
+<p>kernel版本号必须大于2.6.33。<br>同时glibc版本号大于2.7。</p>
+<h3 id="libpcap函数库"><a href="#libpcap函数库" class="headerlink" title="libpcap函数库"></a>libpcap函数库</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install libpcap-dev</div></pre></td></tr></table></figure>
+<h3 id="hugepages"><a href="#hugepages" class="headerlink" title="hugepages"></a>hugepages</h3><p>查看kernel是否支持hugepapse<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">grep -i huge /boot/config-3.13.0-49-generic</div></pre></td></tr></table></figure></p>
+<p>同样，kernel版本号由系统本身决定。<br>如果出现<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">CONFIG_HUGETLBFS=y</div><div class="line">CONFIG_HUGETLB_PAGE=y</div></pre></td></tr></table></figure></p>
+<p>则表示支持hugepages。</p>
+<p>查看当前系统hugepages信息<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">grep -i huge /proc/meminfo</div></pre></td></tr></table></figure></p>
+<p>配置hugepages<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">vi /etc/sysctl.conf</div><div class="line"><span class="comment">#在文件底部添加</span></div><div class="line">vm.nr_hugepages=512</div><div class="line"><span class="comment">#表示hugepages的页面数量</span></div><div class="line"></div><div class="line">vi /etc/fstab</div><div class="line"><span class="comment">#在文件底部添加</span></div><div class="line">huge /mnt/huge hugetlbfs defaults 0 0</div><div class="line"></div><div class="line">mkdir /mnt/huge</div><div class="line">chmod 777 /mnt/huge</div></pre></td></tr></table></figure></p>
+<p>重新启动后查看/proc/meminfo 就会发现hugepages已经加载。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">AnonHugePages:     53248 kB</div><div class="line">HugePages_Total:     512</div><div class="line">HugePages_Free:      512</div><div class="line">HugePages_Rsvd:        0</div><div class="line">HugePages_Surp:        0</div><div class="line">Hugepagesize:       2048 kB</div></pre></td></tr></table></figure></p>
+<h2 id="编译安装"><a href="#编译安装" class="headerlink" title="编译安装"></a>编译安装</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> dpdk-2.0.0</div><div class="line">make install T=x86_64-native-linuxapp-gcc</div></pre></td></tr></table></figure>
+<p>x86_64指x86构架64位系统。如果是32位系统，将x86_64替换为i686。</p>
+<p>官网给出的编译平台规范是ARCH-MACHINE-EXECENV-TOOLCHAIN<br>ARCH can be: i686, x86_64, ppc_64<br>MACHINE can be: native, ivshmem, power8<br>EXECENV can be: linuxapp, bsdapp<br>TOOLCHAIN can be: gcc, icc</p>
+<p>这里在Ubuntu Linux 64位系统本地环境下gcc工具编译</p>
+<p>也可以先设置，再编译。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">make config T=x86_64-native-linuxapp-gcc</div><div class="line">make</div></pre></td></tr></table></figure></p>
+<p>make install会将编译后的文件放入新建的x86_64-native-linuxapp-gcc目录。<br>make config + make会将编译后的文件放入新建的build目录。</p>
+<h2 id="加载模块"><a href="#加载模块" class="headerlink" title="加载模块"></a>加载模块</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo modprobe uio</div><div class="line">sudo insmod kmod/igb_uio.ko</div></pre></td></tr></table></figure>
+<p>uio是kernel自带的用户空间IO模块<br>igb_uio是dpdk编译的模块，出现在dpdk-2.0.0/build/kmod 或者dpdk-2.0.0/x86_64-native-linuxapp-gcc/kmod 目录中。<br>（在新版本中可直接用<code>sudo modprobe uio_pci_generic</code>替代<code>uio</code>和<code>igb_uio</code>）</p>
+<h2 id="绑定网卡"><a href="#绑定网卡" class="headerlink" title="绑定网卡"></a>绑定网卡</h2><p>查看当前网卡信息<br>（在新版本中用<code>dpdk-devbind.py</code>替代<code>dpdk_nic_bind.py</code>）<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> dpdk-2.0.0</div><div class="line">./tools/dpdk_nic_bind.py --status</div><div class="line"></div><div class="line">Network devices using kernel driver</div><div class="line">===================================</div><div class="line">0000:00:05.0 <span class="string">'82545EM Gigabit Ethernet Controller (Copper)'</span> <span class="keyword">if</span>=eth0 drv=e1000 unused= *Active*</div><div class="line">0000:00:06.0 <span class="string">'82545EM Gigabit Ethernet Controller (Copper)'</span> <span class="keyword">if</span>=eth1 drv=e1000 unused= *Active*</div><div class="line">0000:00:07.0 <span class="string">'82545EM Gigabit Ethernet Controller (Copper)'</span> <span class="keyword">if</span>=eth3 drv=e1000 unused= *Active*</div><div class="line"></div><div class="line">Other network devices</div><div class="line">=====================</div><div class="line">&lt;none&gt;</div></pre></td></tr></table></figure></p>
+<p>绑定网卡<br>（在新版本中如果使用了<code>uio_pci_generic</code>，则把<code>--bind=</code>后的<code>igb_uio</code>换成<code>uio_pci_generic</code>）<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./tools/dpdk_nic_bind.py --bind=igb_uio 00:05.0</div></pre></td></tr></table></figure></p>
+<p>绑定之前，保证网卡处于非活跃状态<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ifconfig eth0 down</div></pre></td></tr></table></figure></p>
+<h2 id="运行示例"><a href="#运行示例" class="headerlink" title="运行示例"></a>运行示例</h2><p>运行helloworld示例<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#添加环境变量</span></div><div class="line"><span class="built_in">export</span> RTE_SDK=<span class="variable">$SDK</span>/dpdp-2.0.0</div><div class="line"><span class="built_in">export</span> RTE_TARGET=x86_64-native-linuxapp-gcc</div><div class="line"></div><div class="line"><span class="comment">#编译</span></div><div class="line"><span class="built_in">cd</span> /dpdk-2.0.0/example/helloworld</div><div class="line">make</div><div class="line"></div><div class="line"><span class="comment">#运行</span></div><div class="line">./build/helloworld -c 3 -n 2</div><div class="line"></div><div class="line">hello from core 1</div><div class="line">hello from core 0</div></pre></td></tr></table></figure></p>
+<p>这里的RTE_SDK指dpdk主目录的路径。</p>
+<p>-c COREMASK -n NUM为必须参数<br>COREMASK: 一个十六进制位掩码表示分配的逻辑内核数量。<br>NUM: 一个十进制整数表示内存通道数量。</p>
+<p>运行完成后，显示<br>hello from core 1<br>hello from core 0。</p>
+<p>其他示例程序参数有不同要求，参见官方网站的说明文档。</p>
+<h2 id="脚本安装"><a href="#脚本安装" class="headerlink" title="脚本安装"></a>脚本安装</h2><p>DPDK提供了更简单的脚本安装。<br>在解开压缩包和设置好环境变量RTE_SDK和RTE_TARGET后，运行setup.sh脚本。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> /dpdk-2.0.0</div><div class="line">./tools/setup.sh</div><div class="line"></div><div class="line">----------------------------------------------------------</div><div class="line"> Step 1: Select the DPDK environment to build</div><div class="line">----------------------------------------------------------</div><div class="line">[1] i686-native-linuxapp-gcc</div><div class="line">[2] i686-native-linuxapp-icc</div><div class="line">[3] ppc_64-power8-linuxapp-gcc</div><div class="line">[4] x86_64-ivshmem-linuxapp-gcc</div><div class="line">[5] x86_64-ivshmem-linuxapp-icc</div><div class="line">[6] x86_64-native-bsdapp-clang</div><div class="line">[7] x86_64-native-bsdapp-gcc</div><div class="line">[8] x86_64-native-linuxapp-clang</div><div class="line">[9] x86_64-native-linuxapp-gcc</div><div class="line">[10] x86_64-native-linuxapp-icc</div><div class="line">[11] x86_x32-native-linuxapp-gcc</div><div class="line"></div><div class="line">----------------------------------------------------------</div><div class="line"> Step 2: Setup linuxapp environment</div><div class="line">----------------------------------------------------------</div><div class="line">[12] Insert IGB UIO module</div><div class="line">[13] Insert VFIO module</div><div class="line">[14] Insert KNI module</div><div class="line">[15] Setup hugepage mappings <span class="keyword">for</span> non-NUMA systems</div><div class="line">[16] Setup hugepage mappings <span class="keyword">for</span> NUMA systems</div><div class="line">[17] Display current Ethernet device settings</div><div class="line">[18] Bind Ethernet device to IGB UIO module</div><div class="line">[19] Bind Ethernet device to VFIO module</div><div class="line">[20] Setup VFIO permissions</div><div class="line"></div><div class="line">----------------------------------------------------------</div><div class="line"> Step 3: Run <span class="built_in">test</span> application <span class="keyword">for</span> linuxapp environment</div><div class="line">----------------------------------------------------------</div><div class="line">[21] Run <span class="built_in">test</span> application (<span class="variable">$RTE_TARGET</span>/app/<span class="built_in">test</span>)</div><div class="line">[22] Run testpmd application <span class="keyword">in</span> interactive mode (<span class="variable">$RTE_TARGET</span>/app/testpmd)</div><div class="line"></div><div class="line">----------------------------------------------------------</div><div class="line"> Step 4: Other tools</div><div class="line">----------------------------------------------------------</div><div class="line">[23] List hugepage info from /proc/meminfo</div><div class="line"></div><div class="line">----------------------------------------------------------</div><div class="line"> Step 5: Uninstall and system cleanup</div><div class="line">----------------------------------------------------------</div><div class="line">[24] Uninstall all targets</div><div class="line">[25] Unbind NICs from IGB UIO or VFIO driver</div><div class="line">[26] Remove IGB UIO module</div><div class="line">[27] Remove VFIO module</div><div class="line">[28] Remove KNI module</div><div class="line">[29] Remove hugepage mappings</div><div class="line"></div><div class="line">[30] Exit Script</div><div class="line"></div><div class="line">Option:</div></pre></td></tr></table></figure></p>
+<p>按照脚本指示一步一步运行即可。<br>依次执行9-12-15-18就可以达到和上面一样的结果。<br>当然不同情况，脚本执行步骤不同。</p>
+<h2 id="示例程序"><a href="#示例程序" class="headerlink" title="示例程序"></a>示例程序</h2><p>几个值得关注的示例程序。</p>
+<ul>
+<li><p>testpmd: 测试程序，可以在setup.sh脚本中运行或者在app/ 目录下。<br>  文档: <a href="http://www.dpdk.org/doc/guides/testpmd_app_ug/index.html" target="_blank" rel="external">http://www.dpdk.org/doc/guides/testpmd_app_ug/index.html</a></p>
+</li>
+<li><p>l2fwd: 链路层转发程序，在example/ 目录下。<br>  example /目录下有很多其他值得关注的示例程序。<br>  文档: <a href="http://www.dpdk.org/doc/guides/sample_app_ug/index.html" target="_blank" rel="external">http://www.dpdk.org/doc/guides/sample_app_ug/index.html</a></p>
+</li>
+<li><p>pktgen-dpdk: 基于DPDK的高速发包程序<br>  DPDK官方网站：<a href="http://www.dpdk.org/browse/apps/pktgen-dpdk" target="_blank" rel="external">http://www.dpdk.org/browse/apps/pktgen-dpdk</a><br>  GitHub：<a href="http://github.com/pktgen/Pktgen-DPDK" target="_blank" rel="external">http://github.com/pktgen/Pktgen-DPDK</a></p>
+</li>
+</ul>
+<p><strong> 转载请注明原作者和出处。</strong></p>
+<blockquote>
+<p>如果觉得这篇文章对您有帮助或启发，请随意打赏~</p>
+<p> <img src="http://7xivk7.com1.z0.glb.clouddn.com/paycode01.jpg" width="250" align="left"> <img src="http://7xivk7.com1.z0.glb.clouddn.com/paycode02.jpg" width="250" align="left"> </p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://aidaiz.com/dpdk/" data-id="cj2gdu6jb0007v1o381rycwb2" class="article-share-link" data-share="baidu">Share</a>
+      
+
+      
+        <a href="http://aidaiz.com/dpdk/#ds-thread" class="article-comment-link">Comments</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dpdk/">dpdk</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/android_proguard/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Android代码混淆（Proguard）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/dpdk_l2fwd/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">DPDK-l2fwd详解</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+  <section id="comments">
+    <div id="ds-thread" class="ds-thread" data-thread-key="dpdk/" data-title="DPDK编译运行" data-url="http://aidaiz.com/dpdk/"></div>
+  </section>
+
+
+</section>
+      
+      <aside id="sidebar">
+  
+      <div class="widget-wrap">
+    <h3 class="widget-title">Weibo</h3>
+      <iframe width="100%" height="90" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=90&fansRow=2&ptype=1&speed=0&skin=1&isTitle=0&noborder=1&isWeibo=0&isFans=0&uid=1728443831&verifier=022f8fe1&dpc=1"></iframe>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/android/">android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/computer-architecture/">computer architecture</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/dpdk/">dpdk</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">hadoop</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/openvswitch/">openvswitch</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/spdk/">spdk</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/swift/">swift</a><span class="category-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cache/">cache</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/computer-architecture/">computer architecture</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dpdk/">dpdk</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/">hadoop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openflow/">openflow</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openvswitch/">openvswitch</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/">proguard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spdk/">spdk</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/swift/">swift</a><span class="tag-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/openvswitch-qos/">Open vSwitch的OpenFlow和QOS</a>
+          </li>
+        
+          <li>
+            <a href="/openvswitch-build/">Open vSwitch安装与使用</a>
+          </li>
+        
+          <li>
+            <a href="/ssh/">SSH秘钥与SSHFS挂载</a>
+          </li>
+        
+          <li>
+            <a href="/spdk/">SPDK简介</a>
+          </li>
+        
+          <li>
+            <a href="/hadoop/">Hadoop安装运行</a>
+          </li>
+        
+          <li>
+            <a href="/cache_miss_type/">容量失效（capacity miss）与冲突失效（conflict miss）的区别</a>
+          </li>
+        
+          <li>
+            <a href="/swift_14/">Swift基础入门(14)：权限控制</a>
+          </li>
+        
+          <li>
+            <a href="/swift_13/">Swift基础入门(13)：高级运算符</a>
+          </li>
+        
+          <li>
+            <a href="/swift_12/">Swift基础入门(12)：泛型</a>
+          </li>
+        
+          <li>
+            <a href="/swift_11/">Swift基础入门(11)：扩展和协议</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://yunhuanran.github.io" target="_blank">潮鸣</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Yunyao Zhang（张云尧）<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/xiangming/landscape-plus" target="_blank">Landscape-plus</a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+  <!-- totop start -->
+<div id="totop">
+<a title="totop"><img src="/img/scrollup.png"/></a>
+</div>
+
+<!-- totop end -->
+
+
+<!-- 多说公共js代码 start -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"aidaiz"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共js代码 end -->
+
+
+<!-- 百度分享 start -->
+
+<div id="article-share-box" class="article-share-box">
+  <div id="bdshare" class="bdsharebuttonbox article-share-links">
+    <a class="article-share-weibo" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a class="article-share-weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a class="article-share-qq" data-cmd="qzone" title="分享到QQ空间"></a>
+<!--   <a class="article-share-renren" data-cmd="renren" title="分享到人人网"></a> -->
+    <a class="article-share-facebook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a class="article-share-twitter" data-cmd="twi" title="分享到Twitter"></a>
+<!--    <a class="article-share-more" data-cmd="more" title="更多"></a> -->
+  </div>
+</div>
+<script>window._bd_share_config={"common":{},"share":{"bdCustomStyle":"/css/bdshare.css"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+<!-- 百度分享 end -->
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>
+

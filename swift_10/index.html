@@ -1,0 +1,378 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Swift基础入门(10)：类型转换 | Yunyao Zhang - 张云尧</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="本篇介绍Swift的基础知识：类型的检查和转换。">
+<meta name="keywords" content="swift">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift基础入门(10)：类型转换">
+<meta property="og:url" content="http://aidaiz.com/swift_10/index.html">
+<meta property="og:site_name" content="Yunyao Zhang - 张云尧">
+<meta property="og:description" content="本篇介绍Swift的基础知识：类型的检查和转换。">
+<meta property="og:image" content="http://7xivk7.com1.z0.glb.clouddn.com/paycode01.jpg">
+<meta property="og:image" content="http://7xivk7.com1.z0.glb.clouddn.com/paycode02.jpg">
+<meta property="og:updated_time" content="2017-05-08T16:40:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Swift基础入门(10)：类型转换">
+<meta name="twitter:description" content="本篇介绍Swift的基础知识：类型的检查和转换。">
+<meta name="twitter:image" content="http://7xivk7.com1.z0.glb.clouddn.com/paycode01.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="Yunyao Zhang - 张云尧" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?5f09ac010983cb94e34e25d4019d9b17";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<meta name="baidu-site-verification" content="DeH9kUFd9Y" />
+</head>
+
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Yunyao Zhang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">会有一天肆无忌惮地桀骜不驯</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+          <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+<!--        <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form"> --->
+<!--          <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="Search"> --->
+<!--          <input type="submit" value="" class="search-form-submit"> --->
+<!--          <input name=tn type=hidden value="bds"> --->
+<!--          <input name=cl type=hidden value="3"> --->
+<!--          <input name=ct type=hidden value="2097152"> --->
+<!--          <input type="hidden" name="si" value="aidaiz.com"> --->
+<!--        </form> --->
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://aidaiz.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+
+    <div class="outer">
+      <section id="main"><article id="post-swift_10" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/swift_10/" class="article-date">
+  <time datetime="2015-07-24T07:23:06.000Z" itemprop="datePublished">Jul 24 2015</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/swift/">swift</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Swift基础入门(10)：类型转换
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+	
+        <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#类型转换"><span class="toc-number">1.</span> <span class="toc-text">类型转换</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#数值型类型转换"><span class="toc-number">1.1.</span> <span class="toc-text">数值型类型转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#类型检查和向下转换"><span class="toc-number">1.2.</span> <span class="toc-text">类型检查和向下转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Any和AnyObject类型转换"><span class="toc-number">1.3.</span> <span class="toc-text">Any和AnyObject类型转换</span></a></li></ol></li></ol>
+        </div>
+        
+        <p>本篇介绍Swift的基础知识：类型的检查和转换。</p>
+<a id="more"></a>
+<p><strong>Title: <a href="https://aidaizyy.github.io/swift_10" target="_blank" rel="external">Swift基础入门(10)：类型转换</a></strong><br><strong>Author: <a href="http://aidaizyy.github.io" target="_blank" rel="external">Yunyao Zhang(张云尧)</a></strong><br><strong>E-mail: <a href="&#x6d;&#97;&#x69;&#108;&#x74;&#x6f;&#x3a;&#97;&#x69;&#100;&#97;&#105;&#x7a;&#121;&#121;&#x40;&#103;&#x6d;&#97;&#105;&#108;&#46;&#x63;&#x6f;&#109;">&#97;&#x69;&#100;&#97;&#105;&#x7a;&#121;&#121;&#x40;&#103;&#x6d;&#97;&#105;&#108;&#46;&#x63;&#x6f;&#109;</a></strong><br><strong>Last Modified: <a href="http://aidaizyy.github.io" target="_blank" rel="external">2015-07-24</a></strong></p>
+<h1 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h1><h2 id="数值型类型转换"><a href="#数值型类型转换" class="headerlink" title="数值型类型转换"></a>数值型类型转换</h2><ul>
+<li><p>Int，Double，Float：<br><code>Int16</code>与<code>Int8</code>不能直接相加，需要通过<code>Int16(Int8)</code>转换。同样，<code>Int8</code>，<code>UInt8</code>，<code>Int16</code>，<code>UInt16</code>，<code>Int32</code>，<code>UInt32</code>，<code>Int64</code>，<code>UInt64</code>都可以互相转换。<br><code>Double</code>与<code>Int</code>也不能相加，也需要通过<code>Double(Int)</code>转换，如果只需要整数部分，也可以通过<code>Int(Double)</code>转换。同样，<code>Float(Int)</code>，<code>Int(Float)</code>，<code>Double(Float)</code>，<code>Float(Double)</code>都可以互相转换</p>
+</li>
+<li><p>String，Int：<br>String-&gt;Int：<code>String.toInt()</code>函数可以把<code>String</code>转换成可选类型<code>Int?</code>，因为<code>String</code>中不一定能转换成<code>Int</code>，所以得到可选类型。<br>Int-&gt;String：<code>String(Int)</code>函数可以把<code>Int</code>转换成<code>String</code>。</p>
+</li>
+</ul>
+<h2 id="类型检查和向下转换"><a href="#类型检查和向下转换" class="headerlink" title="类型检查和向下转换"></a>类型检查和向下转换</h2><p>类型检查用<code>is</code>操作符检查一个实例是否属于特定类型，返回<code>true</code>或者<code>false</code>。<br>基类类型用<code>as?</code>或者<code>as!</code>操作符转换成子类类型。因为转换可能失败，所以使用<code>as?</code>返回可选类型的子类类型；如果确定转换一定成功，可以使用<code>as!</code>强制返回非可选类型的子类类型。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MediaItem</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> name: <span class="type">String</span></div><div class="line">    <span class="keyword">init</span>(name: <span class="type">String</span>) &#123;</div><div class="line">        <span class="keyword">self</span>.name = name</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Movie</span>: <span class="title">MediaItem</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> director: <span class="type">String</span></div><div class="line">    <span class="keyword">init</span>(name: <span class="type">String</span>, director: <span class="type">String</span>) &#123;</div><div class="line">        <span class="keyword">self</span>.director = director</div><div class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>(name: name)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Song</span>: <span class="title">MediaItem</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> artist: <span class="type">String</span></div><div class="line">    <span class="keyword">init</span>(name: <span class="type">String</span>, artist: <span class="type">String</span>) &#123;</div><div class="line">        <span class="keyword">self</span>.artist = artist</div><div class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>(name: name)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> library = [</div><div class="line">    <span class="type">Movie</span>(name: <span class="string">"Casablanca"</span>, director: <span class="string">"Michael Curtiz"</span>),</div><div class="line">    <span class="type">Song</span>(name: <span class="string">"Blue Suede Shoes"</span>, artist: <span class="string">"Elvis Presley"</span>),</div><div class="line">    <span class="type">Movie</span>(name: <span class="string">"Citizen Kane"</span>, director: <span class="string">"Orson Welles"</span>),</div><div class="line">    <span class="type">Song</span>(name: <span class="string">"The One And Only"</span>, artist: <span class="string">"Chesney Hawkes"</span>),</div><div class="line">    <span class="type">Song</span>(name: <span class="string">"Never Gonna Give You Up"</span>, artist: <span class="string">"Rick Astley"</span>)</div><div class="line">]</div><div class="line"><span class="comment">// the type of "library" is inferred to be [MediaItem]</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> movieCount = <span class="number">0</span></div><div class="line"><span class="keyword">var</span> songCount = <span class="number">0</span></div><div class="line"><span class="keyword">for</span> item <span class="keyword">in</span> library &#123;</div><div class="line">    <span class="keyword">if</span> item <span class="keyword">is</span> <span class="type">Movie</span> &#123;</div><div class="line">        ++movieCount</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> item <span class="keyword">is</span> <span class="type">Song</span> &#123;</div><div class="line">        ++songCount</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="built_in">println</span>(<span class="string">"Media library contains \(movieCount) movies and \(songCount) songs"</span>)</div><div class="line"><span class="comment">// prints "Media library contains 2 movies and 3 songs"</span></div><div class="line"></div><div class="line"><span class="keyword">for</span> item <span class="keyword">in</span> library &#123;</div><div class="line">    <span class="keyword">if</span> <span class="keyword">let</span> movie = item <span class="keyword">as</span>? <span class="type">Movie</span> &#123;</div><div class="line">        <span class="built_in">println</span>(<span class="string">"Movie: '\(movie.name)', dir. \(movie.director)"</span>)</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> <span class="keyword">let</span> song = item <span class="keyword">as</span>? <span class="type">Song</span> &#123;</div><div class="line">        <span class="built_in">println</span>(<span class="string">"Song: '\(song.name)', by \(song.artist)"</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">// Movie: 'Casablanca', dir. Michael Curtiz</span></div><div class="line"><span class="comment">// Song: 'Blue Suede Shoes', by Elvis Presley</span></div><div class="line"><span class="comment">// Movie: 'Citizen Kane', dir. Orson Welles</span></div><div class="line"><span class="comment">// Song: 'The One And Only', by Chesney Hawkes</span></div><div class="line"><span class="comment">// Song: 'Never Gonna Give You Up', by Rick Astley</span></div></pre></td></tr></table></figure></p>
+<p>类<code>Movie</code>和类<code>Song</code>都是继承自类<code>MediaItem</code>。<br>数组<code>Libray</code>自动判断类型为<code>MediaItem</code>，存入了两个<code>Movie</code>实例和三个<code>Song</code>实例。在<code>for-in</code>循环中遍历出来的都是基类类型，但它实际上存储的是子类类型。<br>第33-43行：<code>item is Movie</code>和<code>item is Song</code>判断<code>item</code>实际存储的值是不是子类类型，是的话在相应数量的记录上加1，最后输出各子类类型的数组元素的个数。<br>第45-56行：<code>item as? Movie</code>和<code>item as? Song</code>将<code>item</code>强制转换成子类类型，如果实际存储的不相符返回<code>nil</code>，实际存储的相符返回相应的子类类型，并打印相应信息。</p>
+<h2 id="Any和AnyObject类型转换"><a href="#Any和AnyObject类型转换" class="headerlink" title="Any和AnyObject类型转换"></a>Any和AnyObject类型转换</h2><ul>
+<li>Any：任意类型，包括方法类型。</li>
+<li>AnyObject：任意class类型。<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> someObjects: [<span class="type">AnyObject</span>] = [</div><div class="line">    <span class="type">Movie</span>(name: <span class="string">"2001: A Space Odyssey"</span>, director: <span class="string">"Stanley Kubrick"</span>),</div><div class="line">    <span class="type">Movie</span>(name: <span class="string">"Moon"</span>, director: <span class="string">"Duncan Jones"</span>),</div><div class="line">    <span class="type">Movie</span>(name: <span class="string">"Alien"</span>, director: <span class="string">"Ridley Scott"</span>)</div><div class="line">]</div><div class="line"></div><div class="line"><span class="keyword">var</span> things = [<span class="type">Any</span>]()</div><div class="line">things.append(<span class="number">0</span>)</div><div class="line">things.append(<span class="number">0.0</span>)</div><div class="line">things.append(<span class="string">"hello"</span>)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><code>someObject</code>是一个很多class类型组成的混合class类型数组，所以用<code>AnyObject</code>。<br><code>things</code>是一个很多类型组成的混合类型数组，所以用<code>Any</code>。<br>它们的访问都可以通过遍历，然后使用<code>is</code>判断或者<code>as</code>转换。</p>
+<blockquote>
+<p>在<code>switch</code>的<code>case</code>语句中，使用<code>as</code>而不是<code>as?</code>。因为<code>case</code>语句中类型的检查和转换总是安全的。</p>
+</blockquote>
+<p><strong> 转载请注明原作者和出处。</strong></p>
+<blockquote>
+<p>如果觉得这篇文章对您有帮助或启发，请随意打赏~</p>
+<p> <img src="http://7xivk7.com1.z0.glb.clouddn.com/paycode01.jpg" width="250" align="left"> <img src="http://7xivk7.com1.z0.glb.clouddn.com/paycode02.jpg" width="250" align="left"> </p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://aidaiz.com/swift_10/" data-id="cj2gdu6k6000pv1o3gcn3x18w" class="article-share-link" data-share="baidu">Share</a>
+      
+
+      
+        <a href="http://aidaiz.com/swift_10/#ds-thread" class="article-comment-link">Comments</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/swift/">swift</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/swift_11/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Swift基础入门(11)：扩展和协议
+        
+      </div>
+    </a>
+  
+  
+    <a href="/swift_9/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Swift基础入门(9)：可选链和自动引用计数</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+  <section id="comments">
+    <div id="ds-thread" class="ds-thread" data-thread-key="swift_10/" data-title="Swift基础入门(10)：类型转换" data-url="http://aidaiz.com/swift_10/"></div>
+  </section>
+
+
+</section>
+      
+      <aside id="sidebar">
+  
+      <div class="widget-wrap">
+    <h3 class="widget-title">Weibo</h3>
+      <iframe width="100%" height="90" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=90&fansRow=2&ptype=1&speed=0&skin=1&isTitle=0&noborder=1&isWeibo=0&isFans=0&uid=1728443831&verifier=022f8fe1&dpc=1"></iframe>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/android/">android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/computer-architecture/">computer architecture</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/dpdk/">dpdk</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">hadoop</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/openvswitch/">openvswitch</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/spdk/">spdk</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/swift/">swift</a><span class="category-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cache/">cache</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/computer-architecture/">computer architecture</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dpdk/">dpdk</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/">hadoop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openflow/">openflow</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openvswitch/">openvswitch</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/">proguard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spdk/">spdk</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/swift/">swift</a><span class="tag-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/openvswitch-qos/">Open vSwitch的OpenFlow和QOS</a>
+          </li>
+        
+          <li>
+            <a href="/openvswitch-build/">Open vSwitch安装与使用</a>
+          </li>
+        
+          <li>
+            <a href="/ssh/">SSH秘钥与SSHFS挂载</a>
+          </li>
+        
+          <li>
+            <a href="/spdk/">SPDK简介</a>
+          </li>
+        
+          <li>
+            <a href="/hadoop/">Hadoop安装运行</a>
+          </li>
+        
+          <li>
+            <a href="/cache_miss_type/">容量失效（capacity miss）与冲突失效（conflict miss）的区别</a>
+          </li>
+        
+          <li>
+            <a href="/swift_14/">Swift基础入门(14)：权限控制</a>
+          </li>
+        
+          <li>
+            <a href="/swift_13/">Swift基础入门(13)：高级运算符</a>
+          </li>
+        
+          <li>
+            <a href="/swift_12/">Swift基础入门(12)：泛型</a>
+          </li>
+        
+          <li>
+            <a href="/swift_11/">Swift基础入门(11)：扩展和协议</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://yunhuanran.github.io" target="_blank">潮鸣</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Yunyao Zhang（张云尧）<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/xiangming/landscape-plus" target="_blank">Landscape-plus</a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+  <!-- totop start -->
+<div id="totop">
+<a title="totop"><img src="/img/scrollup.png"/></a>
+</div>
+
+<!-- totop end -->
+
+
+<!-- 多说公共js代码 start -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"aidaiz"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共js代码 end -->
+
+
+<!-- 百度分享 start -->
+
+<div id="article-share-box" class="article-share-box">
+  <div id="bdshare" class="bdsharebuttonbox article-share-links">
+    <a class="article-share-weibo" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a class="article-share-weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a class="article-share-qq" data-cmd="qzone" title="分享到QQ空间"></a>
+<!--   <a class="article-share-renren" data-cmd="renren" title="分享到人人网"></a> -->
+    <a class="article-share-facebook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a class="article-share-twitter" data-cmd="twi" title="分享到Twitter"></a>
+<!--    <a class="article-share-more" data-cmd="more" title="更多"></a> -->
+  </div>
+</div>
+<script>window._bd_share_config={"common":{},"share":{"bdCustomStyle":"/css/bdshare.css"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+<!-- 百度分享 end -->
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>
+

@@ -1,0 +1,380 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Swift基础入门(4)：条件与循环语句 | Yunyao Zhang - 张云尧</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="本篇介绍Swift的基础知识：条件语句和循环语句。">
+<meta name="keywords" content="swift">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift基础入门(4)：条件与循环语句">
+<meta property="og:url" content="http://aidaiz.com/swift_4/index.html">
+<meta property="og:site_name" content="Yunyao Zhang - 张云尧">
+<meta property="og:description" content="本篇介绍Swift的基础知识：条件语句和循环语句。">
+<meta property="og:image" content="http://7xivk7.com1.z0.glb.clouddn.com/paycode01.jpg">
+<meta property="og:image" content="http://7xivk7.com1.z0.glb.clouddn.com/paycode02.jpg">
+<meta property="og:updated_time" content="2017-05-08T16:40:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Swift基础入门(4)：条件与循环语句">
+<meta name="twitter:description" content="本篇介绍Swift的基础知识：条件语句和循环语句。">
+<meta name="twitter:image" content="http://7xivk7.com1.z0.glb.clouddn.com/paycode01.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="Yunyao Zhang - 张云尧" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?5f09ac010983cb94e34e25d4019d9b17";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<meta name="baidu-site-verification" content="DeH9kUFd9Y" />
+</head>
+
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Yunyao Zhang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">会有一天肆无忌惮地桀骜不驯</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+          <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+<!--        <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form"> --->
+<!--          <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="Search"> --->
+<!--          <input type="submit" value="" class="search-form-submit"> --->
+<!--          <input name=tn type=hidden value="bds"> --->
+<!--          <input name=cl type=hidden value="3"> --->
+<!--          <input name=ct type=hidden value="2097152"> --->
+<!--          <input type="hidden" name="si" value="aidaiz.com"> --->
+<!--        </form> --->
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://aidaiz.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+
+    <div class="outer">
+      <section id="main"><article id="post-swift_4" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/swift_4/" class="article-date">
+  <time datetime="2015-07-16T06:36:11.000Z" itemprop="datePublished">Jul 16 2015</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/swift/">swift</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Swift基础入门(4)：条件与循环语句
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+	
+        <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#循环语句"><span class="toc-number">1.</span> <span class="toc-text">循环语句</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#for-in循环"><span class="toc-number">1.1.</span> <span class="toc-text">for-in循环</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#for循环"><span class="toc-number">1.2.</span> <span class="toc-text">for循环</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#while循环"><span class="toc-number">1.3.</span> <span class="toc-text">while循环</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#do-while循环"><span class="toc-number">1.4.</span> <span class="toc-text">do-while循环</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#条件语句"><span class="toc-number">2.</span> <span class="toc-text">条件语句</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#if语句"><span class="toc-number">2.1.</span> <span class="toc-text">if语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#switch语句"><span class="toc-number">2.2.</span> <span class="toc-text">switch语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#元组"><span class="toc-number">2.3.</span> <span class="toc-text">元组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#额外条件（Where语句）"><span class="toc-number">2.4.</span> <span class="toc-text">额外条件（Where语句）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#控制转移语句"><span class="toc-number">3.</span> <span class="toc-text">控制转移语句</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#贯穿语句（Fallthrough语句）"><span class="toc-number">3.1.</span> <span class="toc-text">贯穿语句（Fallthrough语句）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#精确控制转移"><span class="toc-number">3.2.</span> <span class="toc-text">精确控制转移</span></a></li></ol></li></ol>
+        </div>
+        
+        <p>本篇介绍Swift的基础知识：条件语句和循环语句。</p>
+<a id="more"></a>
+<p><strong>Title: <a href="https://aidaizyy.github.io/swift_4" target="_blank" rel="external">Swift基础入门(4)：条件与循环语句</a></strong><br><strong>Author: <a href="http://aidaizyy.github.io" target="_blank" rel="external">Yunyao Zhang(张云尧)</a></strong><br><strong>E-mail: <a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#111;&#58;&#97;&#x69;&#x64;&#x61;&#105;&#x7a;&#121;&#121;&#64;&#x67;&#109;&#97;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;">&#97;&#x69;&#x64;&#x61;&#105;&#x7a;&#121;&#121;&#64;&#x67;&#109;&#97;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;</a></strong><br><strong>Last Modified: <a href="http://aidaizyy.github.io" target="_blank" rel="external">2015-07-16</a></strong></p>
+<h1 id="循环语句"><a href="#循环语句" class="headerlink" title="循环语句"></a>循环语句</h1><h2 id="for-in循环"><a href="#for-in循环" class="headerlink" title="for-in循环"></a>for-in循环</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> index <span class="keyword">in</span> <span class="number">1</span>...<span class="number">5</span> &#123;</div><div class="line">	<span class="built_in">println</span>(index)</div><div class="line">&#125;</div><div class="line"><span class="comment">//1</span></div><div class="line"><span class="comment">//2</span></div><div class="line"><span class="comment">//3</span></div><div class="line"><span class="comment">//4</span></div><div class="line"><span class="comment">//5</span></div></pre></td></tr></table></figure>
+<p><code>for-in</code>循环可用于区间。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> res = <span class="number">1</span></div><div class="line"><span class="keyword">for</span> <span class="number">_</span> <span class="keyword">in</span> <span class="number">1</span>...<span class="number">5</span> &#123;</div><div class="line">	res *= <span class="number">2</span></div><div class="line">	<span class="built_in">println</span>(res)</div><div class="line">&#125;</div><div class="line"><span class="comment">//2</span></div><div class="line"><span class="comment">//4</span></div><div class="line"><span class="comment">//8</span></div><div class="line"><span class="comment">//16</span></div><div class="line"><span class="comment">//32</span></div></pre></td></tr></table></figure></p>
+<p>如果不需要区间中每项的值，可以用<code>_</code>替代。<br><code>for-in</code>用于字符串，请见<a href="http://aidaizyy.github.io/swift_2" target="_blank" rel="external">Swift基础入门(2)</a>。<br><code>for-in</code>用于数组集合字典，请见<a href="http://aidaizyy.github.io/swift_3" target="_blank" rel="external">Swift基础入门(3)</a>。</p>
+<h2 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h2><p><code>for</code>循环和C语言一致，格式为<code>for initialization; condition; increment { statements }</code>，区别在于没有括号。</p>
+<h2 id="while循环"><a href="#while循环" class="headerlink" title="while循环"></a>while循环</h2><p><code>while</code>循环和C语言一致，格式为<code>while condition { statements }</code>，区别在于没有括号。</p>
+<h2 id="do-while循环"><a href="#do-while循环" class="headerlink" title="do-while循环"></a>do-while循环</h2><p><code>do-while</code>循环和C语言一致，格式为<code>do { statements } while condition</code>，区别在于没有括号。</p>
+<h1 id="条件语句"><a href="#条件语句" class="headerlink" title="条件语句"></a>条件语句</h1><h2 id="if语句"><a href="#if语句" class="headerlink" title="if语句"></a>if语句</h2><p><code>if</code>语句和C语言一直，格式为<code>if condition { statements } else if condition { statements } else { statesments },区别在于没有括号，</code>else if<code>和</code>else`不是必须存在。</p>
+<h2 id="switch语句"><a href="#switch语句" class="headerlink" title="switch语句"></a>switch语句</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> <span class="built_in">count</span> = <span class="number">300</span></div><div class="line"><span class="keyword">var</span> naturalCount: <span class="type">String</span></div><div class="line"><span class="keyword">switch</span> <span class="built_in">count</span> &#123;</div><div class="line"><span class="keyword">case</span> <span class="number">0</span>:</div><div class="line">    naturalCount = <span class="string">"no"</span></div><div class="line"><span class="keyword">case</span> <span class="number">1</span>...<span class="number">3</span>:</div><div class="line">    naturalCount = <span class="string">"a few"</span></div><div class="line"><span class="keyword">case</span> <span class="number">4</span>...<span class="number">9</span>:</div><div class="line">    naturalCount = <span class="string">"several"</span></div><div class="line"><span class="keyword">case</span> <span class="number">10</span>...<span class="number">99</span>:</div><div class="line">    naturalCount = <span class="string">"tens of"</span></div><div class="line"><span class="keyword">case</span> <span class="number">100</span>...<span class="number">999</span>:</div><div class="line">    naturalCount = <span class="string">"hundreds of"</span></div><div class="line"><span class="keyword">case</span> <span class="number">1000</span>...<span class="number">999_999</span>:</div><div class="line">    naturalCount = <span class="string">"thousands of"</span></div><div class="line"><span class="keyword">default</span>:</div><div class="line">    naturalCount = <span class="string">"millions and millions of"</span></div><div class="line">&#125;</div><div class="line"><span class="built_in">println</span>(<span class="string">"There are \(naturalCount) stars in the Milky Way."</span>)</div><div class="line"><span class="comment">// 输出 "There are hundreds of stars in the Milk Way."</span></div></pre></td></tr></table></figure>
+<p>在C语言中，通常使用<code>break</code>，避免执行了一个<code>case</code>语句后继续执行下一个<code>case</code>语句。在Swift语言中不需要添加<code>break</code>，<code>switch</code>语句只执行最前面一个符合条件的<code>case</code>语句。<br><code>case</code>语句可以接类似于<code>1...3</code>的区间。<br><code>case</code>语句可以接多个情况，用逗号隔开，<code>switch value { case value1, value2: statements }</code></p>
+<h2 id="元组"><a href="#元组" class="headerlink" title="元组"></a>元组</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> somePoint = (<span class="number">1</span>, <span class="number">1</span>)</div><div class="line"><span class="keyword">switch</span> somePoint &#123;</div><div class="line"><span class="keyword">case</span> (<span class="number">0</span>, <span class="number">0</span>):</div><div class="line">    <span class="built_in">println</span>(<span class="string">"(0, 0) is at the origin"</span>)</div><div class="line"><span class="keyword">case</span> (<span class="number">_</span>, <span class="number">0</span>):</div><div class="line">    <span class="built_in">println</span>(<span class="string">"(\(somePoint.0), 0) is on the x-axis"</span>)</div><div class="line"><span class="keyword">case</span> (<span class="number">0</span>, <span class="number">_</span>):</div><div class="line">    <span class="built_in">println</span>(<span class="string">"(0, \(somePoint.1)) is on the y-axis"</span>)</div><div class="line"><span class="keyword">case</span> (-<span class="number">2</span>...<span class="number">2</span>, -<span class="number">2</span>...<span class="number">2</span>):</div><div class="line">    <span class="built_in">println</span>(<span class="string">"(\(somePoint.0), \(somePoint.1)) is inside the box"</span>)</div><div class="line"><span class="keyword">default</span>:</div><div class="line">    <span class="built_in">println</span>(<span class="string">"(\(somePoint.0), \(somePoint.1)) is outside of the box"</span>)</div><div class="line">&#125;</div><div class="line"><span class="comment">// 输出 "(1, 1) is inside the box"</span></div><div class="line">``` </div><div class="line">元组也可以用来判断条件，`<span class="number">_</span>`用来匹配所有可能的值，也就是需要忽略的值。</div><div class="line"></div><div class="line">## 值绑定</div><div class="line">``` swift</div><div class="line"><span class="keyword">let</span> anotherPoint = (<span class="number">2</span>, <span class="number">0</span>)</div><div class="line"><span class="keyword">switch</span> anotherPoint &#123;</div><div class="line"><span class="keyword">case</span> (<span class="keyword">let</span> x, <span class="number">0</span>):</div><div class="line">    <span class="built_in">println</span>(<span class="string">"on the x-axis with an x value of \(x)"</span>)</div><div class="line"><span class="keyword">case</span> (<span class="number">0</span>, <span class="keyword">let</span> y):</div><div class="line">    <span class="built_in">println</span>(<span class="string">"on the y-axis with a y value of \(y)"</span>)</div><div class="line"><span class="keyword">case</span> <span class="keyword">let</span> (x, y):</div><div class="line">    <span class="built_in">println</span>(<span class="string">"somewhere else at (\(x), \(y))"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>case</code>语句中，可以用临时的常量变量去绑定值并使用。</p>
+<h2 id="额外条件（Where语句）"><a href="#额外条件（Where语句）" class="headerlink" title="额外条件（Where语句）"></a>额外条件（Where语句）</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> yetAnotherPoint = (<span class="number">1</span>, -<span class="number">1</span>)</div><div class="line"><span class="keyword">switch</span> yetAnotherPoint &#123;</div><div class="line"><span class="keyword">case</span> <span class="keyword">let</span> (x, y) <span class="keyword">where</span> x == y:</div><div class="line">    <span class="built_in">println</span>(<span class="string">"(\(x), \(y)) is on the line x == y"</span>)</div><div class="line"><span class="keyword">case</span> <span class="keyword">let</span> (x, y) <span class="keyword">where</span> x == -y:</div><div class="line">    <span class="built_in">println</span>(<span class="string">"(\(x), \(y)) is on the line x == -y"</span>)</div><div class="line"><span class="keyword">case</span> <span class="keyword">let</span> (x, y):</div><div class="line">    <span class="built_in">println</span>(<span class="string">"(\(x), \(y)) is just some arbitrary point"</span>)</div><div class="line">&#125;</div><div class="line"><span class="comment">// 输出 "(1, -1) is on the line x == -y"</span></div></pre></td></tr></table></figure>
+<p><code>case</code>语句中可以使用<code>where</code>语句跟在条件后作为额外的补充条件，需要同时满足两个条件才可以执行。</p>
+<h1 id="控制转移语句"><a href="#控制转移语句" class="headerlink" title="控制转移语句"></a>控制转移语句</h1><p>Swift一共有四种控制转移语句：<br>-continue<br>-break<br>-fallthrough<br>-return</p>
+<p><code>continue</code>，<code>break</code>和<code>return</code>用法和C语言基本一致。<br>在<code>switch</code>语句中，<code>continue</code>和<code>break</code>都针对整个<code>switch</code>语句，而不是C语言中的一个<code>case</code>语句。遇到<code>break</code>后直接退出整个<code>switch</code>语句，而不是判断下一个<code>case</code>，<code>continue</code>同理。</p>
+<h2 id="贯穿语句（Fallthrough语句）"><a href="#贯穿语句（Fallthrough语句）" class="headerlink" title="贯穿语句（Fallthrough语句）"></a>贯穿语句（Fallthrough语句）</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> integerToDescribe = <span class="number">5</span></div><div class="line"><span class="keyword">var</span> description = <span class="string">"The number \(integerToDescribe) is"</span></div><div class="line"><span class="keyword">switch</span> integerToDescribe &#123;</div><div class="line"><span class="keyword">case</span> <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">11</span>, <span class="number">13</span>, <span class="number">17</span>, <span class="number">19</span>:</div><div class="line">    description += <span class="string">" a prime number, and also"</span></div><div class="line">    <span class="keyword">fallthrough</span></div><div class="line"><span class="keyword">default</span>:</div><div class="line">    description += <span class="string">" an integer."</span></div><div class="line">&#125;</div><div class="line"><span class="built_in">println</span>(description)</div><div class="line"><span class="comment">// 输出 "The number 5 is a prime number, and also an integer."</span></div></pre></td></tr></table></figure>
+<p>Swift语言不支持在<code>switch</code>语句中贯穿多个<code>case</code>语句的情况，但有时我们需要这么做。这时我们可以加上关键字<code>fallthrough</code>，当遇到<code>fallthrough</code>时，就会继续执行下一个<code>case</code>语句。<br>注意：遇到<code>fallthrough</code>时会直接<strong>执行</strong>下一个<code>case</code>语句，而不是去<strong>判断</strong>条件。</p>
+<h2 id="精确控制转移"><a href="#精确控制转移" class="headerlink" title="精确控制转移"></a>精确控制转移</h2><p>Swift语言中可以让<code>break</code>和<code>continue</code>精确地表示针对哪一个循环或条件语句，这称为带标签的语句（<em>Labeled Statements</em>）。<br><code>label name: while condition { statements }</code>，之后再执行<code>break label name</code>或<code>continue label name</code>。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//求第一个质数</span></div><div class="line">loop: <span class="keyword">for</span> integer <span class="keyword">in</span> <span class="number">1</span>...<span class="number">10</span> &#123;</div><div class="line">    <span class="keyword">switch</span> integer &#123;</div><div class="line">    <span class="keyword">case</span> <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">11</span>, <span class="number">13</span>, <span class="number">17</span>, <span class="number">19</span>:</div><div class="line">        <span class="built_in">println</span>(<span class="string">"\(integer) is a prime number"</span>)</div><div class="line">        <span class="keyword">break</span> loop</div><div class="line">    <span class="keyword">default</span>:</div><div class="line">        <span class="built_in">println</span>(<span class="string">"\(integer) is not a prime number"</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>上面代码中，给<code>for-in</code>循环指定了标签<code>loop</code>，我们要求得到第一个质数，所以当遇到质数后用<code>break loop</code>结束循环。如果不加标签，<code>break</code>只能结束<code>switch</code>语句，会继续执行循环，不能达到目的。</p>
+<p><strong> 转载请注明原作者和出处。</strong></p>
+<blockquote>
+<p>如果觉得这篇文章对您有帮助或启发，请随意打赏~</p>
+<p> <img src="http://7xivk7.com1.z0.glb.clouddn.com/paycode01.jpg" width="250" align="left"> <img src="http://7xivk7.com1.z0.glb.clouddn.com/paycode02.jpg" width="250" align="left"> </p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://aidaiz.com/swift_4/" data-id="cj2gdu6kr0018v1o3baawrq14" class="article-share-link" data-share="baidu">Share</a>
+      
+
+      
+        <a href="http://aidaiz.com/swift_4/#ds-thread" class="article-comment-link">Comments</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/swift/">swift</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/swift_5/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Swift基础入门(5)：函数和闭包
+        
+      </div>
+    </a>
+  
+  
+    <a href="/swift_3/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Swift基础入门(3)：数组，集合和字典</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+  <section id="comments">
+    <div id="ds-thread" class="ds-thread" data-thread-key="swift_4/" data-title="Swift基础入门(4)：条件与循环语句" data-url="http://aidaiz.com/swift_4/"></div>
+  </section>
+
+
+</section>
+      
+      <aside id="sidebar">
+  
+      <div class="widget-wrap">
+    <h3 class="widget-title">Weibo</h3>
+      <iframe width="100%" height="90" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=90&fansRow=2&ptype=1&speed=0&skin=1&isTitle=0&noborder=1&isWeibo=0&isFans=0&uid=1728443831&verifier=022f8fe1&dpc=1"></iframe>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/android/">android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/computer-architecture/">computer architecture</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/dpdk/">dpdk</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">hadoop</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/openvswitch/">openvswitch</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/spdk/">spdk</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/swift/">swift</a><span class="category-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cache/">cache</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/computer-architecture/">computer architecture</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dpdk/">dpdk</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/">hadoop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openflow/">openflow</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openvswitch/">openvswitch</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/">proguard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spdk/">spdk</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/swift/">swift</a><span class="tag-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/openvswitch-qos/">Open vSwitch的OpenFlow和QOS</a>
+          </li>
+        
+          <li>
+            <a href="/openvswitch-build/">Open vSwitch安装与使用</a>
+          </li>
+        
+          <li>
+            <a href="/ssh/">SSH秘钥与SSHFS挂载</a>
+          </li>
+        
+          <li>
+            <a href="/spdk/">SPDK简介</a>
+          </li>
+        
+          <li>
+            <a href="/hadoop/">Hadoop安装运行</a>
+          </li>
+        
+          <li>
+            <a href="/cache_miss_type/">容量失效（capacity miss）与冲突失效（conflict miss）的区别</a>
+          </li>
+        
+          <li>
+            <a href="/swift_14/">Swift基础入门(14)：权限控制</a>
+          </li>
+        
+          <li>
+            <a href="/swift_13/">Swift基础入门(13)：高级运算符</a>
+          </li>
+        
+          <li>
+            <a href="/swift_12/">Swift基础入门(12)：泛型</a>
+          </li>
+        
+          <li>
+            <a href="/swift_11/">Swift基础入门(11)：扩展和协议</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://yunhuanran.github.io" target="_blank">潮鸣</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Yunyao Zhang（张云尧）<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/xiangming/landscape-plus" target="_blank">Landscape-plus</a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+  <!-- totop start -->
+<div id="totop">
+<a title="totop"><img src="/img/scrollup.png"/></a>
+</div>
+
+<!-- totop end -->
+
+
+<!-- 多说公共js代码 start -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"aidaiz"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共js代码 end -->
+
+
+<!-- 百度分享 start -->
+
+<div id="article-share-box" class="article-share-box">
+  <div id="bdshare" class="bdsharebuttonbox article-share-links">
+    <a class="article-share-weibo" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a class="article-share-weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a class="article-share-qq" data-cmd="qzone" title="分享到QQ空间"></a>
+<!--   <a class="article-share-renren" data-cmd="renren" title="分享到人人网"></a> -->
+    <a class="article-share-facebook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a class="article-share-twitter" data-cmd="twi" title="分享到Twitter"></a>
+<!--    <a class="article-share-more" data-cmd="more" title="更多"></a> -->
+  </div>
+</div>
+<script>window._bd_share_config={"common":{},"share":{"bdCustomStyle":"/css/bdshare.css"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+<!-- 百度分享 end -->
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>
+

@@ -1,0 +1,376 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Swift基础入门(6)：枚举，类和结构体 | Yunyao Zhang - 张云尧</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="本篇介绍Swift的基础知识：枚举，类和结构体的基本概念和语法。">
+<meta name="keywords" content="swift">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift基础入门(6)：枚举，类和结构体">
+<meta property="og:url" content="http://aidaiz.com/swift_6/index.html">
+<meta property="og:site_name" content="Yunyao Zhang - 张云尧">
+<meta property="og:description" content="本篇介绍Swift的基础知识：枚举，类和结构体的基本概念和语法。">
+<meta property="og:image" content="http://7xivk7.com1.z0.glb.clouddn.com/paycode01.jpg">
+<meta property="og:image" content="http://7xivk7.com1.z0.glb.clouddn.com/paycode02.jpg">
+<meta property="og:updated_time" content="2017-05-08T16:40:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Swift基础入门(6)：枚举，类和结构体">
+<meta name="twitter:description" content="本篇介绍Swift的基础知识：枚举，类和结构体的基本概念和语法。">
+<meta name="twitter:image" content="http://7xivk7.com1.z0.glb.clouddn.com/paycode01.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="Yunyao Zhang - 张云尧" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?5f09ac010983cb94e34e25d4019d9b17";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<meta name="baidu-site-verification" content="DeH9kUFd9Y" />
+</head>
+
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Yunyao Zhang</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">会有一天肆无忌惮地桀骜不驯</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+          <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+<!--        <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form"> --->
+<!--          <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="Search"> --->
+<!--          <input type="submit" value="" class="search-form-submit"> --->
+<!--          <input name=tn type=hidden value="bds"> --->
+<!--          <input name=cl type=hidden value="3"> --->
+<!--          <input name=ct type=hidden value="2097152"> --->
+<!--          <input type="hidden" name="si" value="aidaiz.com"> --->
+<!--        </form> --->
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://aidaiz.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+
+    <div class="outer">
+      <section id="main"><article id="post-swift_6" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/swift_6/" class="article-date">
+  <time datetime="2015-07-19T14:47:43.000Z" itemprop="datePublished">Jul 19 2015</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/swift/">swift</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Swift基础入门(6)：枚举，类和结构体
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+	
+        <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#枚举"><span class="toc-number">1.</span> <span class="toc-text">枚举</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#枚举语法"><span class="toc-number">1.1.</span> <span class="toc-text">枚举语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#成员值"><span class="toc-number">1.2.</span> <span class="toc-text">成员值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#相关值"><span class="toc-number">1.3.</span> <span class="toc-text">相关值</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#类和结构体"><span class="toc-number">2.</span> <span class="toc-text">类和结构体</span></a></li></ol>
+        </div>
+        
+        <p>本篇介绍Swift的基础知识：枚举，类和结构体的基本概念和语法。</p>
+<a id="more"></a>
+<p><strong>Title: <a href="https://aidaizyy.github.io/swift_6" target="_blank" rel="external">Swift基础入门(6)：枚举，类和结构体</a></strong><br><strong>Author: <a href="http://aidaizyy.github.io" target="_blank" rel="external">Yunyao Zhang(张云尧)</a></strong><br><strong>E-mail: <a href="&#x6d;&#97;&#105;&#x6c;&#116;&#x6f;&#x3a;&#x61;&#105;&#x64;&#x61;&#x69;&#122;&#x79;&#121;&#64;&#x67;&#x6d;&#97;&#x69;&#x6c;&#x2e;&#99;&#x6f;&#x6d;">&#x61;&#105;&#x64;&#x61;&#x69;&#122;&#x79;&#121;&#64;&#x67;&#x6d;&#97;&#x69;&#x6c;&#x2e;&#99;&#x6f;&#x6d;</a></strong><br><strong>Last Modified: <a href="http://aidaizyy.github.io" target="_blank" rel="external">2015-07-24</a></strong></p>
+<h1 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h1><h2 id="枚举语法"><a href="#枚举语法" class="headerlink" title="枚举语法"></a>枚举语法</h2><p>枚举定义了一个通用来兴的一组相关的值。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">CompassPoint</span> </span>&#123;</div><div class="line">    <span class="keyword">case</span> <span class="type">North</span>, <span class="type">South</span></div><div class="line">    <span class="keyword">case</span> <span class="type">East</span></div><div class="line">    <span class="keyword">case</span> <span class="type">West</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><code>enum</code>关键字把枚举的整个定义放在大括号中，<code>CompassPoint</code>是它的名称。<code>case</code>表明新的一行成员值被定义，同一行中可以定义多个成员值，用<code>,</code>隔开，这里的成员值为<code>North</code>，<code>South</code>，<code>East</code>，<code>West</code>。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> directionToHead = <span class="type">CompassPoint</span>.<span class="type">West</span></div><div class="line">directionToHead = .<span class="type">East</span></div></pre></td></tr></table></figure></p>
+<p>变量的类型经过第一次赋值确定后，再次赋值可省略枚举类型名称，这里<code>directionToHead</code>已经被确定为<code>CompassPoint</code>的成员值，再次赋值用<code>.East</code>的形式就可以了。<br>定义的枚举成员是没有值的，不会自动分配值。后面会介绍存储原始值，不仅可以存储整数，也可以存储浮点数字符串等其他类型。</p>
+<h2 id="成员值"><a href="#成员值" class="headerlink" title="成员值"></a>成员值</h2><p>枚举类型用<code>switch</code>匹配时，必须每个成员值都考虑到，否则编译无法通过，可用<code>default</code>替代其他成员值。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">directionToHead = .<span class="type">South</span></div><div class="line"><span class="keyword">switch</span> directionToHead &#123;</div><div class="line"><span class="keyword">case</span> .<span class="type">North</span>:</div><div class="line">    <span class="built_in">println</span>(<span class="string">"Lots of planets have a north"</span>)</div><div class="line"><span class="keyword">case</span> .<span class="type">South</span>:</div><div class="line">    <span class="built_in">println</span>(<span class="string">"Watch out for penguins"</span>)</div><div class="line"><span class="keyword">case</span> .<span class="type">East</span>:</div><div class="line">    <span class="built_in">println</span>(<span class="string">"Where the sun rises"</span>)</div><div class="line"><span class="keyword">case</span> .<span class="type">West</span>:</div><div class="line">    <span class="built_in">println</span>(<span class="string">"Where the skies are blue"</span>)</div><div class="line">&#125;</div><div class="line"><span class="comment">// 输出 "Watch out for penguins”</span></div></pre></td></tr></table></figure></p>
+<h2 id="相关值"><a href="#相关值" class="headerlink" title="相关值"></a>相关值</h2><p>枚举类型的用法比较像C语言中的联合体（<em>union</em>），可以为成员值提供其他类型的相关值，即成员值之外的自定义信息。<br>相关值可以是任何类型，每个成员的数据类型也可以不一样。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">Barcode</span> </span>&#123;</div><div class="line">  <span class="keyword">case</span> <span class="type">UPCA</span>(<span class="type">Int</span>, <span class="type">Int</span>, <span class="type">Int</span>)</div><div class="line">  <span class="keyword">case</span> <span class="type">QRCode</span>(<span class="type">String</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>枚举类型<code>Barcode</code>有两个成员值，一个是<code>UPCA</code>，它的相关值是<code>(Int, Int, int)</code>，一个是<code>QRCode</code>，它的相关值是<code>(String)</code><br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> productBarcode = <span class="type">Barcode</span>.<span class="type">UPCA</span>(<span class="number">8</span>, <span class="number">85909_51226</span>, <span class="number">3</span>)</div><div class="line">productBarcode = .<span class="type">QRCode</span>(<span class="string">"ABCDEFGHIJKLMNOP"</span>)</div></pre></td></tr></table></figure></p>
+<h1 id="类和结构体"><a href="#类和结构体" class="headerlink" title="类和结构体"></a>类和结构体</h1><p>类（<em>Class</em>）和结构体（<em>Struct</em>）的用法和其他语言类似。<br>主要区别在于，类允许继承，而结构体不行；类是引用传递，而结构体是值传递。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Resolution</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> width = <span class="number">0</span></div><div class="line">    <span class="keyword">var</span> height = <span class="number">0</span></div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">VideoMode</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> resolution = <span class="type">Resolution</span>()</div><div class="line">    <span class="keyword">var</span> interlaced = <span class="literal">false</span></div><div class="line">    <span class="keyword">var</span> frameRate = <span class="number">0.0</span></div><div class="line">    <span class="keyword">var</span> name: <span class="type">String</span>?</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> someResolution = <span class="type">Resolution</span>(width: <span class="number">1920</span>, height: <span class="number">1080</span>)</div><div class="line"><span class="keyword">let</span> someVideoMode = <span class="type">VideoMode</span>()</div><div class="line">someVideoMode.resolution = someResolution;</div><div class="line">someVideoMode.interlaced = <span class="literal">true</span>;</div><div class="line">someVideoMode.name = <span class="string">"1080i"</span></div><div class="line">someVideoMode.frameRate = <span class="number">25.0</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> otherResolution = someResolution;</div><div class="line"><span class="keyword">let</span> otherVideoMode = someVideoMode;</div><div class="line"></div><div class="line">someResolution.width = <span class="number">2048</span></div><div class="line"><span class="built_in">println</span>(<span class="string">"someResolution is now  \(someResolution.width) pixels wide"</span>)</div><div class="line"><span class="comment">// 输出 "someResolution is now 2048 pixels wide"</span></div><div class="line"><span class="built_in">println</span>(<span class="string">"otherResolution is now  \(otherResolution.width) pixels wide"</span>)</div><div class="line"><span class="comment">// 输出 "otherResolution is now 1920 pixels wide"</span></div><div class="line"></div><div class="line">someVideoMode.resolution.width = <span class="number">1280</span></div><div class="line"><span class="built_in">println</span>(<span class="string">"The width of someVideoMode is now \(someVideoMode.resolution.width)"</span>)</div><div class="line"><span class="comment">// 输出 "The width of someVideoMode is now 1280"</span></div><div class="line"><span class="built_in">println</span>(<span class="string">"The width of otherVideoMode is now \(otherVideoMode.resolution.width)"</span>)</div><div class="line"><span class="comment">// 输出 "The width of otherVideoMode is now 1280"</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> someVideoMode === otherVideoMode &#123;</div><div class="line">    <span class="built_in">println</span>(<span class="string">"someVideoMode and otherVideoMode refer to the same VideoMode instance."</span>)</div><div class="line">&#125;</div><div class="line"><span class="comment">//输出 "someVideoMode and otherVideoMode refer to the same VideoMode instance."</span></div></pre></td></tr></table></figure>
+<p>第1-10行是类和结构体的定义，分别用<code>class</code>和<code>struct</code>表示。</p>
+<p>第12-17行是给类和结构体创建实例，并赋值。<br>结构体可以在构造时逐一初始化成员，<code>(width: 1920, height: 1080)</code>，而类不可以。</p>
+<p>第19-20行，分别用类和结构体的实例去赋值变量或常量。</p>
+<p>第22-26行，变量<code>otherResolution</code>被结构体<code>someResolution</code>赋值时采用的是值传递，因此相互是独立的，只是成员值一样。<br>改变了<code>someResolutin</code>的属性<code>width</code>的值后，<code>otherResolution</code>并未受到影响。</p>
+<p>第28-32行，常量<code>otherVideoMode</code>被类<code>otherVideoMode</code>赋值时采用的是引用传递，指向的是同一个对象。<br>改变了<code>someVideoMode</code>的属性<code>reoulution.width</code>的值后，<code>otherVideoMode</code>的相应属性也随之变化。<br><code>someVideoMode</code>和<code>otherVideoMode</code>被声明为常量,也可以改变其中的成员属性：<br>因为他们都不存储实例，只存储了引用对象，没有改变引用对象，只改变了被引用的基础<code>VideoMode</code>的成员属性。<br>Swift中，几乎所有的基本类型，包括字符串，数组和字典等都是值传递。</p>
+<p>第34-37行，因为两者指向同一对象，不仅仅是成员值相等的关系了，<code>==</code>等于符号并不足以描述这样的关系。<br><code>====</code>恒等运算符用来形容两者指向同一对象，表示两个实例等价。</p>
+<p>枚举，类和结构体的其他特性，参见：<br><a href="http://aidaizyy.github.io/swift_7" target="_blank" rel="external">Swift基础入门(7)：属性，方法和下标</a><br><a href="http://aidaizyy.github.io/swift_8" target="_blank" rel="external">Swift基础入门(8)：继承，构造，析构和嵌套类型</a></p>
+<p><strong> 转载请注明原作者和出处。</strong></p>
+<blockquote>
+<p>如果觉得这篇文章对您有帮助或启发，请随意打赏~</p>
+<p> <img src="http://7xivk7.com1.z0.glb.clouddn.com/paycode01.jpg" width="250" align="left"> <img src="http://7xivk7.com1.z0.glb.clouddn.com/paycode02.jpg" width="250" align="left"> </p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://aidaiz.com/swift_6/" data-id="cj2gdu6l6001fv1o3g257wvue" class="article-share-link" data-share="baidu">Share</a>
+      
+
+      
+        <a href="http://aidaiz.com/swift_6/#ds-thread" class="article-comment-link">Comments</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/swift/">swift</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/swift_7/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Swift基础入门(7)：属性，方法和下标
+        
+      </div>
+    </a>
+  
+  
+    <a href="/swift_5/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Swift基础入门(5)：函数和闭包</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+  <section id="comments">
+    <div id="ds-thread" class="ds-thread" data-thread-key="swift_6/" data-title="Swift基础入门(6)：枚举，类和结构体" data-url="http://aidaiz.com/swift_6/"></div>
+  </section>
+
+
+</section>
+      
+      <aside id="sidebar">
+  
+      <div class="widget-wrap">
+    <h3 class="widget-title">Weibo</h3>
+      <iframe width="100%" height="90" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=90&fansRow=2&ptype=1&speed=0&skin=1&isTitle=0&noborder=1&isWeibo=0&isFans=0&uid=1728443831&verifier=022f8fe1&dpc=1"></iframe>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/android/">android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/computer-architecture/">computer architecture</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/dpdk/">dpdk</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hadoop/">hadoop</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/openvswitch/">openvswitch</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/spdk/">spdk</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/swift/">swift</a><span class="category-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cache/">cache</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/computer-architecture/">computer architecture</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dpdk/">dpdk</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hadoop/">hadoop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openflow/">openflow</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openvswitch/">openvswitch</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proguard/">proguard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spdk/">spdk</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/swift/">swift</a><span class="tag-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/openvswitch-qos/">Open vSwitch的OpenFlow和QOS</a>
+          </li>
+        
+          <li>
+            <a href="/openvswitch-build/">Open vSwitch安装与使用</a>
+          </li>
+        
+          <li>
+            <a href="/ssh/">SSH秘钥与SSHFS挂载</a>
+          </li>
+        
+          <li>
+            <a href="/spdk/">SPDK简介</a>
+          </li>
+        
+          <li>
+            <a href="/hadoop/">Hadoop安装运行</a>
+          </li>
+        
+          <li>
+            <a href="/cache_miss_type/">容量失效（capacity miss）与冲突失效（conflict miss）的区别</a>
+          </li>
+        
+          <li>
+            <a href="/swift_14/">Swift基础入门(14)：权限控制</a>
+          </li>
+        
+          <li>
+            <a href="/swift_13/">Swift基础入门(13)：高级运算符</a>
+          </li>
+        
+          <li>
+            <a href="/swift_12/">Swift基础入门(12)：泛型</a>
+          </li>
+        
+          <li>
+            <a href="/swift_11/">Swift基础入门(11)：扩展和协议</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Links</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="http://yunhuanran.github.io" target="_blank">潮鸣</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Yunyao Zhang（张云尧）<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/xiangming/landscape-plus" target="_blank">Landscape-plus</a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+  <!-- totop start -->
+<div id="totop">
+<a title="totop"><img src="/img/scrollup.png"/></a>
+</div>
+
+<!-- totop end -->
+
+
+<!-- 多说公共js代码 start -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"aidaiz"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共js代码 end -->
+
+
+<!-- 百度分享 start -->
+
+<div id="article-share-box" class="article-share-box">
+  <div id="bdshare" class="bdsharebuttonbox article-share-links">
+    <a class="article-share-weibo" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a class="article-share-weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a class="article-share-qq" data-cmd="qzone" title="分享到QQ空间"></a>
+<!--   <a class="article-share-renren" data-cmd="renren" title="分享到人人网"></a> -->
+    <a class="article-share-facebook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a class="article-share-twitter" data-cmd="twi" title="分享到Twitter"></a>
+<!--    <a class="article-share-more" data-cmd="more" title="更多"></a> -->
+  </div>
+</div>
+<script>window._bd_share_config={"common":{},"share":{"bdCustomStyle":"/css/bdshare.css"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+<!-- 百度分享 end -->
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>
+
