@@ -16,7 +16,7 @@
 <meta property="og:image" content="https://software.intel.com/sites/default/files/managed/a8/ff/introduction-to-the-storage-performance-development-kit-spdk-fig2.png">
 <meta property="og:image" content="http://7xivk7.com1.z0.glb.clouddn.com/paycode01.jpg">
 <meta property="og:image" content="http://7xivk7.com1.z0.glb.clouddn.com/paycode02.jpg">
-<meta property="og:updated_time" content="2017-05-08T16:40:35.000Z">
+<meta property="og:updated_time" content="2017-05-08T17:13:44.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SPDK简介">
 <meta name="twitter:description" content="SPDK（Storage Performance Development Kit）是Intel发布的存储性能开发工具集。  原文：《Introduction to the Storage Performance Development Kit (SPDK)》">
@@ -130,9 +130,9 @@ var _hmt = _hmt || [];
 <p>原文：<a href="https://software.intel.com/en-us/articles/introduction-to-the-storage-performance-development-kit-spdk" target="_blank" rel="external">《Introduction to the Storage Performance Development Kit (SPDK)》</a></p>
 </blockquote>
 <a id="more"></a>
-<p><strong>Title: <a href="https://aidaizyy.github.io/spdk" target="_blank" rel="external">SPDK简介</a></strong><br><strong>Author: <a href="http://aidaizyy.github.io" target="_blank" rel="external">Yunyao Zhang(张云尧)</a></strong><br><strong>E-mail: <a href="&#109;&#97;&#x69;&#x6c;&#116;&#x6f;&#58;&#97;&#x69;&#x64;&#97;&#105;&#x7a;&#121;&#x79;&#64;&#x67;&#109;&#97;&#105;&#108;&#46;&#x63;&#x6f;&#109;">&#97;&#x69;&#x64;&#97;&#105;&#x7a;&#121;&#x79;&#64;&#x67;&#109;&#97;&#105;&#108;&#46;&#x63;&#x6f;&#109;</a></strong><br><strong>Last Modified: <a href="http://aidaizyy.github.io" target="_blank" rel="external">2016-08-16</a></strong></p>
+<p><strong>Title: <a href="https://aidaizyy.github.io/spdk" target="_blank" rel="external">SPDK简介</a></strong><br><strong>Author: <a href="http://aidaizyy.github.io" target="_blank" rel="external">Yunyao Zhang(张云尧)</a></strong><br><strong>E-mail: <a href="&#109;&#97;&#105;&#108;&#x74;&#x6f;&#58;&#97;&#105;&#100;&#97;&#x69;&#122;&#121;&#121;&#x40;&#x67;&#109;&#97;&#x69;&#108;&#46;&#x63;&#x6f;&#109;">&#97;&#105;&#100;&#97;&#x69;&#122;&#121;&#121;&#x40;&#x67;&#109;&#97;&#x69;&#108;&#46;&#x63;&#x6f;&#109;</a></strong><br><strong>Last Modified: <a href="http://aidaizyy.github.io" target="_blank" rel="external">2016-08-16</a></strong></p>
 <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>固态存储媒介正在取代数据中心。目前这一代的闪存存储，比起传统的磁盘介质，在性能（performance）、功耗（power consumption）和机架密度（rack density）上具有显著的优势。这些优势将会继续增大，使闪存存储作为下一代媒介进入市场。</p>
-<p>用户使用现在的固态媒介，比如Intel® SSD DC P3700 Series Non-Volatile Memory Express<em>（NVMe</em>）驱动，面临一个主要的挑战：因为吞吐量和延迟性能比传统的磁盘好太多，现在总的处理时间中，存储软件占用了更大的比例。换句话说，存储软件栈的性能和效率在整个存储系统中越来越重要。随着存储媒介继续发展，它将面临远远超过正在使用的软件体系结构的风险（即存储媒介受制于相关软件的不足而不能发挥全部性能），在接下来的几年中，存储媒介将会继续发展到一个令人难以置信的地步。</p>
+<p>用户使用现在的固态媒介，比如Intel® SSD DC P3700 Series Non-Volatile Memory Express（NVMe）驱动，面临一个主要的挑战：因为吞吐量和延迟性能比传统的磁盘好太多，现在总的处理时间中，存储软件占用了更大的比例。换句话说，存储软件栈的性能和效率在整个存储系统中越来越重要。随着存储媒介继续发展，它将面临远远超过正在使用的软件体系结构的风险（即存储媒介受制于相关软件的不足而不能发挥全部性能），在接下来的几年中，存储媒介将会继续发展到一个令人难以置信的地步。</p>
 <p>为了帮助存储OEM（设备代工厂）和ISV（独立软件开发商）整合硬件，Inte构造了一系列驱动，以及一个完善的、端对端的参考存储体系结构，被命名为Storage Performance Development Kit（SPDK）。SPDK的目标是通过同时使用Intel的网络技术，处理技术和存储技术来提高突出显著的效率和性能。通过运行为硬件设计的软件，SPDK已经证明很容易达到每秒钟数百万次I/O读取，通过使用许多处理器核心和许多NVMe驱动去存储，而不需要额外卸载硬件。Intel在<a href="https://github.com/spdk/spdk/blob/master/LICENSE" target="_blank" rel="external">BSD license</a>许可协议下通过<a href="https://github.com/spdk" target="_blank" rel="external">Github</a>分发提供其全部的Linux参考架构的源代码。博客、邮件列表和额外文档可以在<a href="http://www.spdk.io" target="_blank" rel="external">spdk.io</a>中找到。</p>
 <h2 id="软件体系结构概览"><a href="#软件体系结构概览" class="headerlink" title="软件体系结构概览"></a>软件体系结构概览</h2><p>SPDK如何工作？达到这样的超高性能运用了两个关键技术：运行于用户态和轮询模式。让我们进一步了解这两个软件工程术语。</p>
 <p>首先，我们的设备驱动代码运行在用户态意味着，在定义上，驱动代码不会运行在内核中。避免内核上下文切换和中断将会节省大量的处理开销，允许更多的时钟周期被用来做实际的数据存储。无视复杂的存储算法（去冗，加密，压缩，空白块存储），更少浪费的时间周期意味着更好的性能。</p>

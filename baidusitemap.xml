@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>http://aidaiz.com/spdk/</loc>
+    <lastmod>2017-05-08T17:13:44.000Z</lastmod>
+    <data>
+        <display>
+        <title>SPDK简介</title>
+        <pubTime>2016-08-15T15:02:27.000Z</pubTime>
+        
+        <tag>spdk</tag>
+         
+         
+           
+             
+              <breadCrumb title="spdk" url="http://aidaiz.com/categories/spdk/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://aidaiz.com/swift_13/</loc>
     <lastmod>2017-05-08T16:40:35.000Z</lastmod>
     <data>
@@ -17,28 +37,6 @@
            
              
               <breadCrumb title="swift" url="http://aidaiz.com/categories/swift/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://aidaiz.com/android_proguard/</loc>
-    <lastmod>2017-05-08T16:40:35.000Z</lastmod>
-    <data>
-        <display>
-        <title>Android代码混淆（Proguard）</title>
-        <pubTime>2015-07-13T03:42:52.000Z</pubTime>
-        
-        <tag>android</tag>
-         
-        <tag>proguard</tag>
-         
-         
-           
-             
-              <breadCrumb title="android" url="http://aidaiz.com/categories/android/"/>
           
         </display>
     </data>
@@ -152,19 +150,21 @@
 
     
   <url>
-    <loc>http://aidaiz.com/spdk/</loc>
+    <loc>http://aidaiz.com/android_proguard/</loc>
     <lastmod>2017-05-08T16:40:35.000Z</lastmod>
     <data>
         <display>
-        <title>SPDK简介</title>
-        <pubTime>2016-08-15T15:02:27.000Z</pubTime>
+        <title>Android代码混淆（Proguard）</title>
+        <pubTime>2015-07-13T03:42:52.000Z</pubTime>
         
-        <tag>spdk</tag>
+        <tag>android</tag>
+         
+        <tag>proguard</tag>
          
          
            
              
-              <breadCrumb title="spdk" url="http://aidaiz.com/categories/spdk/"/>
+              <breadCrumb title="android" url="http://aidaiz.com/categories/android/"/>
           
         </display>
     </data>
