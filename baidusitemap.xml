@@ -4,6 +4,21 @@
 
     
   <url>
+    <loc>http://aidaiz.com/sorry/</loc>
+    <lastmod>2017-07-07T13:09:33.000Z</lastmod>
+    <data>
+        <display>
+        <title>道歉！</title>
+        <pubTime>2017-07-07T12:59:54.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://aidaiz.com/spdk/</loc>
     <lastmod>2017-05-11T15:54:23.000Z</lastmod>
     <data>
@@ -24,12 +39,12 @@
 
     
   <url>
-    <loc>http://aidaiz.com/swift_13/</loc>
+    <loc>http://aidaiz.com/swift_11/</loc>
     <lastmod>2017-05-08T16:40:35.000Z</lastmod>
     <data>
         <display>
-        <title>Swift基础入门(13)：高级运算符</title>
-        <pubTime>2015-07-28T03:59:40.000Z</pubTime>
+        <title>Swift基础入门(11)：扩展和协议</title>
+        <pubTime>2015-07-24T08:28:22.000Z</pubTime>
         
         <tag>swift</tag>
          
@@ -64,76 +79,12 @@
 
     
   <url>
-    <loc>http://aidaiz.com/dpdk_l2fwd/</loc>
-    <lastmod>2017-05-08T16:40:35.000Z</lastmod>
-    <data>
-        <display>
-        <title>DPDK-l2fwd详解</title>
-        <pubTime>2015-03-31T05:59:13.000Z</pubTime>
-        
-        <tag>dpdk</tag>
-         
-         
-           
-             
-              <breadCrumb title="dpdk" url="http://aidaiz.com/categories/dpdk/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://aidaiz.com/hadoop/</loc>
-    <lastmod>2017-05-08T16:40:35.000Z</lastmod>
-    <data>
-        <display>
-        <title>Hadoop安装运行</title>
-        <pubTime>2016-05-29T06:18:57.000Z</pubTime>
-        
-        <tag>hadoop</tag>
-         
-        <tag>java</tag>
-         
-         
-           
-             
-              <breadCrumb title="hadoop" url="http://aidaiz.com/categories/hadoop/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://aidaiz.com/openvswitch-build/</loc>
     <lastmod>2017-05-08T16:40:35.000Z</lastmod>
     <data>
         <display>
         <title>Open vSwitch安装与使用</title>
         <pubTime>2016-11-23T06:26:26.000Z</pubTime>
-        
-        <tag>openvswitch</tag>
-         
-        <tag>openflow</tag>
-         
-         
-           
-             
-              <breadCrumb title="openvswitch" url="http://aidaiz.com/categories/openvswitch/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://aidaiz.com/openvswitch-qos/</loc>
-    <lastmod>2017-05-08T16:40:35.000Z</lastmod>
-    <data>
-        <display>
-        <title>Open vSwitch的OpenFlow和QOS</title>
-        <pubTime>2016-11-24T06:41:03.000Z</pubTime>
         
         <tag>openvswitch</tag>
          
@@ -165,6 +116,70 @@
            
              
               <breadCrumb title="android" url="http://aidaiz.com/categories/android/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://aidaiz.com/dpdk_l2fwd/</loc>
+    <lastmod>2017-05-08T16:40:35.000Z</lastmod>
+    <data>
+        <display>
+        <title>DPDK-l2fwd详解</title>
+        <pubTime>2015-03-31T05:59:13.000Z</pubTime>
+        
+        <tag>dpdk</tag>
+         
+         
+           
+             
+              <breadCrumb title="dpdk" url="http://aidaiz.com/categories/dpdk/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://aidaiz.com/openvswitch-qos/</loc>
+    <lastmod>2017-05-08T16:40:35.000Z</lastmod>
+    <data>
+        <display>
+        <title>Open vSwitch的OpenFlow和QOS</title>
+        <pubTime>2016-11-24T06:41:03.000Z</pubTime>
+        
+        <tag>openvswitch</tag>
+         
+        <tag>openflow</tag>
+         
+         
+           
+             
+              <breadCrumb title="openvswitch" url="http://aidaiz.com/categories/openvswitch/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://aidaiz.com/hadoop/</loc>
+    <lastmod>2017-05-08T16:40:35.000Z</lastmod>
+    <data>
+        <display>
+        <title>Hadoop安装运行</title>
+        <pubTime>2016-05-29T06:18:57.000Z</pubTime>
+        
+        <tag>hadoop</tag>
+         
+        <tag>java</tag>
+         
+         
+           
+             
+              <breadCrumb title="hadoop" url="http://aidaiz.com/categories/hadoop/"/>
           
         </display>
     </data>
@@ -250,26 +265,6 @@
 
     
   <url>
-    <loc>http://aidaiz.com/swift_11/</loc>
-    <lastmod>2017-05-08T16:40:35.000Z</lastmod>
-    <data>
-        <display>
-        <title>Swift基础入门(11)：扩展和协议</title>
-        <pubTime>2015-07-24T08:28:22.000Z</pubTime>
-        
-        <tag>swift</tag>
-         
-         
-           
-             
-              <breadCrumb title="swift" url="http://aidaiz.com/categories/swift/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://aidaiz.com/cache_miss_type/</loc>
     <lastmod>2017-05-08T16:40:35.000Z</lastmod>
     <data>
@@ -285,6 +280,26 @@
            
              
               <breadCrumb title="computer architecture" url="http://aidaiz.com/categories/computer-architecture/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://aidaiz.com/swift_13/</loc>
+    <lastmod>2017-05-08T16:40:35.000Z</lastmod>
+    <data>
+        <display>
+        <title>Swift基础入门(13)：高级运算符</title>
+        <pubTime>2015-07-28T03:59:40.000Z</pubTime>
+        
+        <tag>swift</tag>
+         
+         
+           
+             
+              <breadCrumb title="swift" url="http://aidaiz.com/categories/swift/"/>
           
         </display>
     </data>
@@ -332,12 +347,12 @@
 
     
   <url>
-    <loc>http://aidaiz.com/swift_4/</loc>
+    <loc>http://aidaiz.com/swift_3/</loc>
     <lastmod>2017-05-08T16:40:35.000Z</lastmod>
     <data>
         <display>
-        <title>Swift基础入门(4)：条件与循环语句</title>
-        <pubTime>2015-07-16T06:36:11.000Z</pubTime>
+        <title>Swift基础入门(3)：数组，集合和字典</title>
+        <pubTime>2015-07-15T09:04:30.000Z</pubTime>
         
         <tag>swift</tag>
          
@@ -352,12 +367,12 @@
 
     
   <url>
-    <loc>http://aidaiz.com/swift_3/</loc>
+    <loc>http://aidaiz.com/swift_4/</loc>
     <lastmod>2017-05-08T16:40:35.000Z</lastmod>
     <data>
         <display>
-        <title>Swift基础入门(3)：数组，集合和字典</title>
-        <pubTime>2015-07-15T09:04:30.000Z</pubTime>
+        <title>Swift基础入门(4)：条件与循环语句</title>
+        <pubTime>2015-07-16T06:36:11.000Z</pubTime>
         
         <tag>swift</tag>
          

@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://aidaiz.com/sorry/</loc>
+    
+    <lastmod>2017-07-07T13:09:33.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://aidaiz.com/spdk/</loc>
     
     <lastmod>2017-05-11T15:54:23.000Z</lastmod>
@@ -9,7 +16,7 @@
   </url>
   
   <url>
-    <loc>http://aidaiz.com/swift_13/</loc>
+    <loc>http://aidaiz.com/swift_11/</loc>
     
     <lastmod>2017-05-08T16:40:35.000Z</lastmod>
     
@@ -23,21 +30,21 @@
   </url>
   
   <url>
-    <loc>http://aidaiz.com/dpdk_l2fwd/</loc>
-    
-    <lastmod>2017-05-08T16:40:35.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://aidaiz.com/hadoop/</loc>
-    
-    <lastmod>2017-05-08T16:40:35.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://aidaiz.com/openvswitch-build/</loc>
+    
+    <lastmod>2017-05-08T16:40:35.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://aidaiz.com/android_proguard/</loc>
+    
+    <lastmod>2017-05-08T16:40:35.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://aidaiz.com/dpdk_l2fwd/</loc>
     
     <lastmod>2017-05-08T16:40:35.000Z</lastmod>
     
@@ -51,7 +58,7 @@
   </url>
   
   <url>
-    <loc>http://aidaiz.com/android_proguard/</loc>
+    <loc>http://aidaiz.com/hadoop/</loc>
     
     <lastmod>2017-05-08T16:40:35.000Z</lastmod>
     
@@ -86,14 +93,14 @@
   </url>
   
   <url>
-    <loc>http://aidaiz.com/swift_11/</loc>
+    <loc>http://aidaiz.com/cache_miss_type/</loc>
     
     <lastmod>2017-05-08T16:40:35.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://aidaiz.com/cache_miss_type/</loc>
+    <loc>http://aidaiz.com/swift_13/</loc>
     
     <lastmod>2017-05-08T16:40:35.000Z</lastmod>
     
@@ -114,14 +121,14 @@
   </url>
   
   <url>
-    <loc>http://aidaiz.com/swift_4/</loc>
+    <loc>http://aidaiz.com/swift_3/</loc>
     
     <lastmod>2017-05-08T16:40:35.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://aidaiz.com/swift_3/</loc>
+    <loc>http://aidaiz.com/swift_4/</loc>
     
     <lastmod>2017-05-08T16:40:35.000Z</lastmod>
     

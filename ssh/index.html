@@ -123,7 +123,7 @@ var _hmt = _hmt || [];
                 <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#查看已有的秘钥"><span class="toc-number">1.</span> <span class="toc-text">查看已有的秘钥</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建新的秘钥"><span class="toc-number">2.</span> <span class="toc-text">创建新的秘钥</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#机器A登录机器B"><span class="toc-number">3.</span> <span class="toc-text">机器A登录机器B</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置文件和目录权限"><span class="toc-number">4.</span> <span class="toc-text">设置文件和目录权限</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加秘钥到SSH-AGENT"><span class="toc-number">5.</span> <span class="toc-text">添加秘钥到SSH-AGENT</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SSH连接服务器"><span class="toc-number">6.</span> <span class="toc-text">SSH连接服务器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GitHub和Coding公钥添加"><span class="toc-number">7.</span> <span class="toc-text">GitHub和Coding公钥添加</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SSHFS挂载"><span class="toc-number">8.</span> <span class="toc-text">SSHFS挂载</span></a></li></ol>
         </div>
         
-        <p>SSH通过秘钥（公钥与私钥）完成免密SSH连接。<br>SSHFS挂载远程目录到本地，本地操作同步到远程目录。<br><a id="more"></a><br><strong>Title: <a href="https://aidaizyy.github.io/ssh" target="_blank" rel="external">SSH秘钥与SSHFS挂载</a></strong><br><strong>Author: <a href="http://aidaizyy.github.io" target="_blank" rel="external">Yunyao Zhang(张云尧)</a></strong><br><strong>E-mail: <a href="&#109;&#x61;&#105;&#x6c;&#x74;&#111;&#58;&#97;&#105;&#100;&#x61;&#105;&#x7a;&#121;&#x79;&#64;&#x67;&#x6d;&#x61;&#105;&#108;&#x2e;&#x63;&#111;&#109;">&#97;&#105;&#100;&#x61;&#105;&#x7a;&#121;&#x79;&#64;&#x67;&#x6d;&#x61;&#105;&#108;&#x2e;&#x63;&#111;&#109;</a></strong><br><strong>Last Modified: <a href="http://aidaizyy.github.io" target="_blank" rel="external">2016-08-25</a></strong></p>
+        <p>SSH通过秘钥（公钥与私钥）完成免密SSH连接。<br>SSHFS挂载远程目录到本地，本地操作同步到远程目录。<br><a id="more"></a><br><strong>Title: <a href="https://aidaizyy.github.io/ssh" target="_blank" rel="external">SSH秘钥与SSHFS挂载</a></strong><br><strong>Author: <a href="http://aidaizyy.github.io" target="_blank" rel="external">Yunyao Zhang(张云尧)</a></strong><br><strong>E-mail: <a href="&#x6d;&#x61;&#105;&#108;&#x74;&#x6f;&#x3a;&#97;&#x69;&#100;&#x61;&#x69;&#x7a;&#121;&#x79;&#64;&#103;&#109;&#97;&#x69;&#108;&#46;&#x63;&#111;&#x6d;">&#97;&#x69;&#100;&#x61;&#x69;&#x7a;&#121;&#x79;&#64;&#103;&#109;&#97;&#x69;&#108;&#46;&#x63;&#111;&#x6d;</a></strong><br><strong>Last Modified: <a href="http://aidaizyy.github.io" target="_blank" rel="external">2016-08-25</a></strong></p>
 <h2 id="查看已有的秘钥"><a href="#查看已有的秘钥" class="headerlink" title="查看已有的秘钥"></a>查看已有的秘钥</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> ~/.ssh</div><div class="line">ls</div></pre></td></tr></table></figure>
 <p>以.pub结尾的文件就是公钥，而与.pub前字符串相同的文件就是与之对应的私钥。</p>
 <h2 id="创建新的秘钥"><a href="#创建新的秘钥" class="headerlink" title="创建新的秘钥"></a>创建新的秘钥</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh-keygen -t rsa -C “usr@email”</div></pre></td></tr></table></figure>
@@ -155,7 +155,7 @@ var _hmt = _hmt || [];
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://aidaiz.com/ssh/" data-id="cj2gdu6k0000jv1o3iiyfnmdt" class="article-share-link" data-share="baidu">Share</a>
+        <a data-url="http://aidaiz.com/ssh/" data-id="cj4tvoh29000n79o3zmnx91z0" class="article-share-link" data-share="baidu">Share</a>
       
 
       
@@ -227,7 +227,7 @@ var _hmt = _hmt || [];
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -237,6 +237,10 @@ var _hmt = _hmt || [];
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/sorry/">道歉！</a>
+          </li>
         
           <li>
             <a href="/openvswitch-qos/">Open vSwitch的OpenFlow和QOS</a>
@@ -272,10 +276,6 @@ var _hmt = _hmt || [];
         
           <li>
             <a href="/swift_12/">Swift基础入门(12)：泛型</a>
-          </li>
-        
-          <li>
-            <a href="/swift_11/">Swift基础入门(11)：扩展和协议</a>
           </li>
         
       </ul>

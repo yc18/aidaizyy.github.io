@@ -126,7 +126,7 @@ var _hmt = _hmt || [];
         
         <p>本篇介绍Swift的基础知识：泛型，适合任何类型的函数和类型。</p>
 <a id="more"></a>
-<p><strong>Title: <a href="https://aidaizyy.github.io/swift_12" target="_blank" rel="external">Swift基础入门(12)：泛型</a></strong><br><strong>Author: <a href="http://aidaizyy.github.io" target="_blank" rel="external">Yunyao Zhang(张云尧)</a></strong><br><strong>E-mail: <a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#111;&#x3a;&#97;&#x69;&#100;&#x61;&#x69;&#122;&#x79;&#x79;&#64;&#103;&#109;&#97;&#x69;&#x6c;&#x2e;&#x63;&#111;&#x6d;">&#97;&#x69;&#100;&#x61;&#x69;&#122;&#x79;&#x79;&#64;&#103;&#109;&#97;&#x69;&#x6c;&#x2e;&#x63;&#111;&#x6d;</a></strong><br><strong>Last Modified: <a href="http://aidaizyy.github.io" target="_blank" rel="external">2015-07-28</a></strong></p>
+<p><strong>Title: <a href="https://aidaizyy.github.io/swift_12" target="_blank" rel="external">Swift基础入门(12)：泛型</a></strong><br><strong>Author: <a href="http://aidaizyy.github.io" target="_blank" rel="external">Yunyao Zhang(张云尧)</a></strong><br><strong>E-mail: <a href="&#x6d;&#x61;&#105;&#108;&#x74;&#x6f;&#x3a;&#97;&#x69;&#100;&#x61;&#x69;&#122;&#x79;&#121;&#64;&#103;&#109;&#97;&#x69;&#108;&#x2e;&#99;&#111;&#109;">&#97;&#x69;&#100;&#x61;&#x69;&#122;&#x79;&#121;&#64;&#103;&#109;&#97;&#x69;&#108;&#x2e;&#99;&#111;&#109;</a></strong><br><strong>Last Modified: <a href="http://aidaizyy.github.io" target="_blank" rel="external">2015-07-28</a></strong></p>
 <h1 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h1><p>泛型（<em>generic</em>）类似于C++中的模板，可以写出适合任何类型的函数和类型。为函数或者类型指定了模板类型，可以传入任何类型去替代模板类型。</p>
 <h2 id="泛型函数"><a href="#泛型函数" class="headerlink" title="泛型函数"></a>泛型函数</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">swapTwoValues</span>&lt;T&gt;<span class="params">(<span class="keyword">inout</span> a: T, <span class="keyword">inout</span> b: T)</span></span> &#123;</div><div class="line">    <span class="keyword">let</span> temporaryA = a</div><div class="line">    a = b</div><div class="line">    b = temporaryA</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> someInt = <span class="number">3</span></div><div class="line"><span class="keyword">var</span> anotherInt = <span class="number">107</span></div><div class="line">swapTwoValues(&amp;someInt, &amp;anotherInt)</div><div class="line"><span class="comment">// someInt is now 107, and anotherInt is now 3</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> someString = <span class="string">"hello"</span></div><div class="line"><span class="keyword">var</span> anotherString = <span class="string">"world"</span></div><div class="line">swapTwoValues(&amp;someString, &amp;anotherString)</div><div class="line"><span class="comment">// someString is now "world", and anotherString is now "hello"</span></div></pre></td></tr></table></figure>
 <p>函数<code>swapTwoValues</code>后面接尖括号和占位符<code>T</code>替代任何类型，函数的两个参数<code>a</code>和<code>b</code>的类型都指定为<code>T</code>，代表这两个参数类型是一样的，但是没有被确定，适合任何类型。<br>第7-10行，传入了两个整数，可以调用函数；第12-15行，传入了两个字符串，可以调用函数。</p>
@@ -155,7 +155,7 @@ var _hmt = _hmt || [];
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://aidaiz.com/swift_12/" data-id="cj2gdu6k9000tv1o37txn4wts" class="article-share-link" data-share="baidu">Share</a>
+        <a data-url="http://aidaiz.com/swift_12/" data-id="cj4tvoh2f000u79o3samuuuc4" class="article-share-link" data-share="baidu">Share</a>
       
 
       
@@ -229,7 +229,7 @@ var _hmt = _hmt || [];
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -239,6 +239,10 @@ var _hmt = _hmt || [];
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/sorry/">道歉！</a>
+          </li>
         
           <li>
             <a href="/openvswitch-qos/">Open vSwitch的OpenFlow和QOS</a>
@@ -274,10 +278,6 @@ var _hmt = _hmt || [];
         
           <li>
             <a href="/swift_12/">Swift基础入门(12)：泛型</a>
-          </li>
-        
-          <li>
-            <a href="/swift_11/">Swift基础入门(11)：扩展和协议</a>
           </li>
         
       </ul>
