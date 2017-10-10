@@ -126,7 +126,7 @@ var _hmt = _hmt || [];
         
         <p>本篇介绍Swift的基础知识：类的继承；枚举，结构体和类的构造过程，析构过程和嵌套类型。</p>
 <a id="more"></a>
-<p><strong>Title: <a href="https://aidaizyy.github.io/swift_8" target="_blank" rel="external">Swift基础入门(8)：继承，构造，析构和嵌套类型</a></strong><br><strong>Author: <a href="http://aidaizyy.github.io" target="_blank" rel="external">Yunyao Zhang(张云尧)</a></strong><br><strong>E-mail: <a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#x6f;&#58;&#x61;&#x69;&#100;&#x61;&#105;&#x7a;&#121;&#121;&#64;&#103;&#109;&#x61;&#105;&#108;&#46;&#x63;&#111;&#109;">&#x61;&#x69;&#100;&#x61;&#105;&#x7a;&#121;&#121;&#64;&#103;&#109;&#x61;&#105;&#108;&#46;&#x63;&#111;&#109;</a></strong><br><strong>Last Modified: <a href="http://aidaizyy.github.io" target="_blank" rel="external">2015-07-24</a></strong></p>
+<p><strong>Title: <a href="https://aidaizyy.github.io/swift_8" target="_blank" rel="external">Swift基础入门(8)：继承，构造，析构和嵌套类型</a></strong><br><strong>Author: <a href="http://aidaizyy.github.io" target="_blank" rel="external">Yunyao Zhang(张云尧)</a></strong><br><strong>E-mail: <a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#x6f;&#x3a;&#x61;&#x69;&#x64;&#97;&#105;&#122;&#121;&#x79;&#64;&#x67;&#109;&#x61;&#105;&#x6c;&#x2e;&#x63;&#x6f;&#109;">&#x61;&#x69;&#x64;&#97;&#105;&#122;&#121;&#x79;&#64;&#x67;&#109;&#x61;&#105;&#x6c;&#x2e;&#x63;&#x6f;&#109;</a></strong><br><strong>Last Modified: <a href="http://aidaizyy.github.io" target="_blank" rel="external">2015-07-24</a></strong></p>
 <h1 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h1><h2 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h2><p>子类（<em>subclass</em>）继承（<em>inherit</em>）继承超类/父类（<em>superclass</em>）的属性，方法，下标和其他特性。<br>声明子类时，将超类名写在子类名的后面，用冒号分割：<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Vehicle</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> currentSpeed = <span class="number">0.0</span></div><div class="line">    <span class="keyword">var</span> description: <span class="type">String</span> &#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"traveling at \(currentSpeed) miles per hour"</span></div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">makeNoise</span><span class="params">()</span></span> &#123;</div><div class="line">        <span class="comment">// 什么也不做-因为车辆不一定会有噪音</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bicycle</span>: <span class="title">Vehicle</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> hasBasket = <span class="literal">false</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Tandem</span>: <span class="title">Bicycle</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> currentNumberOfPassengers = <span class="number">0</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> tandem = <span class="type">Tandem</span>()</div><div class="line">tandem.hasBasket = <span class="literal">true</span></div><div class="line">tandem.currentNumberOfPassengers = <span class="number">2</span></div><div class="line">tandem.currentSpeed = <span class="number">22.0</span></div><div class="line"><span class="built_in">println</span>(<span class="string">"Tandem: \(tandem.description)"</span>)</div><div class="line"><span class="comment">// Tandem: traveling at 22.0 miles per hour</span></div></pre></td></tr></table></figure></p>
 <h2 id="重写"><a href="#重写" class="headerlink" title="重写"></a>重写</h2><p>重写（<em>overriding</em>）指子类把父类的实例方法，类方法，实例属性和下表脚本等提供自己定制的实现。<br>在重写定义的前面加上关键字<code>override</code>。<br>使用<code>super</code>前缀可以访问超类的属性，方法和下表脚本。</p>
 <h3 id="重写方法"><a href="#重写方法" class="headerlink" title="重写方法"></a>重写方法</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Train</span>: <span class="title">Vehicle</span> </span>&#123;</div><div class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">makeNoise</span><span class="params">()</span></span> &#123;</div><div class="line">        <span class="built_in">println</span>(<span class="string">"Choo Choo"</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Car</span>: <span class="title">Vehicle</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> gear = <span class="number">1</span></div><div class="line">    <span class="keyword">override</span> <span class="keyword">var</span> description: <span class="type">String</span> &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.description + <span class="string">" in gear \(gear)"</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> train = <span class="type">Train</span>()</div><div class="line">train.makeNoise()</div><div class="line"><span class="comment">// prints "Choo Choo"</span></div></pre></td></tr></table></figure>
@@ -214,11 +214,9 @@ var _hmt = _hmt || [];
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://aidaiz.com/swift_8/" data-id="cj4y5beys001juko3xncqff02" class="article-share-link" data-share="baidu">Share</a>
+        <a data-url="http://aidaiz.com/swift_8/" data-id="cj8lpzyoh001mgoo3beb1jdoh" class="article-share-link" data-share="baidu">Share</a>
       
 
-      
-        <a href="http://aidaiz.com/swift_8/#ds-thread" class="article-comment-link">Comments</a>
       
 
       
@@ -250,10 +248,6 @@ var _hmt = _hmt || [];
   
 </article>
 
-
-  <section id="comments">
-    <div id="ds-thread" class="ds-thread" data-thread-key="swift_8/" data-title="Swift基础入门(8)：继承，构造，析构和嵌套类型" data-url="http://aidaiz.com/swift_8/"></div>
-  </section>
 
 
 </section>
@@ -392,20 +386,6 @@ var _hmt = _hmt || [];
 
 <!-- totop end -->
 
-
-<!-- 多说公共js代码 start -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"aidaiz"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共js代码 end -->
 
 
 <!-- 百度分享 start -->

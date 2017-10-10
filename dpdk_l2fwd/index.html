@@ -126,7 +126,7 @@ var _hmt = _hmt || [];
         
         <p>L2 forwarding sample application在DPDK（Data Plane Development Kit）的基础上实现了第二层（链路层）的数据包转发。</p>
 <a id="more"></a>
-<p><strong>Title: <a href="http://aidaizyy.github.io/dpdk_l2fwd" target="_blank" rel="external">dpdk-l2fwd详解</a></strong><br><strong>Author: <a href="http://aidaizyy.github.io" target="_blank" rel="external">Yunyao Zhang（张云尧）</a></strong><br><strong>E-mail: <a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#x6f;&#58;&#x61;&#105;&#x64;&#97;&#105;&#122;&#x79;&#x79;&#x40;&#x67;&#109;&#x61;&#x69;&#x6c;&#x2e;&#99;&#111;&#109;">&#x61;&#105;&#x64;&#97;&#105;&#122;&#x79;&#x79;&#x40;&#x67;&#109;&#x61;&#x69;&#x6c;&#x2e;&#99;&#111;&#109;</a></strong><br><strong>Last Modified: <a href="http://aidaizyy.github.io" target="_blank" rel="external">2015-04-15</a></strong></p>
+<p><strong>Title: <a href="http://aidaizyy.github.io/dpdk_l2fwd" target="_blank" rel="external">dpdk-l2fwd详解</a></strong><br><strong>Author: <a href="http://aidaizyy.github.io" target="_blank" rel="external">Yunyao Zhang（张云尧）</a></strong><br><strong>E-mail: <a href="&#x6d;&#x61;&#105;&#108;&#116;&#111;&#58;&#97;&#x69;&#100;&#97;&#x69;&#122;&#x79;&#121;&#64;&#x67;&#x6d;&#x61;&#105;&#108;&#x2e;&#x63;&#111;&#109;">&#97;&#x69;&#100;&#97;&#x69;&#122;&#x79;&#121;&#64;&#x67;&#x6d;&#x61;&#105;&#108;&#x2e;&#x63;&#111;&#109;</a></strong><br><strong>Last Modified: <a href="http://aidaizyy.github.io" target="_blank" rel="external">2015-04-15</a></strong></p>
 <h2 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h2><p>版本：DPDK-1.8.0</p>
 <p>本例中实现了相邻端口之间的相互转发。<br>比如一共4个端口可用，那么端口1收到数据后会转发给端口2，端口2收到数据后会转发给端口1，端口3和端口4也会相互转发。</p>
 <h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><p>设置环境变量<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">export</span> RTE_SDK=/(RTE_SDK) <span class="comment">#DPDK的路径</span></div><div class="line"><span class="built_in">export</span> RTE_TARGET=x86_64-native-linuxapp-gcc <span class="comment">#DPDK的编译目标</span></div></pre></td></tr></table></figure></p>
@@ -196,11 +196,9 @@ var _hmt = _hmt || [];
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://aidaiz.com/dpdk_l2fwd/" data-id="cj4y5bexn0006uko3a1ce502a" class="article-share-link" data-share="baidu">Share</a>
+        <a data-url="http://aidaiz.com/dpdk_l2fwd/" data-id="cj8lpzynl0009goo3pewwgjs0" class="article-share-link" data-share="baidu">Share</a>
       
 
-      
-        <a href="http://aidaiz.com/dpdk_l2fwd/#ds-thread" class="article-comment-link">Comments</a>
       
 
       
@@ -227,10 +225,6 @@ var _hmt = _hmt || [];
   
 </article>
 
-
-  <section id="comments">
-    <div id="ds-thread" class="ds-thread" data-thread-key="dpdk_l2fwd/" data-title="DPDK-l2fwd详解" data-url="http://aidaiz.com/dpdk_l2fwd/"></div>
-  </section>
 
 
 </section>
@@ -369,20 +363,6 @@ var _hmt = _hmt || [];
 
 <!-- totop end -->
 
-
-<!-- 多说公共js代码 start -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"aidaiz"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共js代码 end -->
 
 
 <!-- 百度分享 start -->

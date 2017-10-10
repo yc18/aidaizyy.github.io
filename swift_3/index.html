@@ -126,7 +126,7 @@ var _hmt = _hmt || [];
         
         <p>本篇介绍Swift的基础知识：数组（Array），集合（Set）和字符（Dictionary）。</p>
 <a id="more"></a>
-<p><strong>Title: <a href="https://aidaizyy.github.io/swift_3" target="_blank" rel="external">Swift基础入门(3)：数组，集合和字典</a></strong><br><strong>Author: <a href="http://aidaizyy.github.io" target="_blank" rel="external">Yunyao Zhang(张云尧)</a></strong><br><strong>E-mail: <a href="&#109;&#x61;&#x69;&#x6c;&#116;&#x6f;&#58;&#x61;&#105;&#100;&#x61;&#105;&#x7a;&#121;&#x79;&#x40;&#103;&#109;&#x61;&#x69;&#x6c;&#x2e;&#99;&#x6f;&#109;">&#x61;&#105;&#100;&#x61;&#105;&#x7a;&#121;&#x79;&#x40;&#103;&#109;&#x61;&#x69;&#x6c;&#x2e;&#99;&#x6f;&#109;</a></strong><br><strong>Last Modified: <a href="http://aidaizyy.github.io" target="_blank" rel="external">2015-07-16</a></strong></p>
+<p><strong>Title: <a href="https://aidaizyy.github.io/swift_3" target="_blank" rel="external">Swift基础入门(3)：数组，集合和字典</a></strong><br><strong>Author: <a href="http://aidaizyy.github.io" target="_blank" rel="external">Yunyao Zhang(张云尧)</a></strong><br><strong>E-mail: <a href="&#x6d;&#97;&#105;&#x6c;&#x74;&#111;&#x3a;&#97;&#105;&#x64;&#x61;&#105;&#122;&#x79;&#x79;&#64;&#103;&#109;&#x61;&#x69;&#x6c;&#46;&#99;&#111;&#x6d;">&#97;&#105;&#x64;&#x61;&#105;&#122;&#x79;&#x79;&#64;&#103;&#109;&#x61;&#x69;&#x6c;&#46;&#99;&#111;&#x6d;</a></strong><br><strong>Last Modified: <a href="http://aidaizyy.github.io" target="_blank" rel="external">2015-07-16</a></strong></p>
 <h1 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h1><h2 id="构造"><a href="#构造" class="headerlink" title="构造"></a>构造</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> shoppinglist = [<span class="string">"Eggs"</span>, <span class="string">"Milk"</span>]	<span class="comment">//初始化为字符串数组，没有指定数据类型，通过添加数据自动判断为String数组</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> someInts1 = [<span class="number">2</span>, <span class="number">3</span>]</div><div class="line"><span class="keyword">var</span> someInts2: [<span class="type">Int</span>] = [<span class="number">2</span>, <span class="number">3</span>]		<span class="comment">//等价于上一句，初始化为整数数组，指定了数据类型Int，只能添加Int数据，并添加了元素2，3</span></div><div class="line"><span class="keyword">var</span> someInts3: <span class="type">Array</span>&lt;<span class="type">Int</span>&gt; = [<span class="number">2</span>, <span class="number">3</span>]	<span class="comment">//等价于上一句</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> someInts4 = <span class="type">Array</span>&lt;<span class="type">Int</span>&gt;()		<span class="comment">//初始化为整数数组，指定了数据类型Int，只能添加Int数据，没有添加元素</span></div><div class="line"><span class="keyword">var</span> someInts5 = [<span class="type">Int</span>]()			<span class="comment">//等价于上一句</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> someDoubles = []			<span class="comment">//初始化为空数组，没有指定数据类型，通过添加数据自动判断</span></div><div class="line">someDoubles.append(<span class="number">2.3</span>)			<span class="comment">//通过添加数据自动判断为Double数组</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> threeDoubles = [<span class="type">Double</span>](<span class="built_in">count</span>: <span class="number">3</span>, repeatedValue: <span class="number">0.0</span>)</div><div class="line"><span class="comment">//(count: , repeatedValue: )形式，指定了重复的值和重复的次数，构造数组&#123;0.0, 0.0, 0.0&#125;</span></div></pre></td></tr></table></figure>
 <p>数组的元素只能有一种数据类型。</p>
 <h2 id="数量"><a href="#数量" class="headerlink" title="数量"></a>数量</h2><ul>
@@ -214,11 +214,9 @@ var _hmt = _hmt || [];
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://aidaiz.com/swift_3/" data-id="cj4y5beyj0017uko32rkobxis" class="article-share-link" data-share="baidu">Share</a>
+        <a data-url="http://aidaiz.com/swift_3/" data-id="cj8lpzyo70019goo3u0rmfhci" class="article-share-link" data-share="baidu">Share</a>
       
 
-      
-        <a href="http://aidaiz.com/swift_3/#ds-thread" class="article-comment-link">Comments</a>
       
 
       
@@ -250,10 +248,6 @@ var _hmt = _hmt || [];
   
 </article>
 
-
-  <section id="comments">
-    <div id="ds-thread" class="ds-thread" data-thread-key="swift_3/" data-title="Swift基础入门(3)：数组，集合和字典" data-url="http://aidaiz.com/swift_3/"></div>
-  </section>
 
 
 </section>
@@ -392,20 +386,6 @@ var _hmt = _hmt || [];
 
 <!-- totop end -->
 
-
-<!-- 多说公共js代码 start -->
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"aidaiz"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共js代码 end -->
 
 
 <!-- 百度分享 start -->

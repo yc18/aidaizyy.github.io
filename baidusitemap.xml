@@ -44,19 +44,21 @@
 
     
   <url>
-    <loc>http://aidaiz.com/dpdk_l2fwd/</loc>
+    <loc>http://aidaiz.com/cache_miss_type/</loc>
     <lastmod>2017-05-08T16:40:35.000Z</lastmod>
     <data>
         <display>
-        <title>DPDK-l2fwd详解</title>
-        <pubTime>2015-03-31T05:59:13.000Z</pubTime>
+        <title>容量失效（capacity miss）与冲突失效（conflict miss）的区别</title>
+        <pubTime>2015-12-10T08:26:02.000Z</pubTime>
         
-        <tag>dpdk</tag>
+        <tag>cache</tag>
+         
+        <tag>computer architecture</tag>
          
          
            
              
-              <breadCrumb title="dpdk" url="http://aidaiz.com/categories/dpdk/"/>
+              <breadCrumb title="computer architecture" url="http://aidaiz.com/categories/computer-architecture/"/>
           
         </display>
     </data>
@@ -64,12 +66,34 @@
 
     
   <url>
-    <loc>http://aidaiz.com/dpdk/</loc>
+    <loc>http://aidaiz.com/openvswitch-build/</loc>
     <lastmod>2017-05-08T16:40:35.000Z</lastmod>
     <data>
         <display>
-        <title>DPDK编译运行</title>
-        <pubTime>2015-04-28T06:46:52.000Z</pubTime>
+        <title>Open vSwitch安装与使用</title>
+        <pubTime>2016-11-23T06:26:26.000Z</pubTime>
+        
+        <tag>openvswitch</tag>
+         
+        <tag>openflow</tag>
+         
+         
+           
+             
+              <breadCrumb title="openvswitch" url="http://aidaiz.com/categories/openvswitch/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://aidaiz.com/dpdk_l2fwd/</loc>
+    <lastmod>2017-05-08T16:40:35.000Z</lastmod>
+    <data>
+        <display>
+        <title>DPDK-l2fwd详解</title>
+        <pubTime>2015-03-31T05:59:13.000Z</pubTime>
         
         <tag>dpdk</tag>
          
@@ -106,43 +130,19 @@
 
     
   <url>
-    <loc>http://aidaiz.com/openvswitch-build/</loc>
+    <loc>http://aidaiz.com/dpdk/</loc>
     <lastmod>2017-05-08T16:40:35.000Z</lastmod>
     <data>
         <display>
-        <title>Open vSwitch安装与使用</title>
-        <pubTime>2016-11-23T06:26:26.000Z</pubTime>
+        <title>DPDK编译运行</title>
+        <pubTime>2015-04-28T06:46:52.000Z</pubTime>
         
-        <tag>openvswitch</tag>
-         
-        <tag>openflow</tag>
+        <tag>dpdk</tag>
          
          
            
              
-              <breadCrumb title="openvswitch" url="http://aidaiz.com/categories/openvswitch/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://aidaiz.com/android_proguard/</loc>
-    <lastmod>2017-05-08T16:40:35.000Z</lastmod>
-    <data>
-        <display>
-        <title>Android代码混淆（Proguard）</title>
-        <pubTime>2015-07-13T03:42:52.000Z</pubTime>
-        
-        <tag>android</tag>
-         
-        <tag>proguard</tag>
-         
-         
-           
-             
-              <breadCrumb title="android" url="http://aidaiz.com/categories/android/"/>
+              <breadCrumb title="dpdk" url="http://aidaiz.com/categories/dpdk/"/>
           
         </display>
     </data>
@@ -230,26 +230,6 @@
 
     
   <url>
-    <loc>http://aidaiz.com/swift_11/</loc>
-    <lastmod>2017-05-08T16:40:35.000Z</lastmod>
-    <data>
-        <display>
-        <title>Swift基础入门(11)：扩展和协议</title>
-        <pubTime>2015-07-24T08:28:22.000Z</pubTime>
-        
-        <tag>swift</tag>
-         
-         
-           
-             
-              <breadCrumb title="swift" url="http://aidaiz.com/categories/swift/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://aidaiz.com/swift_12/</loc>
     <lastmod>2017-05-08T16:40:35.000Z</lastmod>
     <data>
@@ -270,21 +250,19 @@
 
     
   <url>
-    <loc>http://aidaiz.com/cache_miss_type/</loc>
+    <loc>http://aidaiz.com/swift_14/</loc>
     <lastmod>2017-05-08T16:40:35.000Z</lastmod>
     <data>
         <display>
-        <title>容量失效（capacity miss）与冲突失效（conflict miss）的区别</title>
-        <pubTime>2015-12-10T08:26:02.000Z</pubTime>
+        <title>Swift基础入门(14)：权限控制</title>
+        <pubTime>2015-07-29T03:28:32.000Z</pubTime>
         
-        <tag>cache</tag>
-         
-        <tag>computer architecture</tag>
+        <tag>swift</tag>
          
          
            
              
-              <breadCrumb title="computer architecture" url="http://aidaiz.com/categories/computer-architecture/"/>
+              <breadCrumb title="swift" url="http://aidaiz.com/categories/swift/"/>
           
         </display>
     </data>
@@ -292,12 +270,34 @@
 
     
   <url>
-    <loc>http://aidaiz.com/swift_14/</loc>
+    <loc>http://aidaiz.com/android_proguard/</loc>
     <lastmod>2017-05-08T16:40:35.000Z</lastmod>
     <data>
         <display>
-        <title>Swift基础入门(14)：权限控制</title>
-        <pubTime>2015-07-29T03:28:32.000Z</pubTime>
+        <title>Android代码混淆（Proguard）</title>
+        <pubTime>2015-07-13T03:42:52.000Z</pubTime>
+        
+        <tag>android</tag>
+         
+        <tag>proguard</tag>
+         
+         
+           
+             
+              <breadCrumb title="android" url="http://aidaiz.com/categories/android/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://aidaiz.com/swift_11/</loc>
+    <lastmod>2017-05-08T16:40:35.000Z</lastmod>
+    <data>
+        <display>
+        <title>Swift基础入门(11)：扩展和协议</title>
+        <pubTime>2015-07-24T08:28:22.000Z</pubTime>
         
         <tag>swift</tag>
          
