@@ -66,6 +66,26 @@
 
     
   <url>
+    <loc>http://aidaiz.com/dpdk_l2fwd/</loc>
+    <lastmod>2017-05-08T16:40:35.000Z</lastmod>
+    <data>
+        <display>
+        <title>DPDK-l2fwd详解</title>
+        <pubTime>2015-03-31T05:59:13.000Z</pubTime>
+        
+        <tag>dpdk</tag>
+         
+         
+           
+             
+              <breadCrumb title="dpdk" url="http://aidaiz.com/categories/dpdk/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://aidaiz.com/openvswitch-build/</loc>
     <lastmod>2017-05-08T16:40:35.000Z</lastmod>
     <data>
@@ -88,26 +108,6 @@
 
     
   <url>
-    <loc>http://aidaiz.com/dpdk_l2fwd/</loc>
-    <lastmod>2017-05-08T16:40:35.000Z</lastmod>
-    <data>
-        <display>
-        <title>DPDK-l2fwd详解</title>
-        <pubTime>2015-03-31T05:59:13.000Z</pubTime>
-        
-        <tag>dpdk</tag>
-         
-         
-           
-             
-              <breadCrumb title="dpdk" url="http://aidaiz.com/categories/dpdk/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://aidaiz.com/hadoop/</loc>
     <lastmod>2017-05-08T16:40:35.000Z</lastmod>
     <data>
@@ -123,26 +123,6 @@
            
              
               <breadCrumb title="hadoop" url="http://aidaiz.com/categories/hadoop/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://aidaiz.com/dpdk/</loc>
-    <lastmod>2017-05-08T16:40:35.000Z</lastmod>
-    <data>
-        <display>
-        <title>DPDK编译运行</title>
-        <pubTime>2015-04-28T06:46:52.000Z</pubTime>
-        
-        <tag>dpdk</tag>
-         
-         
-           
-             
-              <breadCrumb title="dpdk" url="http://aidaiz.com/categories/dpdk/"/>
           
         </display>
     </data>
@@ -210,6 +190,28 @@
 
     
   <url>
+    <loc>http://aidaiz.com/android_proguard/</loc>
+    <lastmod>2017-05-08T16:40:35.000Z</lastmod>
+    <data>
+        <display>
+        <title>Android代码混淆（Proguard）</title>
+        <pubTime>2015-07-13T03:42:52.000Z</pubTime>
+        
+        <tag>android</tag>
+         
+        <tag>proguard</tag>
+         
+         
+           
+             
+              <breadCrumb title="android" url="http://aidaiz.com/categories/android/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://aidaiz.com/swift_10/</loc>
     <lastmod>2017-05-08T16:40:35.000Z</lastmod>
     <data>
@@ -250,12 +252,12 @@
 
     
   <url>
-    <loc>http://aidaiz.com/swift_14/</loc>
+    <loc>http://aidaiz.com/swift_11/</loc>
     <lastmod>2017-05-08T16:40:35.000Z</lastmod>
     <data>
         <display>
-        <title>Swift基础入门(14)：权限控制</title>
-        <pubTime>2015-07-29T03:28:32.000Z</pubTime>
+        <title>Swift基础入门(11)：扩展和协议</title>
+        <pubTime>2015-07-24T08:28:22.000Z</pubTime>
         
         <tag>swift</tag>
          
@@ -270,21 +272,19 @@
 
     
   <url>
-    <loc>http://aidaiz.com/android_proguard/</loc>
+    <loc>http://aidaiz.com/dpdk/</loc>
     <lastmod>2017-05-08T16:40:35.000Z</lastmod>
     <data>
         <display>
-        <title>Android代码混淆（Proguard）</title>
-        <pubTime>2015-07-13T03:42:52.000Z</pubTime>
+        <title>DPDK编译运行</title>
+        <pubTime>2015-04-28T06:46:52.000Z</pubTime>
         
-        <tag>android</tag>
-         
-        <tag>proguard</tag>
+        <tag>dpdk</tag>
          
          
            
              
-              <breadCrumb title="android" url="http://aidaiz.com/categories/android/"/>
+              <breadCrumb title="dpdk" url="http://aidaiz.com/categories/dpdk/"/>
           
         </display>
     </data>
@@ -292,12 +292,12 @@
 
     
   <url>
-    <loc>http://aidaiz.com/swift_11/</loc>
+    <loc>http://aidaiz.com/swift_14/</loc>
     <lastmod>2017-05-08T16:40:35.000Z</lastmod>
     <data>
         <display>
-        <title>Swift基础入门(11)：扩展和协议</title>
-        <pubTime>2015-07-24T08:28:22.000Z</pubTime>
+        <title>Swift基础入门(14)：权限控制</title>
+        <pubTime>2015-07-29T03:28:32.000Z</pubTime>
         
         <tag>swift</tag>
          
@@ -332,12 +332,12 @@
 
     
   <url>
-    <loc>http://aidaiz.com/swift_3/</loc>
+    <loc>http://aidaiz.com/swift_6/</loc>
     <lastmod>2017-05-08T16:40:35.000Z</lastmod>
     <data>
         <display>
-        <title>Swift基础入门(3)：数组，集合和字典</title>
-        <pubTime>2015-07-15T09:04:30.000Z</pubTime>
+        <title>Swift基础入门(6)：枚举，类和结构体</title>
+        <pubTime>2015-07-19T14:47:43.000Z</pubTime>
         
         <tag>swift</tag>
          
@@ -372,12 +372,12 @@
 
     
   <url>
-    <loc>http://aidaiz.com/swift_6/</loc>
+    <loc>http://aidaiz.com/swift_3/</loc>
     <lastmod>2017-05-08T16:40:35.000Z</lastmod>
     <data>
         <display>
-        <title>Swift基础入门(6)：枚举，类和结构体</title>
-        <pubTime>2015-07-19T14:47:43.000Z</pubTime>
+        <title>Swift基础入门(3)：数组，集合和字典</title>
+        <pubTime>2015-07-15T09:04:30.000Z</pubTime>
         
         <tag>swift</tag>
          
@@ -412,12 +412,12 @@
 
     
   <url>
-    <loc>http://aidaiz.com/swift_7/</loc>
+    <loc>http://aidaiz.com/swift_8/</loc>
     <lastmod>2017-05-08T16:40:35.000Z</lastmod>
     <data>
         <display>
-        <title>Swift基础入门(7)：属性，方法和下标</title>
-        <pubTime>2015-07-20T02:10:20.000Z</pubTime>
+        <title>Swift基础入门(8)：继承，构造，析构和嵌套类型</title>
+        <pubTime>2015-07-21T09:17:02.000Z</pubTime>
         
         <tag>swift</tag>
          
@@ -432,12 +432,12 @@
 
     
   <url>
-    <loc>http://aidaiz.com/swift_8/</loc>
+    <loc>http://aidaiz.com/swift_7/</loc>
     <lastmod>2017-05-08T16:40:35.000Z</lastmod>
     <data>
         <display>
-        <title>Swift基础入门(8)：继承，构造，析构和嵌套类型</title>
-        <pubTime>2015-07-21T09:17:02.000Z</pubTime>
+        <title>Swift基础入门(7)：属性，方法和下标</title>
+        <pubTime>2015-07-20T02:10:20.000Z</pubTime>
         
         <tag>swift</tag>
          
